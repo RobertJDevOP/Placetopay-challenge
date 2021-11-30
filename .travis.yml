@@ -1,0 +1,19 @@
+language: php
+php:
+  - '8.0'
+
+dist: bionic
+
+services:
+  - mysql
+
+before_script:
+  - cp .env.example .env
+  - mysql -e "create database shoppingcart"
+  - composer self-update
+  - composer install --no-interaction --prefer-source
+  - php artisan key:generate
+  - php artisan migrate
+
+script:
+  - vendor/bin/phpunit
