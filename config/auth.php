@@ -106,6 +106,8 @@ return [
     |
     */
 
+
     'password_timeout' => 10800,
 
+    'max_attempts' => 3,
 ];
