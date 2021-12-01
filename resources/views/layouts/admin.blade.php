@@ -3,6 +3,10 @@
     @include('navbar')
 @endpush
 @push('main')
+
+    @if(@Auth::user()->hasRole('cliente'))
+        <h2>Eres un cliente</h2>
+    @endif
     <main class="section" id="app">
         <div class="container">
             <div class="columns">

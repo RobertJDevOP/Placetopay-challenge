@@ -15,7 +15,6 @@ class FortifyServiceProvider extends ServiceProvider
 {
     public function boot(): void
     {
-
         Fortify::createUsersUsing(CreateNewUser::class);
 
         Fortify::authenticateUsing(function (Request $request) {
