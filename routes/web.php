@@ -11,9 +11,9 @@ Route::view('/', 'welcome');
 
 
 Route::get('/dashboard', DashboardController::class)
-    ->middleware(['auth'])->name('dashboard');
+    ->middleware(['auth', 'verified'])->name('dashboard');
 
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
    // cargar modulos xD
 });
 
