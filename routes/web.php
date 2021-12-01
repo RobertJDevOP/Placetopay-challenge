@@ -2,6 +2,7 @@
 
 
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
@@ -10,14 +11,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'welcome');
 
-
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth', 'verified')->group(function () {
-   // cargar modulos xD
-});
-
 
 Route::get('/email/verify', function () {
     return view('auth.verify-email');
@@ -35,4 +30,6 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-
+Route::middleware('auth')->group(function () {
+    Route::name('users.index')->get('/users', [UserController::class, 'index']);
+});

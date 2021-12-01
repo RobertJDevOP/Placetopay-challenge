@@ -4,23 +4,25 @@
 @endpush
 @push('main')
 
-    @if(@Auth::user()->hasRole('cliente'))
-        <h2>Eres un cliente</h2>
-    @endif
+
+
+
     <main class="section" id="app">
         <div class="container">
             <div class="columns">
                 <div class="column">
                     <aside class="menu">
+                        @if(@Auth::user()->hasRole('admin'))
                         <p class="menu-label">@lang('menu.administration')</p>
                         <ul class="menu-list">
-                            <li><a href="#"><em class="pr-2 mdi mdi-map-legend"></em>Productos</a></li>
+                               <li><a href="#"><em class="pr-2 mdi mdi-map-legend"></em>Products</a></li>
                         </ul>
 
                         <p class="menu-label">@lang('menu.security')</p>
                         <ul class="menu-list">
-                            <li><a href="#"><em class="pr-2 mdi mdi-account-multiple"></em>@lang('users.navbar.title')</a></li>
+                            <li><a href="{{ route('users.index') }}"><em class="pr-2 mdi mdi-account-multiple"></em>@lang('users.navbar.title')</a></li>
                         </ul>
+                        @endif
 
                         <p class="menu-label">@lang('menu.system')</p>
                         <ul class="menu-list">

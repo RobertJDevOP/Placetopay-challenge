@@ -4,20 +4,13 @@
         <caption class="is-hidden">{{ $texts['title'] }}</caption>
         <thead>
         <tr>
-            <th scope="col">@lang('users.fields.name')</th>
-            <th scope="col">@lang('users.fields.email')</th>
-            <th scope="col">@lang('users.fields.created_at')</th>
-            <th scope="col">@lang('users.fields.status')</th>
+            <th scope="col">name</th>
+            <th scope="col">email</th>
+            <th scope="col">created_at</th>
+            <th scope="col">status</th>
+            <th scope="col">options</th>
         </tr>
         </thead>
-        <tfoot>
-        <tr>
-            <th scope="col">@lang('users.fields.name')</th>
-            <th scope="col">@lang('users.fields.email')</th>
-            <th scope="col">@lang('users.fields.created_at')</th>
-            <th scope="col">@lang('users.fields.status')</th>
-        </tr>
-        </tfoot>
         <tbody>
 
         @foreach($users as $user)
@@ -26,8 +19,10 @@
                 <td>{{ $user->email }}</td>
                 <td>{{ $user->date_formatted }}</td>
                 <td>{{ $user->status }}</td>
+                <td></td>
             </tr>
         @endforeach
         </tbody>
     </table>
+    {{ $users->render('partials.pagination.paginator') }}
 @endsection

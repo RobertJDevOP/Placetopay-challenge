@@ -12,9 +12,6 @@ class AuthenticationTest extends TestCase
 {
     use RefreshDatabase;
 
-    public const IP_ADDRESS = '127.0.0.1';
-    public const USER_AGENT = 'Opera/8.26 (X11; Linux x86_64; sl-SI)';
-
     public function test_login_screen_can_be_rendered(): void
     {
         $response = $this->get('/login');
