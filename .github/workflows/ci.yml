@@ -33,3 +33,5 @@ jobs:
         DB_CONNECTION: sqlite
         DB_DATABASE: database/database.sqlite
       run: vendor/bin/phpunit
+    - name: Upload coverage
+      run: bash <(curl -s https://codecov.io/bash)
