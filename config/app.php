@@ -174,7 +174,6 @@ return [
         // App\Providers\BroadcastServiceProvider::class,
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
-        App\Providers\ModelFilterProvider::class,
         App\Providers\FortifyServiceProvider::class,
         App\Providers\FortifyViewServiceProvider::class,
     ],
