@@ -4,6 +4,10 @@ php:
 
 dist: bionic
 
+env:
+  global:
+    - XDEBUG_MODE=coverage
+
 services:
   - mysql
 
