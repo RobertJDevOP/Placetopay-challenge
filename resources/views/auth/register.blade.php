@@ -21,7 +21,7 @@
                     <b-input type="password" name="password_confirmation" id="password_confirmation" value="{{ old('password_confirmation') }}" maxlength="255" icon="lock" required></b-input>
                 </b-field>
 
-                <button type="submit" class="button is-primary is-fullwidth"> <b-icon pack="fas" icon="save"></b-icon>&nbsp;
+                <button type="submit" class="button is-warning is-fullwidth"> <b-icon pack="fas" icon="save"></b-icon>&nbsp;
                     Sign up
                 </button>
             </form>

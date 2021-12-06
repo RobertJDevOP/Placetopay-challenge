@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Filters\Concerns\HasFilters;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -14,6 +13,8 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasFactory;
     use Notifiable;
     use HasRoles;
+
+    protected string $guard_name = 'web';
 
     protected $fillable = [
         'name',
@@ -38,6 +39,12 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $dates = [
         'enabled_at',
     ];
+
+    public function markAsEnabled(): void
+    {
+        $this->enabled_at = now();
+        $this->save();
+    }
 
     public function isEnabled(): bool
     {

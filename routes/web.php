@@ -8,7 +8,6 @@ use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-
 Route::view('/', 'welcome');
 
 Route::get('/dashboard', DashboardController::class)
@@ -30,6 +29,9 @@ Route::post('/email/verification-notification', function (Request $request) {
     return back()->with('message', 'Verification link sent!');
 })->middleware(['auth', 'throttle:6,1'])->name('verification.send');
 
-Route::middleware('auth')->group(function () {
+Route::group(['middleware' => ['role:admin','auth']], function () {
     Route::name('users.index')->get('/users', [UserController::class, 'index']);
+    Route::name('users.edit')->get('/users/{email}/edit', [UserController::class, 'edit']);
+    Route::name('users.update')->put('/users/{email}/', [UserController::class, 'update']);
+    Route::name('users.status')->put('/users/{email}/status', [UserController::class, 'statusUser']);
 });
