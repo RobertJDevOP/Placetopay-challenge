@@ -13,13 +13,9 @@ class UserController extends Controller
 {
     public function index(IndexViewModel $viewModel): View
     {
-        // refactor
-        $role='cliente';
-
         $users=User::select('name','email','created_at','enabled_at')
-                    ->whereHas( 'roles', function ( $query ) use ($role) {
-                    $query->where( 'name', $role );
-            })->paginate(10);
+                    ->role('admin')
+                    ->paginate(10);
 
         $viewModel->collection($users);
 
