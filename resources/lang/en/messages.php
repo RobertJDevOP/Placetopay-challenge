@@ -2,6 +2,6 @@
 
 return [
 
-'userStatus' => 'User status are modified',
-
+'userStatus' => 'User status is updated',
+'userUpdate' => 'User updated successfully',
 ];

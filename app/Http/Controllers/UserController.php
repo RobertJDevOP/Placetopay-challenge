@@ -14,9 +14,8 @@ class UserController extends Controller
     public function index(IndexViewModel $viewModel): View
     {
         $users=User::select('name','email','created_at','enabled_at')
-                    ->role('admin')
+                    ->role('cliente')
                     ->paginate(10);
-
         $viewModel->collection($users);
 
         return view('users.index', $viewModel->toArray());
@@ -25,7 +24,6 @@ class UserController extends Controller
     public function statusUser(string $userEmail,Request $request): RedirectResponse
     {
         $statusUser = $request->input('validation');
-
         $user = User::where('email', $userEmail)->firstOrFail();
 
         ('enabled'===$statusUser) ?
@@ -46,12 +44,9 @@ class UserController extends Controller
     public function update(Request $request, string $email): RedirectResponse
     {
         $user = User::where('email', '=', $email)->firstOrFail();
-
         $user->name = $request->get('name');
         $user->save();
 
-        $msjStatus='Client are modified';
-
-        return redirect('/users')->with('success',$msjStatus);
+        return redirect('/users')->with('success',Lang::get('messages.userUpdate'));
     }
 }
