@@ -16,11 +16,11 @@
     <table class="table is-narrow is-hoverable is-fullwidth">
         <thead>
         <tr>
-            <th scope="col" class="has-text-centered">name</th>
-            <th scope="col" class="has-text-centered">email</th>
-            <th scope="col" class="has-text-centered">created at</th>
-            <th scope="col" class="has-text-centered">status</th>
-            <th scope="col" class="has-text-centered">options</th>
+            <th scope="col" class="has-text-centered">Name</th>
+            <th scope="col" class="has-text-centered">Email</th>
+            <th scope="col" class="has-text-centered">Created at</th>
+            <th scope="col" class="has-text-centered">Status</th>
+            <th scope="col" class="has-text-centered">Options</th>
         </tr>
         </thead>
         <tbody>
@@ -32,27 +32,21 @@
                 <td>{{ $user->date_formatted }}</td>
                 <td>{{ $user->status }}</td>
                 <td>
-                    <b-button tag="a"  href="users/{{$user->email}}/edit"  size="is-small"  type="is-warning is-light"> <span class="icon is-small"><i class="mdi mdi-pencil-outline"></i></span>Edit user</b-button>
+                    <b-button tag="a"  href="users/{{$user->email}}/edit"  size="is-small"  type="is-warning is-light"> <span class="icon is-small"><i class="mdi mdi-pencil-outline"></i></span> Edit user</b-button>
                     &nbsp;
                     <form action="users/{{$user->email}}/status" method="POST">
                             @csrf
                             @method('PUT')
-                    @if (is_null($user->enabled_at))
-                         <b-button  size="is-small"  name="validation" value="enabled" type="is-success is-light" native-type="submit">
-                             <span class="icon is-small"><i class="mdi mdi-check"></i></span>
-                             Enabled user
-                         </b-button>
-                    @else
-                            <b-button  size="is-small" name="validation"  value="disabled" type="is-danger is-light" native-type="submit">
-                                <span class="icon is-small"><i class="mdi mdi-close"></i></span>
-                            Disabled user
+                        <b-button  size="is-small"  name="validation" value="{{$user->status}}" type="is-info is-light" native-type="submit">
+                            <span class="icon is-small"><i class="mdi mdi-account"></i></span>
+                             Change status
                         </b-button>
-                    @endif
+
                     </form>
                 </td>
             </tr>
         @endforeach
         </tbody>
     </table>
-    {{ $users->render('partials.pagination.paginator') }}
+
 @endsection

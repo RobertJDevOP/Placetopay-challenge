@@ -6,12 +6,14 @@ use App\Models\User;
 use App\ViewModels\Users\IndexViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Lang;
 use Illuminate\View\View;
 
 class UserController extends Controller
 {
     public function index(IndexViewModel $viewModel): View
     {
+        // refactor
         $role='cliente';
 
         $users=User::select('name','email','created_at','enabled_at')
@@ -30,14 +32,12 @@ class UserController extends Controller
 
         $user = User::where('email', $userEmail)->firstOrFail();
 
-        ($statusUser==='enabled') ?
-            $user->markAsEnabled()
+        ('enabled'===$statusUser) ?
+            $user->markAsDisabled()
             :
-            $user->markAsDisabled();
+            $user->markAsEnabled();
 
-        $msjStatus='Client '.$userEmail.' are '.$statusUser;
-
-        return redirect('/users')->with('success',$msjStatus);
+        return redirect('/users')->with('success',Lang::get('messages.userStatus'));
     }
 
     public function edit(string $email): View
