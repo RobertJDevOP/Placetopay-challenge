@@ -40,21 +40,18 @@
                     @lang('Remember me')
                 </label>
 
-                <button type="submit" class="button is-primary is-fullwidth">
+                <button type="submit" class="button is-warning is-fullwidth">
                     <b-icon pack="fas" icon="save"></b-icon>&nbsp;
                     @lang('Login')
                 </button>
 
+
+                <div class="box has-text-centered">
+                    Don't have an account?  <a href="{{"/register"}}">Sign up now</a>
+                </div>
             </form>
 
-                    <div class="control">
-                        <a href="{{"/register"}}" >
-                            <button  class="button is-primary is-fullwidth">
-                                <b-icon pack="fas" icon="save"></b-icon>&nbsp;
-                                Sign up!
-                            </button>
-                        </a>
-                    </div>
+
 
         </div>
     </div>

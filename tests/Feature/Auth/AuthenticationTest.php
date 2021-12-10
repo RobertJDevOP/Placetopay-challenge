@@ -2,7 +2,6 @@
 
 namespace Tests\Feature\Auth;
 
-
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -44,17 +43,6 @@ class AuthenticationTest extends TestCase
         $this->assertGuest();
     }
 
-    public function test_users_can_authenticate_if_they_are_enabled(): void
-    {
-        $user = User::factory()->enabled()->create();
-
-        $this->post('/login', [
-            'email' => $user->email,
-            'password' => 'password',
-        ]);
-
-        $this->assertAuthenticated();
-    }
 
     public function test_users_cannot_authenticate_if_they_are_disabled(): void
     {
