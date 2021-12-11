@@ -9,6 +9,7 @@ class IndexViewModel extends ViewModel
 {
     use HasPaginator;
 
+
     protected function buttons(): array
     {
         return [];

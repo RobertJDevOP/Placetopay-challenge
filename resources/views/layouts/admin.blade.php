@@ -24,6 +24,17 @@
                         </ul>
                         @endif
 
+                            @if(@Auth::user()->hasRole('cliente'))
+                                <p class="menu-label">Search</p>
+                                <ul class="menu-list">
+                                    <li><a href="{{ route('products.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Purchase order history</a></li>
+                                </ul>
+
+                                <ul class="menu-list">
+                                    <li><a href="{{ route('shop.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Online shop</a></li>
+                                </ul>
+                            @endif
+
                         <p class="menu-label">Menu system</p>
                         <ul class="menu-list">
                             <li>
