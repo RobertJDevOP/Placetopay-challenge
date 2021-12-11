@@ -18,6 +18,10 @@ class Product extends Model
         'created_at', 'updated_at', 'url_product_img',
     ];
 
+    protected $appends = [
+        'update_formatted','crated_formatted', 'status',
+    ];
+
     protected $dates = [
         'enabled_at',
     ];
@@ -27,4 +31,29 @@ class Product extends Model
         return $this->belongsTo(ProductCategory::class);
     }
 
+    public function getCratedFormattedAttribute(): string
+    {
+        return date('d-m-Y', strtotime($this->attributes['created_at']));
+    }
+    public function getUpdateFormattedAttribute(): string
+    {
+        return date('d-m-Y', strtotime($this->attributes['updated_at']));
+    }
+
+    public function getStatusAttribute(): string
+    {
+        return (is_null($this->attributes['enabled_at'])) ? 'disabled' : 'enabled';
+    }
+
+    public function markAsEnabled(): void
+    {
+        $this->enabled_at = now();
+        $this->save();
+    }
+
+    public function markAsDisabled(): void
+    {
+        $this->enabled_at = null;
+        $this->save();
+    }
 }

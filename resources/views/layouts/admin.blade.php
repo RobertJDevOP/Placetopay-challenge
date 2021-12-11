@@ -15,7 +15,7 @@
                         @if(@Auth::user()->hasRole('admin'))
                         <p class="menu-label">Administration</p>
                         <ul class="menu-list">
-                               <li><a href="#"><em class="pr-2 mdi mdi-map-legend"></em>Products</a></li>
+                               <li><a href="{{ route('products.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Products</a></li>
                         </ul>
 
                         <p class="menu-label">Menu security</p>

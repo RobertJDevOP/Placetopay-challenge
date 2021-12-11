@@ -35,5 +35,6 @@ Route::group(['middleware' => ['role:admin','auth']], function () {
     Route::name('users.update')->put('/users/{email}/', [UserController::class, 'update']);
     Route::name('users.status')->put('/users/{email}/status', [UserController::class, 'statusUser']);
 
-    Route::name('products.index')->get('/products', [UserController::class, 'index']);
+    Route::name('products.index')->get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
+    Route::name('products.status')->put('/products/{id}/status', [\App\Http\Controllers\ProductController::class, 'statusProduct']);
 });

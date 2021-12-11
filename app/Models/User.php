@@ -14,7 +14,7 @@ class User extends Authenticatable implements MustVerifyEmail
     use Notifiable;
     use HasRoles;
 
-    protected string $guard_name = 'web';
+    protected  $guard_name = 'web';
 
     protected $fillable = [
         'name',
