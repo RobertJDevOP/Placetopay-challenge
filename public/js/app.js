@@ -84,7 +84,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   created: function created() {
     this.$store.dispatch('getProducts');
@@ -141,6 +140,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       state.currentPage = currentPage;
     },
     addProductToCart: function addProductToCart(state, product) {
+      // console.log("llegue aca con el producto"+product.product_name)
       var duplicatedProductIndex = state.cart.findIndex(function (item) {
         return item.id === product.id;
       });
@@ -367,6 +367,14 @@ var render = function () {
                           type: "is-dark",
                           size: "is-large",
                           "icon-right": "cart-variant",
+                        },
+                        on: {
+                          click: function ($event) {
+                            return _vm.$store.commit(
+                              "addProductToCart",
+                              product
+                            )
+                          },
                         },
                       }),
                     ],

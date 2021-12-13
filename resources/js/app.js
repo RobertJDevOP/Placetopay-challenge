@@ -25,6 +25,7 @@ const store = new Vuex.Store({
         },
         addProductToCart(state, product) {
 
+           // console.log("llegue aca con el producto"+product.product_name)
             const duplicatedProductIndex = state.cart.findIndex(item => item.id === product.id);
 
             if (duplicatedProductIndex !== -1) {
