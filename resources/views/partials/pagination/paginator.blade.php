@@ -2,9 +2,9 @@
     <nav class="pagination is-centered" role="navigation" aria-label="pagination">
 
         <ul class="pagination-list">
-
             {{-- Pagination Elements --}}
             @foreach ($elements as $element)
+
                 {{-- "Three Dots" Separator --}}
                 @if (is_string($element))
                     <span class="pagination-ellipsis">&hellip;</span>

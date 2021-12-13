@@ -15,7 +15,7 @@ class Product extends Model
     ];
 
     protected $hidden = [
-        'created_at', 'updated_at', 'url_product_img',
+        'created_at', 'updated_at',
     ];
 
     protected $appends = [

@@ -10,7 +10,12 @@
     @stack('head')
 </head>
 <body>
-@stack('main')
+
+<div id="app">
+    @stack('main')
+
+</div>
+
 <script src="{{ asset(mix('js/manifest.js')) }}"></script>
 <script src="{{ asset(mix('js/vendor.js')) }}"></script>
 <script src="{{ asset(mix('js/app.js')) }}"></script>

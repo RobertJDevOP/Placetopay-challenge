@@ -12,18 +12,21 @@
             </a>
         </div>
 
-        <div id="main-navbar" class="navbar-menu">
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        @guest
-                            <a class="button is-light">
-                                @lang('auth.login')
-                            </a>
-                        @endguest
-                    </div>
+        @if(@Auth::user()->hasRole('cliente'))
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+
+            <button type="submit" name="validation" value="enabled" class="button is medium is-dark">
+            <span class="icon is-medium"><i class="mdi mdi-cart-variant"></i> 0 Cart</span>
+
+            </button>
+
                 </div>
             </div>
         </div>
+        @endif
+
+
     </div>
 </nav>

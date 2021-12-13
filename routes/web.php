@@ -44,5 +44,14 @@ Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
 });
 
 
+Route::get('/shop_online', function () {
+    return view('shop.index2');
+});
+
+
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])->name('dashboard');
+
+
+
+

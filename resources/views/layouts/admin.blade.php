@@ -5,9 +5,7 @@
 @push('main')
 
 
-
-
-    <main class="section" id="app">
+    <main class="section">
         <div class="container">
             <div class="columns">
                 <div class="column">
@@ -33,6 +31,13 @@
                                 <ul class="menu-list">
                                     <li><a href="{{ route('shop.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Online shop</a></li>
                                 </ul>
+
+                                <ul class="menu-list">
+                                    <li><a href="{{ url('/shop_online') }}"><em class="pr-2 mdi mdi-map-legend"></em>Online shop</a></li>
+                                </ul>
+
+
+
                             @endif
 
                         <p class="menu-label">Menu system</p>
@@ -57,3 +62,6 @@
         </div>
     </main>
 @endpush
+
+
+
