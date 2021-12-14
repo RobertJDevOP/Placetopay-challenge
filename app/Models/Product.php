@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Filters\Concerns\HasFilters;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 class Product extends Model
 {
     use HasFactory;
+    use HasFilters;
 
     protected $fillable = [
         'product_name', 'list_price', 'price', 'category_id', 'url_product_img',
@@ -56,4 +58,5 @@ class Product extends Model
         $this->enabled_at = null;
         $this->save();
     }
+
 }

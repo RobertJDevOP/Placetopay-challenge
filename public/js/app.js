@@ -109,10 +109,45 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      isImageModalActive: false
+      isImageModalActive: false,
+      value: 5
     };
   },
   created: function created() {
@@ -531,6 +566,132 @@ var render = function () {
           ),
         ]),
       ]),
+      _vm._v(" "),
+      _c(
+        "b-collapse",
+        {
+          staticClass: "card",
+          attrs: { animation: "slide" },
+          scopedSlots: _vm._u([
+            {
+              key: "trigger",
+              fn: function (props) {
+                return [
+                  _c(
+                    "div",
+                    { staticClass: "card-header", attrs: { role: "button" } },
+                    [
+                      _c("p", { staticClass: "card-header-title" }, [
+                        _vm._v("Filters"),
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        { staticClass: "card-header-icon" },
+                        [
+                          _c("b-icon", {
+                            attrs: {
+                              icon: props.open ? "menu-down" : "menu-up",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ]
+                  ),
+                ]
+              },
+            },
+          ]),
+        },
+        [
+          _vm._v(" "),
+          _c(
+            "div",
+            { staticClass: "card-content" },
+            [
+              _c("div", { staticClass: "columns" }, [
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v("Find by Category"),
+                  ]),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "select" }, [
+                    _c("select", [
+                      _c("option", [_vm._v("Select the product category")]),
+                      _vm._v(" "),
+                      _c("option", [_vm._v("------------")]),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-4" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v("Find by name of the product"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    staticClass: "input",
+                    attrs: { type: "text", placeholder: "Name of the product" },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "column is-4" },
+                  [
+                    _c(
+                      "b-field",
+                      { attrs: { label: "Find by prince range" } },
+                      [
+                        _c("b-slider", {
+                          model: {
+                            value: _vm.value,
+                            callback: function ($$v) {
+                              _vm.value = $$v
+                            },
+                            expression: "value",
+                          },
+                        }),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+              ]),
+              _vm._v(" "),
+              _c(
+                "b-button",
+                {
+                  attrs: {
+                    type: "is-link",
+                    "native-type": "submit",
+                    "icon-left": "magnify",
+                  },
+                },
+                [_vm._v("Clear")]
+              ),
+              _vm._v(" "),
+              _c(
+                "b-button",
+                {
+                  attrs: {
+                    tag: "a",
+                    type: "is-link",
+                    href: "",
+                    "icon-left": "eraser",
+                  },
+                },
+                [_vm._v("Search")]
+              ),
+            ],
+            1
+          ),
+        ]
+      ),
+      _vm._v(" "),
+      _c("hr"),
       _vm._v(" "),
       _c(
         "div",

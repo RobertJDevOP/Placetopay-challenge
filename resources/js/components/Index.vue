@@ -7,14 +7,48 @@
         <div class="column is-10">
             <h1 class="title">Welcome to our awesome market</h1>
         </div>
-
-
         <div class="column">
             <button  @click="isImageModalActive = true"  class="button is-medium is-black"> <span class="icon is-large"><i class="mdi mdi-cart-variant"></i></span><span v-text="this.$store.state.cart.length"></span> &nbsp; Cart</button>
         </div>
-
     </div>
 
+    <b-collapse class="card" animation="slide"  v-cloak>
+        <template #trigger="props">
+            <div
+                class="card-header"
+                role="button">
+                <p class="card-header-title">Filters</p>
+                <a class="card-header-icon"><b-icon :icon="props.open ? 'menu-down' : 'menu-up'"></b-icon></a>
+            </div>
+        </template>
+
+        <div class="card-content">
+        <div class="columns">
+            <div class="column is-4">
+                <label class="label">Find by Category</label>
+                    <div class="select">
+                        <select>
+                            <option>Select the product category</option>
+                            <option>------------</option>
+                        </select>
+                    </div>
+            </div>
+            <div class="column is-4">
+                <label class="label">Find by name of the product</label>
+                    <input class="input" type="text" placeholder="Name of the product">
+            </div>
+            <div class="column is-4">
+                    <b-field label="Find by prince range">
+                        <b-slider v-model="value"></b-slider>
+                    </b-field>
+            </div>
+        </div>
+
+            <b-button type="is-link" native-type="submit" icon-left="magnify">Clear</b-button>
+                <b-button tag="a" type="is-link" href="" icon-left="eraser">Search</b-button>
+        </div>
+    </b-collapse>
+    <hr>
 
     <div class="columns is-multiline">
         <div v-for="product in products.data" :key="product.id" class="column is-one-third">
@@ -102,6 +136,7 @@ export default {
     data() {
         return {
             isImageModalActive: false,
+            value: 5
         }
     },
     created() {
