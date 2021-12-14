@@ -1,7 +1,20 @@
 
 <template>
 <div>
-    <h1 class="title">Welcome to our awesome market</h1>
+
+
+    <div class="columns">
+        <div class="column is-10">
+            <h1 class="title">Welcome to our awesome market</h1>
+        </div>
+
+
+        <div class="column">
+            <button  @click="isImageModalActive = true"  class="button is-medium is-black"> <span class="icon is-large"><i class="mdi mdi-cart-variant"></i></span><span v-text="this.$store.state.cart.length"></span> &nbsp; Cart</button>
+        </div>
+
+    </div>
+
 
     <div class="columns is-multiline">
         <div v-for="product in products.data" :key="product.id" class="column is-one-third">
@@ -48,7 +61,7 @@
             </div>
             <div v-else>
                     <div v-if="page.label == products.current_page">
-                            <a @click="sendRequestForArticles(page.label)" class="pagination-link is-current" >{{page.label}}</a>
+                            <a @click="getProducts(page.label)" class="pagination-link is-current" >{{page.label}}</a>
                     </div>
                     <div v-else>
                             <div v-if="page.label =='pagination.previous'">
@@ -56,7 +69,7 @@
                             <div v-else-if="page.label =='pagination.next'">
                             </div>
                             <div v-else>
-                                <a @click="sendRequestForArticles(page.label)" class="pagination-link" >{{page.label}}</a>
+                                <a @click="getProducts(page.label)" class="pagination-link" >{{page.label}}</a>
                             </div>
                     </div>
             </div>
@@ -67,6 +80,18 @@
 
 
 
+
+    <b-modal v-model="isImageModalActive" :width="1280" scroll="keep">
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <Shoppingcart></Shoppingcart>
+                </div>
+            </div>
+        </div>
+    </b-modal>
+
+
 </div>
 </template>
 
@@ -74,6 +99,11 @@
 <script>
 
 export default {
+    data() {
+        return {
+            isImageModalActive: false,
+        }
+    },
     created() {
         this.$store.dispatch('getProducts');
     },
@@ -83,7 +113,7 @@ export default {
         },
     },
     methods:{
-        sendRequestForArticles (page){
+        getProducts (page){
             this.$store.dispatch('getProducts',{page:page});
         }
     }

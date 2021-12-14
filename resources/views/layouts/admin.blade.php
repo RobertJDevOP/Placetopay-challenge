@@ -10,17 +10,18 @@
             <div class="columns">
                 <div class="column">
                     <aside class="menu">
-                        @if(@Auth::user()->hasRole('admin'))
-                        <p class="menu-label">Administration</p>
-                        <ul class="menu-list">
-                               <li><a href="{{ route('products.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Products</a></li>
-                        </ul>
 
-                        <p class="menu-label">Menu security</p>
-                        <ul class="menu-list">
-                            <li><a href="{{ route('users.index') }}"><em class="pr-2 mdi mdi-account-multiple"></em>Clients</a></li>
-                        </ul>
-                        @endif
+                            @if(@Auth::user()->hasRole('admin'))
+                            <p class="menu-label">Administration</p>
+                            <ul class="menu-list">
+                                   <li><a href="{{ route('products.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Products</a></li>
+                            </ul>
+
+                            <p class="menu-label">Menu security</p>
+                            <ul class="menu-list">
+                                <li><a href="{{ route('users.index') }}"><em class="pr-2 mdi mdi-account-multiple"></em>Clients</a></li>
+                            </ul>
+                            @endif
 
                             @if(@Auth::user()->hasRole('cliente'))
                                 <p class="menu-label">Search</p>
@@ -35,9 +36,6 @@
                                 <ul class="menu-list">
                                     <li><a href="{{ url('/shop_online') }}"><em class="pr-2 mdi mdi-map-legend"></em>Online shop</a></li>
                                 </ul>
-
-
-
                             @endif
 
                         <p class="menu-label">Menu system</p>

@@ -47,7 +47,7 @@
             <form action="products/{{$product->id}}/status" method="POST">
                 @csrf
                 @method('PUT')
-                <b-button  size="is-small"  name="validation" value="{{$product->status}}" type="is-info is-light" native-type="submit">
+                <b-button  size="is-small" onclick="event.preventDefault();" name="validation" value="{{$product->status}}" type="is-info is-light" native-type="submit">
                     <span class="icon is-small"><i class="mdi mdi-account"></i></span>
                     Change status
                 </b-button>

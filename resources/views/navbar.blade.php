@@ -1,3 +1,6 @@
+
+
+
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
@@ -17,10 +20,7 @@
             <div class="navbar-item">
                 <div class="buttons">
 
-            <button type="submit" name="validation" value="enabled" class="button is medium is-dark">
-            <span class="icon is-medium"><i class="mdi mdi-cart-variant"></i> <span v-text="this.$store.state.cart.length"></span>  Cart</span>
 
-            </button>
 
                 </div>
             </div>
@@ -30,3 +30,6 @@
 
     </div>
 </nav>
+
+
+

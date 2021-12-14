@@ -1,11 +1,14 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import  Components from './components/Index'
+import  Index from './components/Index'
+import  Shoppingcart from './components/ShoppingCart'
 require('./bootstrap');
 require('./buefy')
 
 Vue.use(Vuex);
-Vue.component('Index', Components)
+
+Vue.component('Shoppingcart', Shoppingcart)
+Vue.component('Index', Index)
 
 
 const store = new Vuex.Store({
@@ -25,15 +28,15 @@ const store = new Vuex.Store({
         },
         addProductToCart(state, product) {
 
-           // console.log("llegue aca con el producto"+product.product_name)
             const duplicatedProductIndex = state.cart.findIndex(item => item.id === product.id);
 
+            console.log(duplicatedProductIndex);
             if (duplicatedProductIndex !== -1) {
-                state.cart[duplicatedProductIndex].qty++;
+                state.cart[duplicatedProductIndex].quantity++;
                 return;
             }
 
-            product.qty = 1;
+            product.quantity = 1;
             state.cart.push(product);
         },
         removeProductToCart(state, index) {
@@ -52,11 +55,9 @@ const store = new Vuex.Store({
                  pageAux = this.currentPage;
             }
 
-         //   axios.get('/api/products?page='+pageAux)
             axios.get('/api/products?page='+pageAux)
                 .then((response) => {
                     this.state.pages=response.data.last_page
-                    //this.state.currentPage=response.data.current_page
                     commit('setCurrentPage',response.data.current_page)
                     commit('setProducts', response.data)
                 })

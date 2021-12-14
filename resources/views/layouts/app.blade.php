@@ -13,7 +13,6 @@
 
 <div id="app">
     @stack('main')
-
 </div>
 
 <script src="{{ asset(mix('js/manifest.js')) }}"></script>
