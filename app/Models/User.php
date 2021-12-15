@@ -20,6 +20,11 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
+        'surnames',
+        'document_type',
+        'cell_phone',
+        'user_street',
+        'number_document',
     ];
 
     protected $appends = [
