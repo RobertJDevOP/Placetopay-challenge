@@ -2,13 +2,12 @@
 <template>
 <div>
 
-
     <div class="columns">
         <div class="column is-10">
             <h1 class="title">Welcome to our awesome market</h1>
         </div>
         <div class="column">
-            <button  @click="isImageModalActive = true"  class="button is-medium is-black"> <span class="icon is-large"><i class="mdi mdi-cart-variant"></i></span><span v-text="this.$store.state.cart.length"></span> &nbsp; Cart</button>
+            <button @click="modalShoppingCart=true"  class="button is-medium is-black"> <span class="icon is-large"><i class="mdi mdi-cart-variant"></i></span><span v-text="this.$store.state.cart.length"></span> &nbsp; Cart</button>
         </div>
     </div>
 
@@ -83,8 +82,6 @@
 
 
 
-
-
     <nav class="pagination is-centered" role="navigation" aria-label="pagination">
         <span class="pagination-ellipsis">&hellip;</span>
         <ul class="pagination-list">
@@ -115,15 +112,113 @@
 
 
 
-    <b-modal v-model="isImageModalActive" :width="1280" scroll="keep">
+
+    <b-modal v-model="modalShoppingCart" :width="1280" scroll="keep">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Shopping Cart</p>
+
+        </header>
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <Shoppingcart></Shoppingcart>
+                    <p class="title is-4">{{ totalProduct }}Products in your cart</p>
+
+
+                    <div v-for="(product, index) in getCart" :key="index" class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
+
+                        <div class="box">
+
+                            <div class="media">
+                                <div class="media-left">
+                                    <figure class="image is-48x48">
+                                        <img v-bind:src="product.url_product_img" />
+                                    </figure>
+                                </div>
+
+                            </div>
+
+                            {{ product.product_name }}
+                            Precio : {{ product.list_price  }}
+                            Cantidad  : {{ product.quantity  }}
+                            Total :{{ (product.list_price * product.quantity)  }}
+                            <a href="#" @click="$store.commit('removeProductToCart', index)" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Eliminar del carrito</a>
+
+                        </div>
+
+                    </div>
+
+                    Informations  Total price
+                    <span>{{ totalPrice  }} $</span>
+
+                    <b-button @click="openModalUserDataConfirmation()" type="is-dark">Payment</b-button>
                 </div>
             </div>
         </div>
     </b-modal>
+
+
+    <b-modal v-model="modalUserDataConfirmation" :width="1280" scroll="keep">
+        <header class="modal-card-head">
+            <p class="modal-card-title">Payment </p>
+        </header>
+        <div class="card">
+            <div class="card-content">
+                <div class="content">
+                    <p class="title is-4">Please check if the data is correct, if not you can update your data</p>
+
+                    <div class="columns">
+                        <div class="column is-5">
+                            <b-field label='Names'>
+                                <b-input type="text" name="name" v-bind:value="user.name"  maxlength="255" ></b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-4">
+                            <b-field label='Surnames'>
+                                <b-input type="text" name="surnames" v-bind:value="user.surnames"  maxlength="255" ></b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-3">
+                            <label class="label">Document type</label>
+                            <div class="select">
+                                <select>
+                                    <option v-for="(option, index) in options " v-bind:value="option.id" :selected="index == user.document_type">{{ option }}</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column is-2">
+                            <b-field label='Document number'>
+                                <b-input type="number" v-bind:value="user.number_document" name="number_document" maxlength="255" ></b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-2">
+                            <b-field label='Email'>
+                                <b-input type="email" name="email" v-bind:value="user.email"  maxlength="255" ></b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-2">
+                            <b-field label='Cell phone'>
+                                <b-input type="number" name="cell_phone" v-bind:value="user.cell_phone"   maxlength="255" ></b-input>
+                            </b-field>
+                        </div>
+                        <div class="column is-6">
+                            <b-field label='Residence address'>
+                                <b-input type="text" name="user_street"  v-bind:value="user.user_street" maxlength="255" ></b-input>
+                            </b-field>
+                        </div>
+                    </div>
+
+
+                    <b-button  type="is-dark">Confirm and pay</b-button>
+
+                </div>
+            </div>
+        </div>
+    </b-modal>
+
+
 
 
 </div>
@@ -131,12 +226,23 @@
 
 
 <script>
+let user = document.head.querySelector('meta[name="user"]');
+
 
 export default {
+
     data() {
         return {
-            isImageModalActive: false,
-            value: 5
+            modalShoppingCart: false,
+            modalUserDataConfirmation: false,
+            value: 5,
+            options:{
+                'CC':'CC-Cédula de ciudadanía',
+                'CE':'CE-Cédula de extranjería',
+                'TI':'TI-Tarjeta de identidad',
+                'NIT':'NIT-Número de Identificación',
+                'RUT':'RUT-Registro único tributario'
+            },
         }
     },
     created() {
@@ -146,10 +252,31 @@ export default {
         products() {
             return this.$store.state.products;
         },
+        user(){
+            return  JSON.parse(user.content);
+        },
+        getCart() {
+            return this.$store.state.cart;
+        },
+
+        totalProduct() {
+            return this.$store.state.cart.reduce((acc, current) => acc + current.quantity, 0);
+        },
+
+        totalPrice() {
+            return this.$store.state.cart.reduce((acc, current) => acc + current.list_price * current.quantity, 0);
+        }
     },
     methods:{
         getProducts (page){
             this.$store.dispatch('getProducts',{page:page});
+        },
+        openModalUserDataConfirmation(){
+            // HACER VALIDACIONES RESPECTIVAS A LA CANTIDAD DEL CARRITO DE COMPRAS JEJE
+            // cierro el modal----
+            this.modalShoppingCart=false;
+            this.modalUserDataConfirmation= true;
+
         }
     }
 
