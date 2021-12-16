@@ -238,8 +238,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-var _user = document.head.querySelector('meta[name="user"]');
-
+var user = document.head.querySelector('meta[name="user"]');
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -262,34 +261,57 @@ var _user = document.head.querySelector('meta[name="user"]');
     products: function products() {
       return this.$store.state.products;
     },
-    user: function user() {
-      return JSON.parse(_user.content);
+    getUser: function getUser() {
+      return JSON.parse(user.content);
     },
     getCart: function getCart() {
       return this.$store.state.cart;
     },
     totalProduct: function totalProduct() {
       return this.$store.state.cart.reduce(function (acc, current) {
-        return acc + current.quantity;
+        return acc + current.qty;
       }, 0);
     },
     totalPrice: function totalPrice() {
       return this.$store.state.cart.reduce(function (acc, current) {
-        return acc + current.list_price * current.quantity;
+        return acc + current.list_price * current.qty;
       }, 0);
     }
   },
   methods: {
+    openModalShoppingCart: function openModalShoppingCart() {
+      var idHelp = {
+        id: 100000
+      };
+      this.$store.commit('addProductToCart', idHelp);
+      this.$store.commit('removeProductToCart', this.$store.state.cart.length - 1);
+      this.modalShoppingCart = true;
+    },
     getProducts: function getProducts(page) {
       this.$store.dispatch('getProducts', {
         page: page
       });
     },
     openModalUserDataConfirmation: function openModalUserDataConfirmation() {
-      // HACER VALIDACIONES RESPECTIVAS A LA CANTIDAD DEL CARRITO DE COMPRAS JEJE
+      // HACER VALIDACIONES RESPECTIVAS A LA CANTIDAD DEL CARRITO DE COMPRAS JEJE y demas
       // cierro el modal----
       this.modalShoppingCart = false;
       this.modalUserDataConfirmation = true;
+    },
+    confirmPayment: function confirmPayment() {
+      // FAVOR VALIDAR DATOS ANTES DE PROCESAR..........
+      var productsPayment = this.$store.state.cart;
+      var totalPrice = this.totalPrice;
+      var totalProduct = this.totalProduct;
+      axios.post('/storeShoppingCart', {
+        productsPayment: productsPayment,
+        totalProduct: totalProduct,
+        totalPrice: totalPrice
+      }, {}).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        return console.error(error);
+      });
     }
   }
 });
@@ -341,15 +363,18 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       console.log(duplicatedProductIndex);
 
       if (duplicatedProductIndex !== -1) {
-        state.cart[duplicatedProductIndex].quantity++;
+        state.cart[duplicatedProductIndex].qty++;
         return;
       }
 
-      product.quantity = 1;
+      product.qty = 1;
       state.cart.push(product);
     },
     removeProductToCart: function removeProductToCart(state, index) {
       state.cart.splice(index, 1);
+    },
+    totalPrice: function totalPrice() {
+      return false;
     }
   },
   actions: {
@@ -367,18 +392,6 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
 
       axios.get('/api/products?page=' + pageAux).then(function (response) {
         _this.state.pages = response.data.last_page;
-        commit('setCurrentPage', response.data.current_page);
-        commit('setProducts', response.data);
-      })["catch"](function (error) {
-        return console.error(error);
-      });
-    },
-    getUserAuth: function getUserAuth(_ref2, page) {
-      var _this2 = this;
-
-      var commit = _ref2.commit;
-      axios.get('/api/products?page=' + pageAux).then(function (response) {
-        _this2.state.pages = response.data.last_page;
         commit('setCurrentPage', response.data.current_page);
         commit('setProducts', response.data);
       })["catch"](function (error) {
@@ -545,7 +558,7 @@ var render = function () {
               staticClass: "button is-medium is-black",
               on: {
                 click: function ($event) {
-                  _vm.modalShoppingCart = true
+                  return _vm.openModalShoppingCart()
                 },
               },
             },
@@ -871,9 +884,9 @@ var render = function () {
                               "\n                            Precio : " +
                               _vm._s(product.list_price) +
                               "\n                            Cantidad  : " +
-                              _vm._s(product.quantity) +
+                              _vm._s(product.qty) +
                               "\n                            Total :" +
-                              _vm._s(product.list_price * product.quantity) +
+                              _vm._s(product.list_price * product.qty) +
                               "\n                            "
                           ),
                           _c(
@@ -964,7 +977,7 @@ var render = function () {
                               attrs: {
                                 type: "text",
                                 name: "name",
-                                value: _vm.user.name,
+                                value: _vm.getUser.name,
                                 maxlength: "255",
                               },
                             }),
@@ -987,7 +1000,7 @@ var render = function () {
                               attrs: {
                                 type: "text",
                                 name: "surnames",
-                                value: _vm.user.surnames,
+                                value: _vm.getUser.surnames,
                                 maxlength: "255",
                               },
                             }),
@@ -1012,7 +1025,7 @@ var render = function () {
                               {
                                 domProps: {
                                   value: option.id,
-                                  selected: index == _vm.user.document_type,
+                                  selected: index == _vm.getUser.document_type,
                                 },
                               },
                               [_vm._v(_vm._s(option))]
@@ -1036,7 +1049,7 @@ var render = function () {
                             _c("b-input", {
                               attrs: {
                                 type: "number",
-                                value: _vm.user.number_document,
+                                value: _vm.getUser.number_document,
                                 name: "number_document",
                                 maxlength: "255",
                               },
@@ -1060,7 +1073,7 @@ var render = function () {
                               attrs: {
                                 type: "email",
                                 name: "email",
-                                value: _vm.user.email,
+                                value: _vm.getUser.email,
                                 maxlength: "255",
                               },
                             }),
@@ -1083,7 +1096,7 @@ var render = function () {
                               attrs: {
                                 type: "number",
                                 name: "cell_phone",
-                                value: _vm.user.cell_phone,
+                                value: _vm.getUser.cell_phone,
                                 maxlength: "255",
                               },
                             }),
@@ -1106,7 +1119,7 @@ var render = function () {
                               attrs: {
                                 type: "text",
                                 name: "user_street",
-                                value: _vm.user.user_street,
+                                value: _vm.getUser.user_street,
                                 maxlength: "255",
                               },
                             }),
@@ -1118,9 +1131,18 @@ var render = function () {
                     ),
                   ]),
                   _vm._v(" "),
-                  _c("b-button", { attrs: { type: "is-dark" } }, [
-                    _vm._v("Confirm and pay"),
-                  ]),
+                  _c(
+                    "b-button",
+                    {
+                      attrs: { type: "is-dark" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.confirmPayment()
+                        },
+                      },
+                    },
+                    [_vm._v("Confirm and pay")]
+                  ),
                 ],
                 1
               ),

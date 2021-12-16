@@ -7,7 +7,7 @@
             <h1 class="title">Welcome to our awesome market</h1>
         </div>
         <div class="column">
-            <button @click="modalShoppingCart=true"  class="button is-medium is-black"> <span class="icon is-large"><i class="mdi mdi-cart-variant"></i></span><span v-text="this.$store.state.cart.length"></span> &nbsp; Cart</button>
+            <button @click="openModalShoppingCart()"  class="button is-medium is-black"> <span class="icon is-large"><i class="mdi mdi-cart-variant"></i></span><span v-text="this.$store.state.cart.length"></span> &nbsp; Cart</button>
         </div>
     </div>
 
@@ -121,7 +121,7 @@
         <div class="card">
             <div class="card-content">
                 <div class="content">
-                    <p class="title is-4">{{ totalProduct }}Products in your cart</p>
+                    <p class="title is-4">{{totalProduct}}Products in your cart</p>
 
 
                     <div v-for="(product, index) in getCart" :key="index" class="flex items-center hover:bg-gray-100 -mx-8 px-6 py-5">
@@ -139,8 +139,8 @@
 
                             {{ product.product_name }}
                             Precio : {{ product.list_price  }}
-                            Cantidad  : {{ product.quantity  }}
-                            Total :{{ (product.list_price * product.quantity)  }}
+                            Cantidad  : {{ product.qty  }}
+                            Total :{{ (product.list_price * product.qty)  }}
                             <a href="#" @click="$store.commit('removeProductToCart', index)" class="font-semibold hover:text-red-500 text-gray-500 text-xs">Eliminar del carrito</a>
 
                         </div>
@@ -169,19 +169,19 @@
                     <div class="columns">
                         <div class="column is-5">
                             <b-field label='Names'>
-                                <b-input type="text" name="name" v-bind:value="user.name"  maxlength="255" ></b-input>
+                                <b-input type="text" name="name" v-bind:value="getUser.name"  maxlength="255" ></b-input>
                             </b-field>
                         </div>
                         <div class="column is-4">
                             <b-field label='Surnames'>
-                                <b-input type="text" name="surnames" v-bind:value="user.surnames"  maxlength="255" ></b-input>
+                                <b-input type="text" name="surnames" v-bind:value="getUser.surnames"  maxlength="255" ></b-input>
                             </b-field>
                         </div>
                         <div class="column is-3">
                             <label class="label">Document type</label>
                             <div class="select">
                                 <select>
-                                    <option v-for="(option, index) in options " v-bind:value="option.id" :selected="index == user.document_type">{{ option }}</option>
+                                    <option v-for="(option, index) in options " v-bind:value="option.id" :selected="index == getUser.document_type">{{ option }}</option>
                                 </select>
                             </div>
                         </div>
@@ -190,28 +190,28 @@
                     <div class="columns">
                         <div class="column is-2">
                             <b-field label='Document number'>
-                                <b-input type="number" v-bind:value="user.number_document" name="number_document" maxlength="255" ></b-input>
+                                <b-input type="number" v-bind:value="getUser.number_document" name="number_document" maxlength="255" ></b-input>
                             </b-field>
                         </div>
                         <div class="column is-2">
                             <b-field label='Email'>
-                                <b-input type="email" name="email" v-bind:value="user.email"  maxlength="255" ></b-input>
+                                <b-input type="email" name="email" v-bind:value="getUser.email"  maxlength="255" ></b-input>
                             </b-field>
                         </div>
                         <div class="column is-2">
                             <b-field label='Cell phone'>
-                                <b-input type="number" name="cell_phone" v-bind:value="user.cell_phone"   maxlength="255" ></b-input>
+                                <b-input type="number" name="cell_phone" v-bind:value="getUser.cell_phone"   maxlength="255" ></b-input>
                             </b-field>
                         </div>
                         <div class="column is-6">
                             <b-field label='Residence address'>
-                                <b-input type="text" name="user_street"  v-bind:value="user.user_street" maxlength="255" ></b-input>
+                                <b-input type="text" name="user_street"  v-bind:value="getUser.user_street" maxlength="255" ></b-input>
                             </b-field>
                         </div>
                     </div>
 
 
-                    <b-button  type="is-dark">Confirm and pay</b-button>
+                    <b-button @click="confirmPayment()" type="is-dark">Confirm and pay</b-button>
 
                 </div>
             </div>
@@ -252,31 +252,48 @@ export default {
         products() {
             return this.$store.state.products;
         },
-        user(){
+        getUser(){
             return  JSON.parse(user.content);
         },
         getCart() {
             return this.$store.state.cart;
         },
-
         totalProduct() {
-            return this.$store.state.cart.reduce((acc, current) => acc + current.quantity, 0);
+            return this.$store.state.cart.reduce((acc, current) => acc + current.qty, 0);
+        },
+        totalPrice() {
+            return this.$store.state.cart.reduce((acc, current) => acc + current.list_price * current.qty, 0);
         },
 
-        totalPrice() {
-            return this.$store.state.cart.reduce((acc, current) => acc + current.list_price * current.quantity, 0);
-        }
     },
     methods:{
+        openModalShoppingCart(){
+        let  idHelp = {id:100000}
+            this.$store.commit('addProductToCart', idHelp)
+            this.$store.commit('removeProductToCart', this.$store.state.cart.length-1)
+            this.modalShoppingCart=true
+        },
         getProducts (page){
+
             this.$store.dispatch('getProducts',{page:page});
         },
         openModalUserDataConfirmation(){
-            // HACER VALIDACIONES RESPECTIVAS A LA CANTIDAD DEL CARRITO DE COMPRAS JEJE
+            // HACER VALIDACIONES RESPECTIVAS A LA CANTIDAD DEL CARRITO DE COMPRAS JEJE y demas
             // cierro el modal----
             this.modalShoppingCart=false;
             this.modalUserDataConfirmation= true;
-
+        },
+        confirmPayment(){
+          // FAVOR VALIDAR DATOS ANTES DE PROCESAR..........
+            let productsPayment =  this.$store.state.cart;
+            let totalPrice =  this.totalPrice;
+            let totalProduct =  this.totalProduct;
+            axios.post('/storeShoppingCart', { productsPayment,totalProduct,totalPrice}, { }
+                )
+                .then((response) => {
+                    console.log(response);
+                })
+                .catch((error) => console.error(error))
         }
     }
 

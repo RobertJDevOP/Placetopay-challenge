@@ -3,13 +3,13 @@
 namespace App\Cache;
 
 use App\Contracts\ProductRepositoryInterface;
-use App\Repositories\UserRepositories;
+use App\Repositories\ProductRepository;
 
 class ProductCache extends BaseCache implements ProductRepositoryInterface
 {
-    public function __construct(UserRepositories $userRepositories)
+    public function __construct(ProductRepository $productRepository)
     {
-        parent::__construct($userRepositories, 'product');
+        parent::__construct($productRepository, 'product');
     }
 
     public function all()

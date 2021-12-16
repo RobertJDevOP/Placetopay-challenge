@@ -21,7 +21,7 @@ class ProductController extends Controller
     {
 
         //dd($request->input('filters', []));
-        $products=Product::filter($request->input('filters', []))->paginate();
+        $products=Product::filter($request->input('filters', []))->paginate(6);
                 /*->
         select('id','product_name','url_product_img','list_price','category_id','created_at',
             'updated_at','enabled_at','list_price')->with('category')>paginate(6);*/

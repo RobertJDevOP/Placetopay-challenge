@@ -38,16 +38,19 @@ const store = new Vuex.Store({
 
             console.log(duplicatedProductIndex);
             if (duplicatedProductIndex !== -1) {
-                state.cart[duplicatedProductIndex].quantity++;
+                state.cart[duplicatedProductIndex].qty++;
                 return;
             }
 
-            product.quantity = 1;
+            product.qty = 1;
             state.cart.push(product);
         },
         removeProductToCart(state, index) {
             state.cart.splice(index, 1);
         },
+        totalPrice() {
+          return false;
+        }
     },
 
     actions: {
@@ -67,16 +70,7 @@ const store = new Vuex.Store({
                 })
                 .catch((error) => console.error(error))
         },
-        getUserAuth({ commit } ,page) {
 
-            axios.get('/api/products?page='+pageAux)
-                .then((response) => {
-                    this.state.pages=response.data.last_page
-                    commit('setCurrentPage',response.data.current_page)
-                    commit('setProducts', response.data)
-                })
-                .catch((error) => console.error(error))
-        },
     },
 
 });

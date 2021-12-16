@@ -41,6 +41,7 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
 
 Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
     Route::name('shop.index')->get('/shop', [ShopController::class, 'index']);
+    Route::name('shop.store')->post('/storeShoppingCart', [ShopController::class, 'storeShoppingCart']);
 });
 
 
