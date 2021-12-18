@@ -6,6 +6,8 @@ use App\Filters\Concerns\HasFilters;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -32,6 +34,12 @@ class Product extends Model
     {
         return $this->belongsTo(ProductCategory::class);
     }
+
+    public function productPurchaseOrderDetail(): BelongsToMany
+    {
+        return $this->belongsToMany(PurchaseOrderDetail::class,'product_id','id');
+    }
+
 
     public function getCratedFormattedAttribute(): string
     {

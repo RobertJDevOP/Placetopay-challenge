@@ -38,7 +38,11 @@ const store = new Vuex.Store({
 
             console.log(duplicatedProductIndex);
             if (duplicatedProductIndex !== -1) {
-                state.cart[duplicatedProductIndex].qty++;
+                //let increment =
+                let item = state.cart[duplicatedProductIndex];
+                item.qty++;
+                // propiedad reactiva el array no lo era entonces toca ASI XDD
+                Vue.set(state.cart, duplicatedProductIndex, item)
                 return;
             }
 

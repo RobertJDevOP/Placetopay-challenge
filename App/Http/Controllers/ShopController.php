@@ -22,7 +22,7 @@ class ShopController extends Controller
     }
 
     public function storeShoppingCart(Request $request){
-//PENDIENTE HACER LOGS PARA EL SISTEMA...... EXCEPCIONES ....
+//PENDIENTE HACER LOGS PARA EL SISTEMA...... EXCEPCIONES .... VALIDAICONES
 //$request['productsPayment']
 
         $order = PurchaseOrder::create([
@@ -35,13 +35,13 @@ class ShopController extends Controller
         foreach ($request['productsPayment'] as $product) {
            // $s = $items['item'];
             PurchaseOrderDetail::create([
-                'order_id' => $order->id,
+                'purchase_order_id' => $order->id,
                 'product_id' => $product['id'],
-                'quantity' => $product['qty'],
+                'qty' => $product['qty'],
                 'price' => $product['qty'] * $product['list_price'],
             ]);
         }
 
-        
+        return redirect(route('shop.checkout', $order));
     }
 }

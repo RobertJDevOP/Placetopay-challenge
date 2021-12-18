@@ -280,11 +280,9 @@ var user = document.head.querySelector('meta[name="user"]');
   },
   methods: {
     openModalShoppingCart: function openModalShoppingCart() {
-      var idHelp = {
-        id: 100000
-      };
-      this.$store.commit('addProductToCart', idHelp);
-      this.$store.commit('removeProductToCart', this.$store.state.cart.length - 1);
+      /*let  idHelp = {id:100000}
+      this.$store.commit('addProductToCart', idHelp)
+      this.$store.commit('removeProductToCart', this.$store.state.cart.length-1)*/
       this.modalShoppingCart = true;
     },
     getProducts: function getProducts(page) {
@@ -363,7 +361,11 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       console.log(duplicatedProductIndex);
 
       if (duplicatedProductIndex !== -1) {
-        state.cart[duplicatedProductIndex].qty++;
+        //let increment =
+        var item = state.cart[duplicatedProductIndex];
+        item.qty++; // propiedad reactiva el array no lo era entonces toca ASI XDD
+
+        vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(state.cart, duplicatedProductIndex, item);
         return;
       }
 

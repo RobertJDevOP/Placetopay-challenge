@@ -268,9 +268,9 @@ export default {
     },
     methods:{
         openModalShoppingCart(){
-        let  idHelp = {id:100000}
+            /*let  idHelp = {id:100000}
             this.$store.commit('addProductToCart', idHelp)
-            this.$store.commit('removeProductToCart', this.$store.state.cart.length-1)
+            this.$store.commit('removeProductToCart', this.$store.state.cart.length-1)*/
             this.modalShoppingCart=true
         },
         getProducts (page){
