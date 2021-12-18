@@ -2,12 +2,12 @@
 
 namespace App\Services;
 
-use App\Contracts\ApiSendRequestInterface;
+use App\Contracts\ApiInterface;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use Illuminate\Support\Facades\Http;
 
-class PlaceToPayWebCheckout implements  ApiSendRequestInterface
+class PlaceToPayWebCheckout
 {
     const ENDPOINT = 'https://test.placetopay.com/redirection/api/session';
 
@@ -80,8 +80,5 @@ class PlaceToPayWebCheckout implements  ApiSendRequestInterface
         echo $response->body();
     }
 
-    public function request(string $endpoint, object $params)
-    {
-        // TODO: Implement request() method.
-    }
+
 }
