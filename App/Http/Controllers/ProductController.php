@@ -10,6 +10,7 @@ use App\ViewModels\Products\IndexViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
 
 class ProductController extends Controller
@@ -46,15 +47,24 @@ class ProductController extends Controller
 
     public function create(IndexRequest $request)
     {
+
         $image = $request->file('url_product_img');
-        $input['file'] = time().'.'.$image->getClientOriginalExtension();
+        $fileName = time().'.'.$image->getClientOriginalExtension();
 
+        $image->storeAs('public/images',$fileName);
 
-        $destinationPath = public_path('/uploads');
-        $image->move($destinationPath, $input['file']);
+        $product = Product::create([
+            'product_name' => $request->input('product_name'),
+            'category_id' =>$request->input('category_id'),
+            'list_price' => $request->input('list_price'),
+            'price' =>$request->input('price'),
+            'url_product_img' => $fileName
+        ]);
+
+        $product->markAsEnabled();
 
         return back()
             ->with('success','Image has successfully uploaded.')
-            ->with('fileName',$input['file']);
+            ->with('fileName',$fileName);
     }
 }

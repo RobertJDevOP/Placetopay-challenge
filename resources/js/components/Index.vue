@@ -55,7 +55,7 @@
             <div class="card">
                 <div class="card-image">
                     <figure class="image is-4by3">
-                            <img v-bind:src="product.url_product_img" />
+                            <img v-bind:src="product.image" />
                     </figure>
                 </div>
                 <div class="card-content">
@@ -131,7 +131,7 @@
                             <div class="media">
                                 <div class="media-left">
                                     <figure class="image is-48x48">
-                                        <img v-bind:src="product.url_product_img" />
+                                        <img v-bind:src="product.image" />
                                     </figure>
                                 </div>
 

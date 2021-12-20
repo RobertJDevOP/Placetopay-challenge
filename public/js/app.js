@@ -714,7 +714,7 @@ var render = function () {
               _c("div", { staticClass: "card" }, [
                 _c("div", { staticClass: "card-image" }, [
                   _c("figure", { staticClass: "image is-4by3" }, [
-                    _c("img", { attrs: { src: product.url_product_img } }),
+                    _c("img", { attrs: { src: product.image } }),
                   ]),
                 ]),
                 _vm._v(" "),
@@ -874,9 +874,7 @@ var render = function () {
                           _c("div", { staticClass: "media" }, [
                             _c("div", { staticClass: "media-left" }, [
                               _c("figure", { staticClass: "image is-48x48" }, [
-                                _c("img", {
-                                  attrs: { src: product.url_product_img },
-                                }),
+                                _c("img", { attrs: { src: product.image } }),
                               ]),
                             ]),
                           ]),

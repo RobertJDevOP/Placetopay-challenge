@@ -36,7 +36,7 @@
     <tr>
         <td>{{ $product->product_name }}</td>
         <td>
-            <b-image src="{{ $product->url_product_img }}" ratio="16by9"></b-image>
+            <b-image src="{{ $product->image }}" ratio="16by9"></b-image>
         </td>
         <td>{{ $product->price }}</td>
         <td>{{ $product->list_price }}</td>

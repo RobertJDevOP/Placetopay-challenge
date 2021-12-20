@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -15,7 +16,7 @@ class Product extends Model
     use HasFilters;
 
     protected $fillable = [
-        'product_name', 'list_price', 'price', 'category_id', 'url_product_img',
+        'product_name', 'list_price', 'price', 'category_id', 'url_product_img'
     ];
 
     protected $hidden = [
@@ -23,7 +24,7 @@ class Product extends Model
     ];
 
     protected $appends = [
-        'update_formatted','crated_formatted', 'status',
+        'update_formatted','crated_formatted', 'status','image'
     ];
 
     protected $dates = [
@@ -59,6 +60,11 @@ class Product extends Model
     {
         $this->enabled_at = now();
         $this->save();
+    }
+
+    public function getImageAttribute(): string
+    {
+        return asset("/storage/images/{$this->attributes['url_product_img']}");
     }
 
     public function markAsDisabled(): void
