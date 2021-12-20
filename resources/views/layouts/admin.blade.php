@@ -17,7 +17,7 @@
                                    <li><a href="{{ route('products.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Products</a></li>
                             </ul>
 
-                            <p class="menu-label">Menu security</p>
+                            <p class="menu-label">Security</p>
                             <ul class="menu-list">
                                 <li><a href="{{ route('users.index') }}"><em class="pr-2 mdi mdi-account-multiple"></em>Clients</a></li>
                             </ul>
@@ -29,12 +29,9 @@
                                     <li><a href="{{ route('products.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Purchase order history</a></li>
                                 </ul>
 
-                                <ul class="menu-list">
-                                    <li><a href="{{ route('shop.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Online shop</a></li>
-                                </ul>
 
                                 <ul class="menu-list">
-                                    <li><a href="{{ url('/shop_online') }}"><em class="pr-2 mdi mdi-map-legend"></em>Online shop</a></li>
+                                    <li><a href="{{ url('/shop') }}"><em class="pr-2 mdi mdi-map-legend"></em>Online shop</a></li>
                                 </ul>
                             @endif
 

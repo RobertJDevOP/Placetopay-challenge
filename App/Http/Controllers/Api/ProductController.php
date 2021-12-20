@@ -19,17 +19,12 @@ class ProductController extends Controller
 
     public function index(Request $request): JsonResponse
     {
-
         //dd($request->input('filters', []));
         $products=Product::filter($request->input('filters', []))->paginate(6);
-                /*->
-        select('id','product_name','url_product_img','list_price','category_id','created_at',
-            'updated_at','enabled_at','list_price')->with('category')>paginate(6);*/
-        //    ->SearchByField('product_name','%Architecto%','like')
 
-//        dd($xd);
+        return response()->json($products);
 
-       return response()->json($products);
+
         /*  $products = $this->productRepositories->all();
 
           return response()->json($products); */

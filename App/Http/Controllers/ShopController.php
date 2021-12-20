@@ -10,16 +10,7 @@ use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    public function index(IndexViewModel $viewModel)
-    {
-        $products=Product::select('id','product_name','url_product_img','list_price','category_id','created_at',
-            'updated_at','enabled_at','list_price')->with('category')
-            ->paginate(6);
 
-        $viewModel->collection($products);
-
-        return view('shop.index', $viewModel->toArray());
-    }
 
     public function storeShoppingCart(Request $request){
 //PENDIENTE HACER LOGS PARA EL SISTEMA...... EXCEPCIONES .... VALIDAICONES

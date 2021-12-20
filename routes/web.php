@@ -3,6 +3,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
@@ -35,29 +36,25 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     Route::name('users.update')->put('/users/{email}/', [UserController::class, 'update']);
     Route::name('users.status')->put('/users/{email}/status', [UserController::class, 'statusUser']);
 
-    Route::name('products.index')->get('/products', [\App\Http\Controllers\ProductController::class, 'index']);
-    Route::name('products.status')->put('/products/{id}/status', [\App\Http\Controllers\ProductController::class, 'statusProduct']);
+    Route::name('products.index')->get('/products', [ProductController::class, 'index']);
+    Route::name('products.create')->get('/product/create', [ProductController::class, 'categories']);
+
+    Route::name('product.create')->post('/product/create', [ProductController::class, 'create']);
+    Route::name('products.status')->put('/products/{id}/status', [ProductController::class, 'statusProduct']);
 });
 
 
 Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
-    Route::name('shop.index')->get('/shop', [ShopController::class, 'index']);
+    Route::get('/shop', function () {
+        return view('shop.index');
+    });
     Route::name('shop.store')->post('/storeShoppingCart', [ShopController::class, 'storeShoppingCart']);
-
     Route::name('shop.checkout')->get('/checkout/{purchaseOrder}', [PaymentController::class, 'purchaseToPay']);
-
     Route::get('/orders/payment/{order}', 'PaymentController@payment')->name('payment');
 });
 
 
-Route::get('/shop_online', function () {
-    return view('shop.index2');
-});
-
 
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])->name('dashboard');
-
-
-
 

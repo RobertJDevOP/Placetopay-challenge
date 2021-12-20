@@ -10,8 +10,11 @@
 @endif
 
 <div class="level-left">
-    <h1 class="title">Products</h1>
+    <h1 class="title">Products</h1><br><br>
 </div>
+
+
+<b-button tag="a"  href="product/create"    type="is-warning is-light"> Create a new product</b-button><br><br>
 
 <table class="table is-narrow is-hoverable is-fullwidth">
     <thead>
