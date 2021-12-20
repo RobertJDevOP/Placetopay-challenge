@@ -15,7 +15,7 @@
     <div class="card">
         <div class="card-content">
 
-            <form action="{{route('product.create')}}" method="POST">
+            <form action="{{route('product.create')}}" method="POST" enctype="multipart/form-data">
                 @csrf
 
                 <div class="columns">
@@ -69,11 +69,11 @@
                                     <i class="fas fa-upload"></i>
                                   </span>
                                   <span class="file-label">
-                                    Info file…
+                                    Choose file
                                   </span>
                                 </span>
                                 <span class="file-name">
-                                  Screen Shot 2017-07-29 at 15.54.25.png
+                                 Example.jpg
                                 </span>
                             </label>
                         </div>

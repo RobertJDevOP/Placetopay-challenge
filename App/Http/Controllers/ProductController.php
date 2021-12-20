@@ -44,8 +44,17 @@ class ProductController extends Controller
         return redirect('/products')->with('success',Lang::get('messages.productStatus'));
     }
 
-    public function create(IndexRequest $request): User
+    public function create(IndexRequest $request)
     {
+        $image = $request->file('url_product_img');
+        $input['file'] = time().'.'.$image->getClientOriginalExtension();
 
+
+        $destinationPath = public_path('/uploads');
+        $image->move($destinationPath, $input['file']);
+
+        return back()
+            ->with('success','Image has successfully uploaded.')
+            ->with('fileName',$input['file']);
     }
 }

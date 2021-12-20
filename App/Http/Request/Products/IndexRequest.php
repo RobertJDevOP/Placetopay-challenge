@@ -18,9 +18,9 @@ class IndexRequest extends FormRequest
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::unique(Product::class)],
             'category_id'=> ['required', 'numeric','exists:products_categories,id'],
-            'list_price'=> ['required', 'numeric','min:1|max:100000000'],
-            'price'=> ['required', 'numeric','min:1|max:100000000'],
-            'url_product_img'=> ['required','image'],
+            'list_price'=> ['required', 'numeric','min:0|max:100000000'],
+            'price'=> ['required', 'numeric','min:0|max:100000000'],
+            'url_product_img'=> ['required','image','mimes:jpg,bmp,png','max:2048'],
         ];
     }
 }
