@@ -45,13 +45,12 @@
         <td>{{ $product->update_formatted }}</td>
         <td>{{ $product->status }}</td>
         <td>
-            <b-button tag="a"  href="users/{{$product->id}}/edit"  size="is-small"  type="is-warning is-light"> <span class="icon is-small"><i class="mdi mdi-pencil-outline"></i></span> Edit product</b-button>
+            <b-button tag="a"  href="product/{{$product->id}}/edit"  size="is-small"  type="is-warning is-light"> <span class="icon is-small"><i class="mdi mdi-pencil-outline"></i></span> Edit product</b-button>
             &nbsp;
-            <form action="products/{{$product->id}}/status" method="POST">
+            <form action="product/{{$product->id}}/status" method="POST">
                 @csrf
                 @method('PUT')
-                <b-button  size="is-small" onclick="event.preventDefault();" name="validation" value="{{$product->status}}" type="is-info is-light" native-type="submit">
-                    <span class="icon is-small"><i class="mdi mdi-account"></i></span>
+                <b-button  size="is-small"  name="validation" value="{{$product->status}}" type="is-info is-light" native-type="submit">
                     Change status
                 </b-button>
 

@@ -37,10 +37,11 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     Route::name('users.status')->put('/users/{email}/status', [UserController::class, 'statusUser']);
 
     Route::name('products.index')->get('/products', [ProductController::class, 'index']);
-    Route::name('products.create')->get('/product/create', [ProductController::class, 'categories']);
-
-    Route::name('product.create')->post('/product/create', [ProductController::class, 'create']);
-    Route::name('products.status')->put('/products/{id}/status', [ProductController::class, 'statusProduct']);
+    Route::name('product.create')->get('/product/create', [ProductController::class, 'categories']);
+    Route::name('product.register')->post('/product/register', [ProductController::class, 'register']);
+    Route::name('product.status')->put('/product/{id}/status', [ProductController::class, 'statusProduct']);
+    Route::name('product.edit')->get('/product/{id}/edit', [ProductController::class, 'edit']);
+    Route::name('product.update')->put('/product/{id}/', [ProductController::class, 'update']);
 });
 
 
