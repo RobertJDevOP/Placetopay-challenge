@@ -237,25 +237,34 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 var user = document.head.querySelector('meta[name="user"]');
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       modalShoppingCart: false,
       modalUserDataConfirmation: false,
-      value: 5,
+      findByCategory: null,
+      findByPriceRange: [0, 0],
+      findByNameOfProduct: '',
       options: {
         'CC': 'CC-Cédula de ciudadanía',
         'CE': 'CE-Cédula de extranjería',
         'TI': 'TI-Tarjeta de identidad',
         'NIT': 'NIT-Número de Identificación',
         'RUT': 'RUT-Registro único tributario'
-      }
+      },
+      categoryData: []
     };
   },
   created: function created() {
+    var _this = this;
+
     this.$store.dispatch('getProducts');
+    axios.get('/api/categories').then(function (response) {
+      _this.categoryData = response.data;
+    })["catch"](function (error) {
+      return console.error(error);
+    });
   },
   computed: {
     products: function products() {
@@ -288,6 +297,17 @@ var user = document.head.querySelector('meta[name="user"]');
     getProducts: function getProducts(page) {
       this.$store.dispatch('getProducts', {
         page: page
+      });
+    },
+    searchData: function searchData() {
+      // enviar parametros a la url
+      this.$store.dispatch('getProducts', {
+        page: this.products.current_page,
+        filters: [{
+          'findByCategory': this.findByCategory,
+          'findByPriceRange': this.findByPriceRange,
+          'findByNameOfProduct': this.findByNameOfProduct
+        }]
       });
     },
     openModalUserDataConfirmation: function openModalUserDataConfirmation() {
@@ -363,7 +383,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
       if (duplicatedProductIndex !== -1) {
         //let increment =
         var item = state.cart[duplicatedProductIndex];
-        item.qty++; // propiedad reactiva el array no lo era entonces toca ASI XDD
+        item.qty++; // propiedad reactiva el array no lo era entonces toca ASI XDD lo agrego
 
         vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(state.cart, duplicatedProductIndex, item);
         return;
@@ -385,14 +405,20 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_2__["default"].Store({
 
       var commit = _ref.commit;
       var pageAux = '';
+      var params = new URLSearchParams();
 
       if (typeof page !== 'undefined') {
         pageAux = page.page;
+        params.append('product_name', page.filters[0].findByNameOfProduct);
+        params.append('category', page.filters[0].findByCategory);
+        params.append('range_price', page.filters[0].findByPriceRange);
       } else {
         pageAux = this.currentPage;
       }
 
-      axios.get('/api/products?page=' + pageAux).then(function (response) {
+      axios.get('/api/products?page=' + pageAux, {
+        params: params
+      }).then(function (response) {
         _this.state.pages = response.data.last_page;
         commit('setCurrentPage', response.data.current_page);
         commit('setProducts', response.data);
@@ -621,46 +647,99 @@ var render = function () {
             { staticClass: "card-content" },
             [
               _c("div", { staticClass: "columns" }, [
-                _c("div", { staticClass: "column is-4" }, [
-                  _c("label", { staticClass: "label" }, [
-                    _vm._v("Find by Category"),
-                  ]),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "select" }, [
-                    _c("select", [
-                      _c("option", [_vm._v("Select the product category")]),
-                      _vm._v(" "),
-                      _c("option", [_vm._v("------------")]),
-                    ]),
-                  ]),
-                ]),
-                _vm._v(" "),
-                _c("div", { staticClass: "column is-4" }, [
-                  _c("label", { staticClass: "label" }, [
-                    _vm._v("Find by name of the product"),
-                  ]),
-                  _vm._v(" "),
-                  _c("input", {
-                    staticClass: "input",
-                    attrs: { type: "text", placeholder: "Name of the product" },
-                  }),
-                ]),
-                _vm._v(" "),
                 _c(
                   "div",
                   { staticClass: "column is-4" },
                   [
                     _c(
                       "b-field",
+                      { attrs: { label: "Find by Category" } },
+                      [
+                        _c(
+                          "b-select",
+                          {
+                            attrs: {
+                              placeholder: "Select name of the category",
+                            },
+                            model: {
+                              value: _vm.findByCategory,
+                              callback: function ($$v) {
+                                _vm.findByCategory = $$v
+                              },
+                              expression: "findByCategory",
+                            },
+                          },
+                          _vm._l(_vm.categoryData, function (indice) {
+                            return _c(
+                              "option",
+                              {
+                                key: indice.id,
+                                domProps: { value: indice.id },
+                              },
+                              [
+                                _vm._v(
+                                  "\n                            " +
+                                    _vm._s(indice.name_category) +
+                                    "\n                        "
+                                ),
+                              ]
+                            )
+                          }),
+                          0
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("div", { staticClass: "column is-8" }, [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v("Find by name of the product"),
+                  ]),
+                  _vm._v(" "),
+                  _c("input", {
+                    directives: [
+                      {
+                        name: "model",
+                        rawName: "v-model",
+                        value: _vm.findByNameOfProduct,
+                        expression: "findByNameOfProduct",
+                      },
+                    ],
+                    staticClass: "input",
+                    attrs: { type: "text", placeholder: "Name of the product" },
+                    domProps: { value: _vm.findByNameOfProduct },
+                    on: {
+                      input: function ($event) {
+                        if ($event.target.composing) {
+                          return
+                        }
+                        _vm.findByNameOfProduct = $event.target.value
+                      },
+                    },
+                  }),
+                ]),
+              ]),
+              _vm._v(" "),
+              _c("div", { staticClass: "columns" }, [
+                _c(
+                  "div",
+                  { staticClass: "column is-12" },
+                  [
+                    _c(
+                      "b-field",
                       { attrs: { label: "Find by prince range" } },
                       [
                         _c("b-slider", {
+                          attrs: { min: 1, max: 900000 },
                           model: {
-                            value: _vm.value,
+                            value: _vm.findByPriceRange,
                             callback: function ($$v) {
-                              _vm.value = $$v
+                              _vm.findByPriceRange = $$v
                             },
-                            expression: "value",
+                            expression: "findByPriceRange",
                           },
                         }),
                       ],
@@ -686,11 +765,11 @@ var render = function () {
               _c(
                 "b-button",
                 {
-                  attrs: {
-                    tag: "a",
-                    type: "is-link",
-                    href: "",
-                    "icon-left": "eraser",
+                  attrs: { "icon-left": "eraser" },
+                  on: {
+                    click: function ($event) {
+                      return _vm.searchData()
+                    },
                   },
                 },
                 [_vm._v("Search")]
@@ -725,7 +804,9 @@ var render = function () {
                         _vm._v(_vm._s(product.product_name)),
                       ]),
                       _vm._v(" "),
-                      _c("p", { staticClass: "subtitle is-6" }),
+                      _c("p", { staticClass: "subtitle is-6" }, [
+                        _vm._v(_vm._s(product.name_category)),
+                      ]),
                     ]),
                     _vm._v(" "),
                     _c(

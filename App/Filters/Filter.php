@@ -34,7 +34,8 @@ abstract class Filter
 
     public function apply(): Builder
     {
-        $this->select()->where();
+        $this->select()->joins()->where();
+        //print_r($this->query);
         return $this->query;
     }
 
@@ -60,9 +61,12 @@ abstract class Filter
         return new $conditionClassName();
     }
 
-
-
     protected function select(): self
+    {
+        return $this;
+    }
+
+    protected function joins(): self
     {
         return $this;
     }

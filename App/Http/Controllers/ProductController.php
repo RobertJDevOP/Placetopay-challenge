@@ -6,7 +6,6 @@ use App\Http\Request\Products\IndexRequest;
 use App\Http\Request\Products\IndexUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
-use App\Models\User;
 use App\ViewModels\Products\IndexViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -28,9 +27,9 @@ class ProductController extends Controller
         return view('products.index', $viewModel->toArray());
     }
 
-    public function categories(ProductCategory $candy)
+    public function categories(ProductCategory $categories)
     {
-        $data = $candy->all();
+        $data = $categories->all();
         return view('products.create')->with('candies', $data);
     }
 

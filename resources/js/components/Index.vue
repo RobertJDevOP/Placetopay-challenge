@@ -24,27 +24,36 @@
         <div class="card-content">
         <div class="columns">
             <div class="column is-4">
-                <label class="label">Find by Category</label>
-                    <div class="select">
-                        <select>
-                            <option>Select the product category</option>
-                            <option>------------</option>
-                        </select>
-                    </div>
+
+                <b-field label="Find by Category">
+                    <b-select  v-model="findByCategory" placeholder="Select name of the category">
+                        <option
+                            v-for="indice in categoryData"
+                            :value="indice.id"
+                            :key="indice.id">
+                            {{ indice.name_category }}
+                        </option>
+                    </b-select>
+                </b-field>
+
             </div>
-            <div class="column is-4">
+            <div class="column is-8">
                 <label class="label">Find by name of the product</label>
-                    <input class="input" type="text" placeholder="Name of the product">
+                    <input class="input" v-model="findByNameOfProduct" type="text" placeholder="Name of the product">
             </div>
-            <div class="column is-4">
-                    <b-field label="Find by prince range">
-                        <b-slider v-model="value"></b-slider>
-                    </b-field>
-            </div>
+
         </div>
 
+            <div class="columns">
+                <div class="column is-12">
+                    <b-field label="Find by prince range">
+                        <b-slider :min="1" :max="900000" v-model="findByPriceRange"></b-slider>
+                    </b-field>
+                </div>
+            </div>
+
             <b-button type="is-link" native-type="submit" icon-left="magnify">Clear</b-button>
-                <b-button tag="a" type="is-link" href="" icon-left="eraser">Search</b-button>
+            <b-button @click="searchData()" icon-left="eraser">Search</b-button>
         </div>
     </b-collapse>
     <hr>
@@ -62,7 +71,7 @@
                     <div class="media">
                         <div class="media-content">
                             <p class="title is-4">{{product.product_name }}</p>
-                            <p class="subtitle is-6"></p>
+                            <p class="subtitle is-6">{{product.name_category}}</p>
                         </div>
                         <div class="media-right">
                             <b-button @click="$store.commit('addProductToCart', product)" rounded  type="is-dark" size="is-large" icon-right="cart-variant" />
@@ -76,10 +85,6 @@
             </div>
         </div>
     </div>
-
-
-
-
 
 
     <nav class="pagination is-centered" role="navigation" aria-label="pagination">
@@ -108,10 +113,6 @@
             </li>
         </ul>
     </nav>
-
-
-
-
 
     <b-modal v-model="modalShoppingCart" :width="1280" scroll="keep">
         <header class="modal-card-head">
@@ -219,8 +220,6 @@
     </b-modal>
 
 
-
-
 </div>
 </template>
 
@@ -235,7 +234,9 @@ export default {
         return {
             modalShoppingCart: false,
             modalUserDataConfirmation: false,
-            value: 5,
+            findByCategory : null,
+            findByPriceRange : [0, 0],
+            findByNameOfProduct : '',
             options:{
                 'CC':'CC-Cédula de ciudadanía',
                 'CE':'CE-Cédula de extranjería',
@@ -243,10 +244,17 @@ export default {
                 'NIT':'NIT-Número de Identificación',
                 'RUT':'RUT-Registro único tributario'
             },
+            categoryData:[]
         }
     },
     created() {
         this.$store.dispatch('getProducts');
+
+            axios.get('/api/categories')
+            .then((response) => {
+                this.categoryData=response.data
+            })
+            .catch((error) => console.error(error))
     },
     computed: {
         products() {
@@ -274,8 +282,16 @@ export default {
             this.modalShoppingCart=true
         },
         getProducts (page){
-
             this.$store.dispatch('getProducts',{page:page});
+        },
+        searchData(){
+            // enviar parametros a la url
+            this.$store.dispatch('getProducts',{page:this.products.current_page,filters : [{
+                'findByCategory' : this.findByCategory,
+                    'findByPriceRange' : this.findByPriceRange,
+                    'findByNameOfProduct' : this.findByNameOfProduct,
+                }]
+                });
         },
         openModalUserDataConfirmation(){
             // HACER VALIDACIONES RESPECTIVAS A LA CANTIDAD DEL CARRITO DE COMPRAS JEJE y demas

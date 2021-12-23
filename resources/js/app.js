@@ -2,15 +2,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import  Index from './components/Index'
 
-
 require('./bootstrap');
 require('./buefy')
 
 Vue.use(Vuex);
 
 Vue.component('Index', Index)
-
-
 
 const store = new Vuex.Store({
 
@@ -41,11 +38,10 @@ const store = new Vuex.Store({
                 //let increment =
                 let item = state.cart[duplicatedProductIndex];
                 item.qty++;
-                // propiedad reactiva el array no lo era entonces toca ASI XDD
+                // propiedad reactiva el array no lo era entonces toca ASI XDD lo agrego
                 Vue.set(state.cart, duplicatedProductIndex, item)
                 return;
             }
-
             product.qty = 1;
             state.cart.push(product);
         },
@@ -56,25 +52,30 @@ const store = new Vuex.Store({
           return false;
         }
     },
-
     actions: {
         getProducts({ commit } ,page) {
 
-            let pageAux = ''
+           let pageAux = ''
+           const params = new URLSearchParams();
+
             if (typeof page !== 'undefined'){
                 pageAux =  page.page
+                params.append('product_name',  page.filters[0].findByNameOfProduct);
+                params.append('category',page.filters[0].findByCategory);
+                params.append('range_price',page.filters[0].findByPriceRange);
             }else{
                  pageAux = this.currentPage;
             }
-            axios.get('/api/products?page='+pageAux)
-                .then((response) => {
+
+            axios.get('/api/products?page='+pageAux, {
+                params  :params
+            }).then((response) => {
                     this.state.pages=response.data.last_page
                     commit('setCurrentPage',response.data.current_page)
                     commit('setProducts', response.data)
                 })
                 .catch((error) => console.error(error))
         },
-
     },
 
 });
