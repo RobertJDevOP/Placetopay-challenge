@@ -50,8 +50,9 @@ Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
         return view('shop.index');
     });
     Route::name('shop.store')->post('/storeShoppingCart', [ShopController::class, 'storeShoppingCart']);
-    Route::name('shop.checkout')->get('/checkout/{purchaseOrder}', [PaymentController::class, 'purchaseToPay']);
-    Route::get('/orders/payment/{order}', 'PaymentController@payment')->name('payment');
+
+   /* Route::name('shop.checkout')->get('/checkout/{purchaseOrder}', [PaymentController::class, 'purchaseToPay']);
+    Route::get('/orders/payment/{order}', 'PaymentController@payment')->name('payment');*/
 });
 
 

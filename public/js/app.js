@@ -816,7 +816,7 @@ var render = function () {
                         _c("b-button", {
                           attrs: {
                             rounded: "",
-                            type: "is-dark",
+                            type: "is-yellow",
                             size: "is-large",
                             "icon-right": "cart-variant",
                           },

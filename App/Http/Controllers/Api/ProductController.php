@@ -24,9 +24,9 @@ class ProductController extends Controller
 
         return response()->json($products);
     }
+
     public function getCategories(ProductCategory $categories): JsonResponse
     {
-        // dd($request->input('filters', []));
         $data = $categories->all();
 
         return response()->json($data);

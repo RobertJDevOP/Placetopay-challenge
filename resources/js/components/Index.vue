@@ -74,7 +74,7 @@
                             <p class="subtitle is-6">{{product.name_category}}</p>
                         </div>
                         <div class="media-right">
-                            <b-button @click="$store.commit('addProductToCart', product)" rounded  type="is-dark" size="is-large" icon-right="cart-variant" />
+                            <b-button @click="$store.commit('addProductToCart', product)" rounded  type="is-yellow" size="is-large" icon-right="cart-variant" />
                         </div>
                     </div>
 

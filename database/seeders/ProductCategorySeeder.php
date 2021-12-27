@@ -8,6 +8,6 @@ class ProductCategorySeeder extends Seeder
 {
     public function run(): void
     {
-        \App\Models\ProductCategory::factory(10000)->create();
+        \App\Models\ProductCategory::factory(5)->create();
     }
 }
