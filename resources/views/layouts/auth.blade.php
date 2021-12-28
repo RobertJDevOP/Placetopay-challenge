@@ -4,7 +4,7 @@
         <div class="hero-body" id="app">
             <div class="container">
                 <div class="columns">
-                    <div class="column is-4 is-offset-4">
+                    <div class="column is-6 is-offset-3">
                         @yield('auth-content')
                     </div>
                 </div>

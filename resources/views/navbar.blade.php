@@ -1,3 +1,6 @@
+
+
+
 <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
     <div class="container">
         <div class="navbar-brand">
@@ -12,18 +15,21 @@
             </a>
         </div>
 
-        <div id="main-navbar" class="navbar-menu">
-            <div class="navbar-end">
-                <div class="navbar-item">
-                    <div class="buttons">
-                        @guest
-                            <a class="button is-light">
-                                @lang('auth.login')
-                            </a>
-                        @endguest
-                    </div>
+        @if(@Auth::user()->hasRole('cliente'))
+        <div class="navbar-end">
+            <div class="navbar-item">
+                <div class="buttons">
+
+
+
                 </div>
             </div>
         </div>
+        @endif
+
+
     </div>
 </nav>
+
+
+
