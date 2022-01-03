@@ -23,9 +23,11 @@ class ApiAdapter implements  ApiInterface
             $this->clase->params
         ]);
 
-        dd( $this->clase->params);
+
 
         $response->body();
+
+        dd($response->body());
     }
 
     public function getResponse(object $params)

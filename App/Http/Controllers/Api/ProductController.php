@@ -11,16 +11,10 @@ use Illuminate\Http\JsonResponse;
 
 class ProductController extends Controller
 {
-    private $productRepositories;
-
-    public function __construct(ProductRepository $productRepositories)
-    {
-        $this->productRepositories = $productRepositories;
-    }
 
     public function index(Request $request): JsonResponse
     {
-        $products=Product::filter($request->input())->paginate(6);
+        $products = Product::filter($request->input())->paginate(6);
 
         return response()->json($products);
     }

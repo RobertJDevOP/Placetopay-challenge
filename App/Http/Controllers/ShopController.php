@@ -23,6 +23,7 @@ class ShopController extends Controller
             'total' => $request['totalPrice'],
         ]);
 
+        // say many relaciones
         foreach ($request['productsPayment'] as $product) {
            // $s = $items['item'];
             PurchaseOrderDetail::create([

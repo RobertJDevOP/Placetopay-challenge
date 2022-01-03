@@ -6,6 +6,7 @@ use App\Http\Request\Products\IndexRequest;
 use App\Http\Request\Products\IndexUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\ViewModels\Products\IndexViewModel;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -15,10 +16,9 @@ use Illuminate\View\View;
 
 class ProductController extends Controller
 {
-    //PENDIENTE TEST Y PRINCIPIOS SOLID
+
     public function index(IndexViewModel $viewModel): View
     {
-        //Aplicar patron repositorio y decorador para el cache.
         $products=Product::select('id','product_name','url_product_img','price','category_id','created_at',
             'updated_at','enabled_at','list_price')->with('category')
             ->paginate(5);
@@ -27,6 +27,7 @@ class ProductController extends Controller
         return view('products.index', $viewModel->toArray());
     }
 
+    //create
     public function categories(ProductCategory $categories)
     {
         $data = $categories->all();
@@ -71,7 +72,7 @@ class ProductController extends Controller
             $image = $request->file('url_product_img');
             $fileName = time().'.'.$image->getClientOriginalExtension();
 
-            Storage::delete($product->url_product_img);
+            //Storage::delete($product->url_product_img);
             $image->storeAs('public/images',$fileName);
             $product->url_product_img = $fileName;
         }
