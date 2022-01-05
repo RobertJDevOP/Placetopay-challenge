@@ -3,45 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrder;
-use App\Services\ApiAdapter;
-use App\Services\ApiPlaceToPay;
-use App\Services\PlaceToPayWebCheckout;
+use App\FactoryMethod\FactoryPaymentGateway;
+use App\FactoryMethod\PlaceToPayFactory;
+use App\FactoryMethod\StripeFactory;
+
 use Illuminate\Support\Str;
 
+/*
+factory method
+ no se sabe de antemano que clase se va a usar en este caso puede ser PSE o placetopay para la pasarela
+ y pues la fabrica de objetos me devuelve la clase que necesito con su respectivo contrato */
 class PaymentController extends Controller
 {
-    /**
-     * @throws \Exception
-     */
-    public function purchaseToPay(PurchaseOrder $purchaseOrder, PlaceToPayWebCheckout $xd ){
+    public function purchaseToPay(PurchaseOrder $purchaseOrder){
+     //EJEM
+       $apiRequest = 'PlaceToPayFactory';
+
+        createRequestPayment(new PlaceToPayFactory($purchaseOrder));
+    //Crear service provider... para identificar que instancia debe retornar la fabrica de objetos...
 
 
-        foreach ($purchaseOrder->detailsOrder as  $key){
+
+    /*    foreach ($purchaseOrder->detailsOrder as  $key){
             foreach($key->products as $key2){
                 $detailsOrder [] =['name'=>$key2['product_name'],'qty'=>$key['qty'],'price'=>$key['price'],'category'=>'physical'];
             }
         }
-
-    // fabrica de objetos
-
 
         $apiKey='024h1IlD';
         $nonce=Str::random();
         $seed=date("c");
         $result=$nonce.$seed.$apiKey;
         $tranKey = base64_encode(sha1($result, true));
-        //$endpoint='https://checkout-test.placetopay.com/api/session';
-         $endpoint='https://checkout-co.placetopay.dev/api/session';
-        //$endpoint='https://test.placetopay.com/redirection/api/session';
-
+        $endpoint='https://checkout-co.placetopay.dev/api/session';
 
 
         $ad= new ApiAdapter( new ApiPlaceToPay($endpoint,
-            [
+                [
                 'locale' => 'es_CO',
                 'auth' => [
                     'login' => '6dd490faf9cb87a9862245da41170ff2',
-                   'tranKey' => $tranKey,
+                    'tranKey' => $tranKey,
                     "nonce" => base64_encode($nonce),
                     "seed" => $seed,
                 ],
@@ -73,15 +75,22 @@ class PaymentController extends Controller
                     ]
                 ],
                 'expiration' => date('c', strtotime('+1 hour')),
-                'returnUrl' => route('payment', [$purchaseOrder->id]),
+                'returnUrl' => 'https://dnetix.co/p2p/client',
                 'ipAddress' => request()->ip(),
                 'userAgent' => request()->header('user-agent'),
             ]
             ,[]));
-        $ad->request();
 
+        $ad->request();
+                */
 
     }
 
 
 }
+
+function createRequestPayment(FactoryPaymentGateway $creator): void
+{
+    $creator->connectApi();
+}
+
