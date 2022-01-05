@@ -9,9 +9,6 @@ class BodyArrayPlaceToPayWebC
 {
     private string $login,$apiKey,$endpointCreateSession,$tranKey,$seed,$nonce,$locale;
 
-
-
-
     function __construct()
     {
         $this->login =config('app.LOGIN_TEST_APPLICATION_PLACETOPAY_WEBCHECKOUT');
@@ -28,8 +25,8 @@ class BodyArrayPlaceToPayWebC
         return $this->endpointCreateSession;
     }
 
-  public function bodyRequestApi(Model $purchaseOrder): array
-  {
+    public function bodyRequestApi(Model $purchaseOrder): array
+    {
       $items=array();
 
       foreach ($purchaseOrder->detailsOrder as  $detailOrder){
@@ -78,6 +75,6 @@ class BodyArrayPlaceToPayWebC
            'ipAddress' => request()->ip(),
            'userAgent' => request()->header('user-agent'),
        ];
-  }
+    }
 
 }

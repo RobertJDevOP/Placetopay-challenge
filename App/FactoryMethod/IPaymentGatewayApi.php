@@ -4,7 +4,7 @@ namespace App\FactoryMethod;
 
 interface IPaymentGatewayApi
 {
-    public function request(): void;
+    public function makeRequest(): object;
 
-    public function createPost($content): void;
+    public function getBodyResponse(object $request): void;
 }

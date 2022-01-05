@@ -15,19 +15,15 @@ class PlaceToPayWebCheckoutApi implements IPaymentGatewayApi
         $this->endPointRequest = $endPointRequest;
     }
 
-    public function request(): void
+    public function makeRequest(): object
     {
-
-        print_r($this->bodyRequest);
-        $response = Http::post($this->endPointRequest,
+        return Http::post($this->endPointRequest,
             $this->bodyRequest
         );
-
-        dd($response->body());
     }
 
-    public function createPost($content): void
+    public function getBodyResponse(object $request): void
     {
-        echo "Send HTTP API requests to create a post in Facebook timeline with content : ".$content."</br>";
+        $request->body();
     }
 }
