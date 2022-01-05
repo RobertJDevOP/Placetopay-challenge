@@ -2,6 +2,8 @@
 
 namespace App\FactoryMethod;
 
+use App\Entities\Status;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
 class PlaceToPayWebCheckoutApi implements IPaymentGatewayApi
@@ -22,8 +24,43 @@ class PlaceToPayWebCheckoutApi implements IPaymentGatewayApi
         );
     }
 
-    public function getBodyResponse(object $request): void
+    public function getBodyResponse(object $request):JsonResponse
     {
-        $request->body();
+        $bodyResponse = json_decode($request->body(),true);
+
+        return $this->customApiResponse($bodyResponse);
     }
+
+    private function customApiResponse(array $jsonObject):JsonResponse
+    {
+
+        if ($jsonObject['status']){
+            $statusCode=$jsonObject['status']['status'];
+        } else {
+            $statusCode = 500;
+        }
+
+        $response = array();
+
+        switch ($statusCode) {
+            case 'UNAUTHORIZED':
+                $response['message'] = Status::UNAUTHORIZED;
+                $response['status'] = 401;
+                break;
+            case 'OK':
+                $response['message'] = Status::OK;
+                $response['processUrl'] = $jsonObject['processUrl'];
+                $response['requestId'] = $jsonObject['requestId'];
+                $response['status'] = 200;
+                break;
+            default:
+                $response['message'] = ($statusCode == 500) ? 'Whoops, looks like something went wrong error xd':'';
+                break;
+        }
+
+
+        return response()->json($response,  $response['status']);
+    }
+
+
 }

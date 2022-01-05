@@ -2,15 +2,22 @@
 
 namespace App\FactoryMethod;
 
+use Illuminate\Http\JsonResponse;
+
 abstract class FactoryPaymentGateway
 {
     abstract public function getFactoryPaymentGateway(): IPaymentGatewayApi;
 
-    public function connectApi(): void
+    public function connectApi(): JsonResponse
     {
         $network = $this->getFactoryPaymentGateway();
         $request=$network->makeRequest();
-        $network->getBodyResponse($request);
+
+        if($request->successful()){
+           $response=$network->getBodyResponse($request);
+        }
+
+        return $response;
     }
 }
 
