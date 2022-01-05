@@ -19,9 +19,9 @@ class PlaceToPayWebCheckoutApi implements IPaymentGatewayApi
     {
 
         print_r($this->bodyRequest);
-        $response = Http::post($this->endPointRequest,[
+        $response = Http::post($this->endPointRequest,
             $this->bodyRequest
-        ]);
+        );
 
         dd($response->body());
     }

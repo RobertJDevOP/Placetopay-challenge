@@ -14,7 +14,7 @@ class BodyArrayPlaceToPayWebC
 
     function __construct()
     {
-        $this->login =config('app.LOGIN_KEY_TEST_APPLICATION_PLACETOPAY_WEBCHECKOUT');
+        $this->login =config('app.LOGIN_TEST_APPLICATION_PLACETOPAY_WEBCHECKOUT');
         $this->apiKey =config('app.TRANKEY_TEST_APPLICATION_PLACETOPAY_WEBCHECKOUT');
         $this->endpointCreateSession =config('app.CREATE_REQUEST_ENDPOINT_TEST_PLACETOPAY_WEBCHECKOUT');
         $this->locale =config('app.LOCALE_TEST_APPLICATION_PLACETOPAY_WEBCHECKOUT');
