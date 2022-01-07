@@ -309,9 +309,11 @@ export default {
             axios.post('/storeShoppingCart', { productsPayment,totalProduct,totalPrice}, { }
                 )
                 .then((response) => {
-                    //MostrarPlaceToPaY
                     this.modalUserDataConfirmation= false;
-                    P.init(response.data, { opacity: 0.4 });
+                    window.open(response.data, '_blank')
+                    //MostrarPlaceToPaY
+
+                  //  P.init(response.data, { opacity: 0.4 });
                 })
                 .catch((error) => console.error(error))
         }

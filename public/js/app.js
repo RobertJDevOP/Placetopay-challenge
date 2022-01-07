@@ -330,11 +330,9 @@ var user = document.head.querySelector('meta[name="user"]');
         totalProduct: totalProduct,
         totalPrice: totalPrice
       }, {}).then(function (response) {
-        //MostrarPlaceToPaY
         _this2.modalUserDataConfirmation = false;
-        P.init(response.data, {
-          opacity: 0.4
-        });
+        window.open(response.data, '_blank'); //MostrarPlaceToPaY
+        //  P.init(response.data, { opacity: 0.4 });
       })["catch"](function (error) {
         return console.error(error);
       });

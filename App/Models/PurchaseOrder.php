@@ -19,6 +19,10 @@ class PurchaseOrder extends Model
         return $this->belongsTo(User::class);
     }
 
+    protected $appends = [
+        'update_formatted','crated_formatted'
+    ];
+
     protected $fillable = [
         'user_id', 'status', 'qty', 'total', 'requestId', 'processUrl',
     ];
@@ -28,6 +32,14 @@ class PurchaseOrder extends Model
         return $this->hasMany(PurchaseOrderDetail::class);
     }
 
+    public function getCratedFormattedAttribute(): string
+    {
+        return date('d-m-Y', strtotime($this->attributes['created_at']));
+    }
+    public function getUpdateFormattedAttribute(): string
+    {
+        return date('d-m-Y', strtotime($this->attributes['updated_at']));
+    }
 
 
 }

@@ -20,4 +20,12 @@ class PlaceToPayFactory extends FactoryPaymentGateway
 
         return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),$purchaseOrderId);
     }
+
+    public function paymentFactoryGateway(): IPaymentGateway
+    {
+        $obj= new BodyArrayPlaceToPayWebC();
+        list ($bodyRequest,$purchaseOrderId)=$obj->bodyRequestApi($this->purchaseOrder);
+
+        return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),$purchaseOrderId);
+    }
 }

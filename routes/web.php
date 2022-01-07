@@ -4,6 +4,7 @@
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\PurchaseOrderController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
@@ -50,9 +51,12 @@ Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
         return view('shop.index');
     });
     Route::name('shop.store')->post('/storeShoppingCart', [ShopController::class, 'storeShoppingCart']);
-
     Route::name('shop.checkout')->get('/checkout/{purchaseOrder}', [PaymentController::class, 'createRequest']);
-    Route::get('/orders/payment/{order}', 'PaymentController@payment')->name('payment');
+
+    Route::name('payment.checkout')->get('/payment/{order}',[PaymentController::class,'paymentResponse']);
+
+    Route::name('orders.index')->get('/orders',[PurchaseOrderController::class,'index']);
+   // Route::get('/orders/payment/{order}', 'PaymentController@payment')->name('payment');
 });
 
 

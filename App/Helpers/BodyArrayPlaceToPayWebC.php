@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 class BodyArrayPlaceToPayWebC
 {
     private string $login,$apiKey,$endpointCreateSession,$tranKey,$seed,$nonce,$locale;
-    private array $bodyRequest;
 
     function __construct()
     {
@@ -35,8 +34,9 @@ class BodyArrayPlaceToPayWebC
              $items [] =['name'=>$product['product_name'],'qty'=>$detailOrder['qty'],'price'=>$detailOrder['price'],'category'=>'physical'];
           }
       }
+    //dd(route('payment.checkout', $purchaseOrder->id));
 
-      $this->bodyRequest=[  'locale' => $this->locale,
+      $bodyRequest =[  'locale' => $this->locale,
           'auth' => [
               'login' => $this->login,
               'tranKey' => $this->tranKey,
@@ -71,11 +71,11 @@ class BodyArrayPlaceToPayWebC
               ]
           ],
           'expiration' => date('c', strtotime('+1 hour')),
-          'returnUrl' => 'https://dnetix.co/p2p/client',
+          'returnUrl' => route('payment.checkout', $purchaseOrder->id),
           'ipAddress' => request()->ip(),
           'userAgent' => request()->header('user-agent')];
 
-      return array($this->bodyRequest,$purchaseOrder->id);
+      return array($bodyRequest,$purchaseOrder->id);
     }
 
 }

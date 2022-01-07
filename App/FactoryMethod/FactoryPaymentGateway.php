@@ -25,7 +25,7 @@ abstract class FactoryPaymentGateway
     public function walletPayment(): JsonResponse
     {
         $network = $this->paymentFactoryGateway();
-        $request=$network->makeRequest();
+        $request=$network->makePayment();
 
         if($request->successful()){
             $response=$network->getBodyResponse($request);
