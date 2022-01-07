@@ -2,7 +2,7 @@
 
 namespace App\FactoryMethod;
 
-class StripeApi implements IPaymentGatewayApi
+class StripeApiWallet implements IGatewayApiWallet
 {
     private string $email, $password;
 

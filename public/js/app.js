@@ -237,6 +237,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 var user = document.head.querySelector('meta[name="user"]');
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
@@ -317,6 +319,8 @@ var user = document.head.querySelector('meta[name="user"]');
       this.modalUserDataConfirmation = true;
     },
     confirmPayment: function confirmPayment() {
+      var _this2 = this;
+
       // FAVOR VALIDAR DATOS ANTES DE PROCESAR..........
       var productsPayment = this.$store.state.cart;
       var totalPrice = this.totalPrice;
@@ -326,7 +330,11 @@ var user = document.head.querySelector('meta[name="user"]');
         totalProduct: totalProduct,
         totalPrice: totalPrice
       }, {}).then(function (response) {
-        console.log(response);
+        //MostrarPlaceToPaY
+        _this2.modalUserDataConfirmation = false;
+        P.init(response.data, {
+          opacity: 0.4
+        });
       })["catch"](function (error) {
         return console.error(error);
       });
@@ -678,9 +686,9 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "\r\n                            " +
+                                  "\n                            " +
                                     _vm._s(indice.name_category) +
-                                    "\r\n                        "
+                                    "\n                        "
                                 ),
                               ]
                             )
@@ -836,9 +844,9 @@ var render = function () {
                   _vm._v(" "),
                   _c("div", { staticClass: "content" }, [
                     _vm._v(
-                      "\r\n                        $ " +
+                      "\n                        $ " +
                         _vm._s(product.list_price) +
-                        "\r\n                    "
+                        "\n                    "
                     ),
                   ]),
                 ]),
@@ -913,6 +921,8 @@ var render = function () {
         ]
       ),
       _vm._v(" "),
+      _c("div", { attrs: { id: "MostrarPlaceToPaY" } }),
+      _vm._v(" "),
       _c(
         "b-modal",
         {
@@ -960,15 +970,15 @@ var render = function () {
                             ]),
                           ]),
                           _vm._v(
-                            "\r\n\r\n                            " +
+                            "\n\n                            " +
                               _vm._s(product.product_name) +
-                              "\r\n                            Precio : " +
+                              "\n                            Precio : " +
                               _vm._s(product.list_price) +
-                              "\r\n                            Cantidad  : " +
+                              "\n                            Cantidad  : " +
                               _vm._s(product.qty) +
-                              "\r\n                            Total :" +
+                              "\n                            Total :" +
                               _vm._s(product.list_price * product.qty) +
-                              "\r\n                            "
+                              "\n                            "
                           ),
                           _c(
                             "a",
@@ -992,7 +1002,7 @@ var render = function () {
                     )
                   }),
                   _vm._v(
-                    "\r\n\r\n                    Informations  Total price\r\n                    "
+                    "\n\n                    Informations  Total price\n                    "
                   ),
                   _c("span", [_vm._v(_vm._s(_vm.totalPrice) + " $")]),
                   _vm._v(" "),

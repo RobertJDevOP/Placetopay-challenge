@@ -8,6 +8,7 @@ use Illuminate\Support\Str;
 class BodyArrayPlaceToPayWebC
 {
     private string $login,$apiKey,$endpointCreateSession,$tranKey,$seed,$nonce,$locale;
+    private array $bodyRequest;
 
     function __construct()
     {
@@ -35,46 +36,46 @@ class BodyArrayPlaceToPayWebC
           }
       }
 
-      return [
-           'locale' => $this->locale,
-           'auth' => [
-               'login' => $this->login,
-               'tranKey' => $this->tranKey,
-               'nonce' => base64_encode($this->nonce),
-               'seed' => $this->seed,
-           ],
-           'buyer' => [
-               'document' => $purchaseOrder->user->number_document,
-               'documentType' => $purchaseOrder->user->document_type,
-               'name' => $purchaseOrder->user->name,
-               'surname' => $purchaseOrder->user->surnames,
-               'company' => null,
-               'email' => $purchaseOrder->user->email,
-               'mobile' => $purchaseOrder->user->cell_phone,
-               'address' => [
-                   'street'=>  $purchaseOrder->user->user_street,
-                   'city'=>  'FLORIDABLANCA',
-                   'state'=> 'SANTANDER',
-                   'postalCode'=> '681001',
-                   'country'=> 'COLOMBIA',
-               ]
-           ],
-           'payment' => [
-               'reference' => $purchaseOrder->id,
-               'description' => 'PAGO COMPRA SHOP ONLINE',
-               'amount' => [
-                   'currency' => 'COP',
-                   'total' => $purchaseOrder->total,
-               ],
-               'items'  =>[
-                   'item' => $items,
-               ]
-           ],
-           'expiration' => date('c', strtotime('+1 hour')),
-           'returnUrl' => 'https://dnetix.co/p2p/client',
-           'ipAddress' => request()->ip(),
-           'userAgent' => request()->header('user-agent'),
-       ];
+      $this->bodyRequest=[  'locale' => $this->locale,
+          'auth' => [
+              'login' => $this->login,
+              'tranKey' => $this->tranKey,
+              'nonce' => base64_encode($this->nonce),
+              'seed' => $this->seed,
+          ],
+          'buyer' => [
+              'document' => $purchaseOrder->user->number_document,
+              'documentType' => $purchaseOrder->user->document_type,
+              'name' => $purchaseOrder->user->name,
+              'surname' => $purchaseOrder->user->surnames,
+              'company' => null,
+              'email' => $purchaseOrder->user->email,
+              'mobile' => $purchaseOrder->user->cell_phone,
+              'address' => [
+                  'street'=>  $purchaseOrder->user->user_street,
+                  'city'=>  'FLORIDABLANCA',
+                  'state'=> 'SANTANDER',
+                  'postalCode'=> '681001',
+                  'country'=> 'COLOMBIA',
+              ]
+          ],
+          'payment' => [
+              'reference' => $purchaseOrder->id,
+              'description' => 'PAGO COMPRA SHOP ONLINE',
+              'amount' => [
+                  'currency' => 'COP',
+                  'total' => $purchaseOrder->total,
+              ],
+              'items'  =>[
+                  'item' => $items,
+              ]
+          ],
+          'expiration' => date('c', strtotime('+1 hour')),
+          'returnUrl' => 'https://dnetix.co/p2p/client',
+          'ipAddress' => request()->ip(),
+          'userAgent' => request()->header('user-agent')];
+
+      return array($this->bodyRequest,$purchaseOrder->id);
     }
 
 }

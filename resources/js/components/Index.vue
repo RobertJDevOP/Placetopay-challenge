@@ -114,6 +114,8 @@
         </ul>
     </nav>
 
+    <div id="MostrarPlaceToPaY"></div>
+
     <b-modal v-model="modalShoppingCart" :width="1280" scroll="keep">
         <header class="modal-card-head">
             <p class="modal-card-title">Shopping Cart</p>
@@ -307,7 +309,9 @@ export default {
             axios.post('/storeShoppingCart', { productsPayment,totalProduct,totalPrice}, { }
                 )
                 .then((response) => {
-                    console.log(response);
+                    //MostrarPlaceToPaY
+                    this.modalUserDataConfirmation= false;
+                    P.init(response.data, { opacity: 0.4 });
                 })
                 .catch((error) => console.error(error))
         }

@@ -12,8 +12,8 @@ class StripeFactory extends FactoryPaymentGateway
         $this->password = $password;
     }
 
-    public function getFactoryPaymentGateway(): IPaymentGatewayApi
+    public function getFactoryPaymentGateway(): IGatewayApiWallet
     {
-        return new StripeApi($this->email, $this->password);
+        return new StripeApiWallet($this->email, $this->password);
     }
 }

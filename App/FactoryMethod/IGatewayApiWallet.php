@@ -4,7 +4,7 @@ namespace App\FactoryMethod;
 
 use Illuminate\Http\JsonResponse;
 
-interface IPaymentGatewayApi
+interface IGatewayApiWallet
 {
     public function makeRequest(): object;
 
