@@ -2,7 +2,7 @@
 
 namespace App\FactoryMethod;
 
-class StripeFactory extends FactoryPaymentGateway
+class StripeFactory extends FactoryApiWalletGateway
 {
     private string $email, $password;
 

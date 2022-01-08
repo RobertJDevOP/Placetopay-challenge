@@ -25,6 +25,17 @@ class BodyArrayPlaceToPayWebC
         return $this->endpointCreateSession;
     }
 
+    public  function  bodyRequestInformationApi(): array
+    {
+        return [
+                'auth'=>[
+                'login' => $this->login,
+                'tranKey' => $this->tranKey,
+                'nonce' => base64_encode($this->nonce),
+                'seed' => $this->seed,
+            ]];
+    }
+
     public function bodyRequestApi(Model $purchaseOrder): array
     {
       $items=array();
@@ -34,7 +45,6 @@ class BodyArrayPlaceToPayWebC
              $items [] =['name'=>$product['product_name'],'qty'=>$detailOrder['qty'],'price'=>$detailOrder['price'],'category'=>'physical'];
           }
       }
-    //dd(route('payment.checkout', $purchaseOrder->id));
 
       $bodyRequest =[  'locale' => $this->locale,
           'auth' => [

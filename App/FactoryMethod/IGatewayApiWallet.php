@@ -6,7 +6,10 @@ use Illuminate\Http\JsonResponse;
 
 interface IGatewayApiWallet
 {
-    public function makeRequest(): object;
+    public function createRequest(): object;
 
     public function getBodyResponse(object $request): JsonResponse;
+
+    public function getRequestInformation(): object;
+
 }

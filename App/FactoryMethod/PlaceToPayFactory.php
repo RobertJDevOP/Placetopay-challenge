@@ -4,28 +4,30 @@ namespace App\FactoryMethod;
 use App\Helpers\BodyArrayPlaceToPayWebC;
 use Illuminate\Database\Eloquent\Model;
 
-class PlaceToPayFactory extends FactoryPaymentGateway
+class PlaceToPayFactory extends FactoryApiWalletGateway
 {
-    private Model $purchaseOrder;
+    private ?Model $purchaseOrder;
+    private ?string $requestId;
 
-    public function __construct(Model $purchaseOrder)
+    public function __construct(?Model $purchaseOrder,?string $requestId)
     {
         $this->purchaseOrder = $purchaseOrder;
+        $this->requestId = $requestId;
     }
 
-    public function getFactoryPaymentGateway(): IGatewayApiWallet
+    public function createRequestGatewayApiWallet(): IGatewayApiWallet
     {
         $obj= new BodyArrayPlaceToPayWebC();
         list ($bodyRequest,$purchaseOrderId)=$obj->bodyRequestApi($this->purchaseOrder);
 
-        return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),$purchaseOrderId);
+        return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),$purchaseOrderId,null);
     }
 
-    public function paymentFactoryGateway(): IPaymentGateway
+    public function getRequestInformationGatewayApiWallet(): IGatewayApiWallet
     {
         $obj= new BodyArrayPlaceToPayWebC();
-        list ($bodyRequest,$purchaseOrderId)=$obj->bodyRequestApi($this->purchaseOrder);
+        $bodyRequest=$obj->bodyRequestInformationApi();
 
-        return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),$purchaseOrderId);
+        return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),null,$this->requestId);
     }
 }

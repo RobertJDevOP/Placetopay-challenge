@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrder;
-use App\FactoryMethod\FactoryPaymentGateway;
+use App\FactoryMethod\FactoryApiWalletGateway;
 use App\FactoryMethod\PlaceToPayFactory;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Redirect;
@@ -14,36 +14,31 @@ class PaymentController extends Controller
 {
     public function createRequest(PurchaseOrder $purchaseOrder): JsonResponse
     {
-    $apiRequest = 'PlaceToPayFactory';
-    $getApiResponse= createRequestApiWallet(new PlaceToPayFactory($purchaseOrder));
-
-    return response()->json($getApiResponse->getData()->processUrl);
-    }
-
-    public function getRequestPaymentWallet(PurchaseOrder $purchaseOrder): JsonResponse
-    {
         $apiRequest = 'PlaceToPayFactory';
-        $getApiResponse= createGetRequestApiWallet(new PlaceToPayFactory($purchaseOrder));
+
+        $getApiResponse= createRequestApiWallet(new PlaceToPayFactory($purchaseOrder,null));
 
         return response()->json($getApiResponse->getData()->processUrl);
     }
 
-    public function paymentResponse($id): View
+    public function getRequestInformation($PurchaseOrderId): View
     {
-        //llamar metodo asincrono -----------
-        $product = PurchaseOrder::where('id', '=', $id)->firstOrFail();
+        $apiRequest = 'PlaceToPayFactory';
 
-        return view('payment.index')->with('purchaseOrder', $product);
+        $purchaseOrder = PurchaseOrder::where('id', '=', $PurchaseOrderId)->firstOrFail();
+        $getApiResponse= createGetRequestInformationApiWallet(new PlaceToPayFactory(null,$purchaseOrder->requestId));
+
+        return view('payment.index')->with('purchaseOrder', $purchaseOrder);
     }
 
 }
 
-    function createRequestApiWallet(FactoryPaymentGateway $creator): JsonResponse
+    function createRequestApiWallet(FactoryApiWalletGateway $creator): JsonResponse
     {
-        return $creator->connectApi();
+        return $creator->apiConnect();
     }
 
-    function createGetRequestApiWallet(FactoryPaymentGateway $creator): JsonResponse
+    function createGetRequestInformationApiWallet(FactoryApiWalletGateway $creator): JsonResponse
     {
-        return $creator->walletPayment();
+        return $creator->apiRequestStatus();
     }

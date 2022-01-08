@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrder;
 use App\ViewModels\PurchaseOrder\IndexViewModel;
-use Illuminate\Http\Request;
+
 use Illuminate\Support\Facades\Auth;
 
 class PurchaseOrderController extends Controller
@@ -19,4 +19,7 @@ class PurchaseOrderController extends Controller
 
         return view('orders.index', $viewModel->toArray());
     }
+
+
+
 }
