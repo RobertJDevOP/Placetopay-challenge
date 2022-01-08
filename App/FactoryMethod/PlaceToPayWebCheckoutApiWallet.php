@@ -43,12 +43,9 @@ class PlaceToPayWebCheckoutApiWallet implements IGatewayApiWallet
         );
     }
 
-
-
     private function customApiResponse(array $jsonObject):JsonResponse
     {
 
-        //dd($jsonObject);
         if ($jsonObject['status']){
             $statusCode=$jsonObject['status']['status'];
         } else {
@@ -88,6 +85,14 @@ class PlaceToPayWebCheckoutApiWallet implements IGatewayApiWallet
 
                 PurchaseOrder::where('requestId',  $jsonObject['requestId'])
                     ->update(['status'  =>  Status::PENDING,
+                    ]);
+                break;
+            case 'REJECTED':
+                $response['message'] = Status::REJECTED;
+                $response['status'] = 200;
+
+                PurchaseOrder::where('requestId',  $jsonObject['requestId'])
+                    ->update(['status'  =>  Status::REJECTED,
                     ]);
                 break;
             default:

@@ -6,7 +6,8 @@ use App\Models\PurchaseOrder;
 use App\FactoryMethod\FactoryApiWalletGateway;
 use App\FactoryMethod\PlaceToPayFactory;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 
