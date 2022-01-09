@@ -11,9 +11,8 @@ class PurchaseOrderController extends Controller
 {
     public function index(IndexViewModel $viewModel)
     {
-        $userId = Auth::user()->id;
-        $products=PurchaseOrder::select('id','status','qty','total','created_at','updated_at')
-            ->where('user_id', '=', $userId)
+        $products=PurchaseOrder::select('id','qty','total','created_at','updated_at')
+            ->where('user_id', '=', auth()->user()->id)
             ->paginate(5);
         $viewModel->collection($products);
 

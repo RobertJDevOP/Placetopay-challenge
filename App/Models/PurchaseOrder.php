@@ -24,12 +24,17 @@ class PurchaseOrder extends Model
     ];
 
     protected $fillable = [
-        'user_id', 'status', 'qty', 'total', 'requestId', 'processUrl',
+        'user_id',  'qty', 'total',
     ];
 
     public function detailsOrder(): HasMany
     {
         return $this->hasMany(PurchaseOrderDetail::class);
+    }
+
+    public  function  purchasePaymentsStatus(): HasMany
+    {
+        return $this->hasMany(PurchasePaymentStatus::class);
     }
 
     public function getCratedFormattedAttribute(): string

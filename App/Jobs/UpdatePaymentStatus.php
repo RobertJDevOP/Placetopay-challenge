@@ -7,6 +7,8 @@ use App\FactoryMethod\PlaceToPayFactory;
 use App\Models\PurchaseOrder;
 use Illuminate\Console\Command;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Http;
+
 
 class UpdatePaymentStatus extends Command
 {
@@ -41,8 +43,7 @@ class UpdatePaymentStatus extends Command
      */
     public function handle()
     {
-
-    /*
+        /*
     $purchaseOrders=PurchaseOrder::select('requestId')
               ->where('status', '=', 'PENDING')
                ->get();
@@ -50,9 +51,6 @@ class UpdatePaymentStatus extends Command
         foreach ($purchaseOrders as $row){
             $getApiResponse= createGetRequestInformationWallet(new PlaceToPayFactory(null,$row->requestId));
         }*/
-
-
-
         return Command::SUCCESS;
 
     }

@@ -15,9 +15,12 @@ abstract class FactoryApiWalletGateway
         $API = $this->createRequestGatewayApiWallet();
         $request=$API->createRequest();
 
-        if($request->successful()){
+        /*if($request->successful()){
            $response=$API->getBodyResponse($request);
-        }
+        }*/
+
+          $response=$API->getBodyResponse($request);
+
 
         return $response;
     }
@@ -27,9 +30,10 @@ abstract class FactoryApiWalletGateway
         $API = $this->getRequestInformationGatewayApiWallet();
         $request=$API->getRequestInformation();
 
-        if($request->successful()){
+       /* if($request->successful()){
             $response=$API->getBodyResponse($request);
-        }
+        }*/
+        $response=$API->getBodyResponse($request);
 
         return $response;
     }

@@ -325,10 +325,13 @@ var user = document.head.querySelector('meta[name="user"]');
       var productsPayment = this.$store.state.cart;
       var totalPrice = this.totalPrice;
       var totalProduct = this.totalProduct;
+      console.log(productsPayment);
       axios.post('/storeShoppingCart', {
-        productsPayment: productsPayment,
-        totalProduct: totalProduct,
-        totalPrice: totalPrice
+        params: {
+          productsPayment: productsPayment,
+          totalProduct: totalProduct,
+          totalPrice: totalPrice
+        }
       }, {}).then(function (response) {
         _this2.modalUserDataConfirmation = false;
         window.open(response.data, '_blank'); //MostrarPlaceToPaY

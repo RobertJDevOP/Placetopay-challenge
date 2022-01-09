@@ -5,9 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\PurchaseOrder;
 use App\FactoryMethod\FactoryApiWalletGateway;
 use App\FactoryMethod\PlaceToPayFactory;
+use App\Models\PurchasePaymentStatus;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Http;
-use Illuminate\Support\Str;
 use Illuminate\View\View;
 
 
@@ -17,17 +16,22 @@ class PaymentController extends Controller
     {
         $apiRequest = 'PlaceToPayFactory';
 
-        $getApiResponse= createRequestApiWallet(new PlaceToPayFactory($purchaseOrder,null));
+        $getApiResponse= createRequestApiWallet(new PlaceToPayFactory($purchaseOrder,null,null));
 
         return response()->json($getApiResponse->getData()->processUrl);
     }
 
-    public function getRequestInformation($PurchaseOrderId): View
+    public function getRequestInformation(int $PurchaseOrderId): View
     {
         $apiRequest = 'PlaceToPayFactory';
+        $PurchasePaymentStatus=PurchasePaymentStatus::select('requestId')->where('id_purchase_order', $PurchaseOrderId)
+                                                                        ->latest('id_purchase_payment')->first();
 
-        $purchaseOrder = PurchaseOrder::where('id', '=', $PurchaseOrderId)->firstOrFail();
-        $getApiResponse= createGetRequestInformationApiWallet(new PlaceToPayFactory(null,$purchaseOrder->requestId));
+
+        createGetRequestInformationApiWallet(new PlaceToPayFactory(null,$PurchasePaymentStatus->requestId,$PurchaseOrderId));
+
+        $purchaseOrder=PurchasePaymentStatus::select('status','id_purchase_order')->where('id_purchase_order', $PurchaseOrderId)
+                                                                                  ->latest('id_purchase_payment')->first();;
 
         return view('payment.index')->with('purchaseOrder', $purchaseOrder);
     }

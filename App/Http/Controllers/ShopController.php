@@ -4,24 +4,20 @@ namespace App\Http\Controllers;
 
 
 use App\Models\PurchaseOrder;
-use App\Models\PurchaseOrderDetail;
 use Illuminate\Http\Request;
 
 class ShopController extends Controller
 {
-    public function storeShoppingCart(Request $request){
-
+    public function storeShoppingCart(Request $request)//: RedirectResponse
+    {
         $order = PurchaseOrder::create([
             'user_id' => auth()->user()->id,
-            'status' => 'CREATE',
-            'qty' => $request['totalProduct'],
-            'total' => $request['totalPrice'],
+            'qty' => $request['params']['totalProduct'],
+            'total' => $request['params']['totalPrice'],
         ]);
 
-        // say many relaciones
-        foreach ($request['productsPayment'] as $product) {
-           // $s = $items['item'];
-            PurchaseOrderDetail::create([
+        foreach ($request['params']['productsPayment'] as $product) {
+            $order->detailsOrder()->create([
                 'purchase_order_id' => $order->id,
                 'product_id' => $product['id'],
                 'qty' => $product['qty'],

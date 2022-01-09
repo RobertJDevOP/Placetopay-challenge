@@ -4,6 +4,7 @@ namespace App\FactoryMethod;
 
 use App\Entities\Status;
 use App\Models\PurchaseOrder;
+use App\Models\PurchasePaymentStatus;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Http;
 
@@ -53,8 +54,14 @@ class PlaceToPayWebCheckoutApiWallet implements IGatewayApiWallet
         }
 
         $response = array();
+        $purchasePaymentStatus=new PurchasePaymentStatus();
+
 
         switch ($statusCode) {
+            case 'FAILED':
+                $response['message'] = Status::FAILED;
+                $response['status'] = 401;
+                break;
             case 'UNAUTHORIZED':
                 $response['message'] = Status::UNAUTHORIZED;
                 $response['status'] = 401;
@@ -65,35 +72,42 @@ class PlaceToPayWebCheckoutApiWallet implements IGatewayApiWallet
                 $response['requestId'] = $jsonObject['requestId'];
                 $response['status'] = 200;
 
-                PurchaseOrder::where('id',   $this->purchaseOrderId)
-                              ->update(['requestId' => $jsonObject['requestId'],
-                                        'processUrl'  =>  $jsonObject['processUrl'],
-                                        'status'  =>  Status::OK,
-                ]);
+                $purchasePaymentStatus->id_purchase_order= $this->purchaseOrderId;
+                $purchasePaymentStatus->requestId= $jsonObject['requestId'];
+                $purchasePaymentStatus->processUrl= $jsonObject['processUrl'];
+                $purchasePaymentStatus->status=  Status::OK;
+                $purchasePaymentStatus->save();
+
                 break;
             case 'APPROVED':
                 $response['message'] = Status::APPROVED;
                 $response['status'] = 200;
 
-                PurchaseOrder::where('requestId',  $jsonObject['requestId'])
-                    ->update(['status'  =>  Status::APPROVED,
-                    ]);
+                $purchasePaymentStatus->id_purchase_order= $this->purchaseOrderId;
+                $purchasePaymentStatus->requestId= $jsonObject['requestId'];
+                $purchasePaymentStatus->processUrl= $this->endPointRequest.'/'.$this->requestId;
+                $purchasePaymentStatus->status=  Status::APPROVED;
+                $purchasePaymentStatus->save();
+
+
                 break;
             case 'PENDING':
                 $response['message'] = Status::PENDING;
                 $response['status'] = 200;
 
-                PurchaseOrder::where('requestId',  $jsonObject['requestId'])
-                    ->update(['status'  =>  Status::PENDING,
-                    ]);
+
+                $purchasePaymentStatus->status=  Status::PENDING;
+                $purchasePaymentStatus->save();
+
                 break;
             case 'REJECTED':
                 $response['message'] = Status::REJECTED;
                 $response['status'] = 200;
 
-                PurchaseOrder::where('requestId',  $jsonObject['requestId'])
-                    ->update(['status'  =>  Status::REJECTED,
-                    ]);
+                $purchasePaymentStatus->requestId= $jsonObject['requestId'];
+                $purchasePaymentStatus->processUrl= $jsonObject['processUrl'];
+                $purchasePaymentStatus->status=  Status::REJECTED;
+                $purchasePaymentStatus->save();
                 break;
             default:
                 $response['message'] = ($statusCode == 500) ? 'Whoops, looks like something went wrong error xd':'';

@@ -10,7 +10,7 @@
     @endif
 
     <div class="level-left">
-        <h1 class="title">Purchase order #  {{ $purchaseOrder->id  }}  </h1><br>
+        <h1 class="title">Purchase order #  {{ $purchaseOrder->id_purchase_order  }}  </h1><br>
     </div>
     <div class="card">
         <div class="card-content">

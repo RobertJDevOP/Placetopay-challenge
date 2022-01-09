@@ -46,7 +46,8 @@ class BodyArrayPlaceToPayWebC
           }
       }
 
-      $bodyRequest =[  'locale' => $this->locale,
+      $bodyRequest =[
+          'locale' => $this->locale,
           'auth' => [
               'login' => $this->login,
               'tranKey' => $this->tranKey,
@@ -84,6 +85,7 @@ class BodyArrayPlaceToPayWebC
           'returnUrl' => route('payment.checkout', $purchaseOrder->id),
           'ipAddress' => request()->ip(),
           'userAgent' => request()->header('user-agent')];
+
 
       return array($bodyRequest,$purchaseOrder->id);
     }

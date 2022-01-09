@@ -306,9 +306,15 @@ export default {
             let productsPayment =  this.$store.state.cart;
             let totalPrice =  this.totalPrice;
             let totalProduct =  this.totalProduct;
-            axios.post('/storeShoppingCart', { productsPayment,totalProduct,totalPrice}, { }
-                )
-                .then((response) => {
+            console.log(productsPayment);
+            axios.post('/storeShoppingCart', {
+                    params : {
+                        productsPayment  :productsPayment,
+                        totalProduct: totalProduct,
+                        totalPrice: totalPrice}
+
+                },{},
+                ).then((response) => {
                     this.modalUserDataConfirmation= false;
                     window.open(response.data, '_blank')
                     //MostrarPlaceToPaY

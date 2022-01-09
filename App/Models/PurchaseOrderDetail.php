@@ -15,7 +15,7 @@ class PurchaseOrderDetail extends Model
     protected $table = 'purchase_order_detail';
 
     protected $fillable = [
-        'id', 'purchase_order_id', 'product_id', 'qty', 'price',
+        'purchase_order_id', 'product_id', 'qty', 'price',
     ];
 
     public function products(): HasMany
