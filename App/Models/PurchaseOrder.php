@@ -34,7 +34,7 @@ class PurchaseOrder extends Model
 
     public  function  purchasePaymentsStatus(): HasMany
     {
-        return $this->hasMany(PurchasePaymentStatus::class);
+        return $this->hasMany(PurchasePaymentStatus::class,'id_purchase_order','id');
     }
 
     public function getCratedFormattedAttribute(): string

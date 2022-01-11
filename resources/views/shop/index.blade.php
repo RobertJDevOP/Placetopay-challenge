@@ -2,11 +2,7 @@
 @section('content')
 
 
-
-
 <Index></Index>
-
-
 
 @endsection
 
