@@ -1,10 +1,11 @@
 <?php
 
 
+use App\Http\Controllers\Api\PurchaseOrderController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\PurchaseOrderController;
+
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
@@ -55,16 +56,18 @@ Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
     Route::name('shop.checkout')->get('/checkout/{purchaseOrder}', [PaymentController::class, 'createRequest']);
     Route::name('payment.checkout')->get('/payment/{order}',[PaymentController::class,'getRequestInformation']);
 
+    Route::get('/orders', function () {
+        return view('orders.index');
+    });
 
-    Route::name('orders.index')->get('/orders',[PurchaseOrderController::class,'index']);
-    Route::name('orders.index')->get('/orders2',[PurchaseOrderController::class,'index2']);
+
+    // refactorizar debe estar en api y usar token de autenticacion
+    Route::post('/retryPayment', [PaymentController::class, 'retryPayment']);
+    Route::get('api/orders/',[PurchaseOrderController::class,'index']);
 });
-
 
 
 Route::get('/dashboard', DashboardController::class)
     ->middleware(['auth', 'verified'])->name('dashboard');
 
 
-
-Route::name('TEST')->get('/productRepositories', [ProductController::class, 'index2']);

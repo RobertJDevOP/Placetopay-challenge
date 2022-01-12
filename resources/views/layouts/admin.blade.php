@@ -26,7 +26,7 @@
                             @if(@Auth::user()->hasRole('cliente'))
                                 <p class="menu-label">Search</p>
                                 <ul class="menu-list">
-                                    <li><a href="{{ route('orders.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Purchase order history</a></li>
+                                    <li><a href="{{ url('/orders') }}"><em class="pr-2 mdi mdi-map-legend"></em>Purchase order history</a></li>
                                 </ul>
 
 

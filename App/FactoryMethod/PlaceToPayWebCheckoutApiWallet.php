@@ -104,8 +104,8 @@ class PlaceToPayWebCheckoutApiWallet implements IGatewayApiWallet
                 $response['message'] = Status::REJECTED;
                 $response['status'] = 200;
 
+                $purchasePaymentStatus->id_purchase_order= $this->purchaseOrderId;
                 $purchasePaymentStatus->requestId= $jsonObject['requestId'];
-                $purchasePaymentStatus->processUrl= $jsonObject['processUrl'];
                 $purchasePaymentStatus->status=  Status::REJECTED;
                 $purchasePaymentStatus->save();
                 break;

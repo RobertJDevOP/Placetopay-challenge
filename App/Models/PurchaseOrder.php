@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Entities\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -34,7 +35,8 @@ class PurchaseOrder extends Model
 
     public  function  purchasePaymentsStatus(): HasMany
     {
-        return $this->hasMany(PurchasePaymentStatus::class,'id_purchase_order','id');
+        return $this->hasMany(PurchasePaymentStatus::class,'id_purchase_order','id')
+                    ->whereIn('purchase_payment_status.status', [Status::APPROVED, Status::REJECTED, Status::PENDING]);
     }
 
     public function getCratedFormattedAttribute(): string

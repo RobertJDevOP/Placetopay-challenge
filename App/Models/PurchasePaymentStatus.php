@@ -12,6 +12,9 @@ class PurchasePaymentStatus extends Model
 
     protected $table = 'purchase_payment_status';
 
+    protected $appends = [
+        'crated_formatted'
+    ];
 
     protected $fillable = [
         'id_purchase_order', 'status', 'requestId','processUrl'
@@ -22,12 +25,9 @@ class PurchasePaymentStatus extends Model
         return $this->belongsTo(PurchaseOrder::class,'id_purchase_order','id');
     }
 
-   /* public function getCratedFormattedAttribute(): string
+    public function getCratedFormattedAttribute(): string
     {
-        return date('d-m-Y', strtotime($this->attributes['created_at']));
+        return date('d-m-Y H:i', strtotime($this->attributes['created_at']));
     }
-    public function getUpdateFormattedAttribute(): string
-    {
-        return date('d-m-Y', strtotime($this->attributes['updated_at']));
-    }*/
+
 }

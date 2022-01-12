@@ -428,25 +428,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      test: [],
+      orders: [],
       columnsVisible: {
         reference: {
-          title: 'Reference',
+          title: '# Number',
           display: true
         },
         quantity: {
-          title: 'Quantity',
+          title: 'Product quantity',
           display: true
         },
         total: {
-          title: 'Total',
+          title: 'Total price',
           display: true
         },
         created: {
-          title: 'Created at',
+          title: 'Order created at',
+          display: true
+        },
+        detail: {
+          title: 'Purchase order detail',
           display: true
         }
       },
@@ -456,17 +498,15 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
 
-    axios.get('/orders2').then(function (response) {
-      //console.log(response.data)
-      var a = [];
-      a = Object.keys(response.data).map(function (field) {
-        console.log(field);
+    axios.get('/api/orders').then(function (response) {
+      var purchaseOrdersArray = [];
+      purchaseOrdersArray = Object.keys(response.data).map(function (field) {
         return {
           data: response.data[field]
         };
       });
-      console.log(a);
-      _this.test = a;
+      console.log(purchaseOrdersArray[0].data.purchase_payments_status);
+      _this.orders = purchaseOrdersArray;
     })["catch"](function (error) {
       return console.error(error);
     });
@@ -474,6 +514,20 @@ __webpack_require__.r(__webpack_exports__);
   methods: {
     toggle: function toggle(row) {
       this.$refs.table.toggleDetails(row);
+    },
+    retryPayment: function retryPayment(purchaseOrderId) {
+      var _this2 = this;
+
+      axios.post('retryPayment', {
+        params: {
+          purchaseOrderId: purchaseOrderId
+        }
+      }, {}).then(function (response) {
+        _this2.modalUserDataConfirmation = false;
+        window.open(response.data, '_blank');
+      })["catch"](function (error) {
+        return console.error(error);
+      });
     }
   }
 });
@@ -1506,12 +1560,18 @@ var render = function () {
         {
           ref: "table",
           attrs: {
-            data: _vm.test,
+            data: _vm.orders,
             detailed: "",
             hoverable: "",
             "custom-detail-row": "",
-            "default-sort": ["name", "asc"],
-            "detail-key": "name",
+            "default-sort": ["reference", "asc"],
+            "detail-key": "id_purchase_order",
+            paginated: "",
+            "per-page": "5",
+            "aria-next-label": "Next page",
+            "aria-previous-label": "Previous page",
+            "aria-page-label": "Page",
+            "aria-current-label": "Current page",
             "show-detail-icon": _vm.showDetailIcon,
           },
           on: {
@@ -1526,55 +1586,81 @@ var render = function () {
                 return _vm._l(
                   props.row.data.purchase_payments_status,
                   function (item) {
-                    return _c("tr", { key: item.name }, [
+                    return _c("tr", { key: item.id }, [
                       _vm.showDetailIcon ? _c("td") : _vm._e(),
                       _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.columnsVisible["quantity"].display,
-                              expression: "columnsVisible['quantity'].display",
-                            },
-                          ],
-                        },
-                        [_vm._v("    " + _vm._s(item.status))]
-                      ),
+                      _c("td", [_vm._v("    ")]),
                       _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.columnsVisible["quantity"].display,
-                              expression: "columnsVisible['quantity'].display",
-                            },
-                          ],
-                          staticClass: "has-text-centered",
-                        },
-                        [_vm._v(_vm._s(item.status))]
-                      ),
+                      _c("td", { staticClass: "has-text-centered" }, [
+                        _vm._v(
+                          "\n                    Wallet status\n                    "
+                        ),
+                        item.status == "APPROVED"
+                          ? _c("div", [
+                              _c("span", { staticClass: "tag is-success" }, [
+                                _vm._v(
+                                  "\n                                " +
+                                    _vm._s(item.status) +
+                                    "\n                             "
+                                ),
+                              ]),
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        item.status == "PENDING"
+                          ? _c("div", [
+                              _c("span", { staticClass: "tag is-warning" }, [
+                                _vm._v(
+                                  "\n                                    " +
+                                    _vm._s(item.status) +
+                                    "\n                                 "
+                                ),
+                              ]),
+                            ])
+                          : _vm._e(),
+                        _vm._v(" "),
+                        item.status == "REJECTED"
+                          ? _c(
+                              "div",
+                              [
+                                _c("span", { staticClass: "tag is-danger" }, [
+                                  _vm._v(
+                                    "\n                                    " +
+                                      _vm._s(item.status) +
+                                      "\n                                 "
+                                  ),
+                                ]),
+                                _vm._v(" "),
+                                _c(
+                                  "b-button",
+                                  {
+                                    attrs: {
+                                      size: "is-small",
+                                      type: "is-info is-success",
+                                    },
+                                    on: {
+                                      click: function ($event) {
+                                        return _vm.retryPayment(
+                                          item.id_purchase_order
+                                        )
+                                      },
+                                    },
+                                  },
+                                  [_vm._v("Re try payment")]
+                                ),
+                              ],
+                              1
+                            )
+                          : _vm._e(),
+                      ]),
                       _vm._v(" "),
-                      _c(
-                        "td",
-                        {
-                          directives: [
-                            {
-                              name: "show",
-                              rawName: "v-show",
-                              value: _vm.columnsVisible["total"].display,
-                              expression: "columnsVisible['total'].display",
-                            },
-                          ],
-                          staticClass: "has-text-centered",
-                        },
-                        [_vm._v(_vm._s(item.status))]
-                      ),
+                      _c("td", [
+                        _vm._v("Date : " + _vm._s(item.crated_formatted)),
+                      ]),
+                      _vm._v(" "),
+                      _c("td"),
+                      _vm._v(" "),
+                      _c("td"),
                     ])
                   }
                 )
@@ -1687,8 +1773,31 @@ var render = function () {
                 fn: function (props) {
                   return [
                     _vm._v(
-                      "\n            " + _vm._s(props.row.id) + "\n        "
+                      "\n            " +
+                        _vm._s(props.row.data.crated_formatted) +
+                        "\n        "
                     ),
+                  ]
+                },
+              },
+            ]),
+          }),
+          _vm._v(" "),
+          _c("b-table-column", {
+            attrs: {
+              field: "available",
+              label: _vm.columnsVisible["detail"].title,
+              sortable: "",
+              centered: "",
+            },
+            scopedSlots: _vm._u([
+              {
+                key: "default",
+                fn: function (props) {
+                  return [
+                    _c("b-button", { attrs: { type: "is-info is-light" } }, [
+                      _vm._v("View detail"),
+                    ]),
                   ]
                 },
               },
