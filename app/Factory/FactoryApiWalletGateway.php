@@ -3,6 +3,7 @@
 namespace App\Factory;
 
 use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Client\ConnectionException;
 
 abstract class FactoryApiWalletGateway
 {
@@ -13,15 +14,13 @@ abstract class FactoryApiWalletGateway
     public function apiConnect(): JsonResponse
     {
         $API = $this->createRequestGatewayApiWallet();
-        //Try catchhhhh
-        $request=$API->createRequest();
 
-        /*if($request->successful()){
-           $response=$API->getBodyResponse($request);
-        }*/
-
-          $response=$API->getBodyResponse($request);
-
+        try {
+            $request=$API->createRequest();
+            $response=$API->getBodyResponse($request);
+        } catch(ConnectionException $e){
+             $response= response()->json($e,  500);
+        }
 
         return $response;
     }
@@ -29,12 +28,13 @@ abstract class FactoryApiWalletGateway
     public function apiRequestStatus(): JsonResponse
     {
         $API = $this->getRequestInformationGatewayApiWallet();
-        $request=$API->getRequestInformation();
 
-       /* if($request->successful()){
+        try {
+            $request=$API->getRequestInformation();
             $response=$API->getBodyResponse($request);
-        }*/
-        $response=$API->getBodyResponse($request);
+        } catch(ConnectionException $e){
+            $response= response()->json($e,  500);
+        }
 
         return $response;
     }
