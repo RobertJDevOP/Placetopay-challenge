@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrder;
 use App\Factory\FactoryApiWalletGateway;
-use App\Factory\PlaceToPayFactory;
+use App\Factory\WebCheckoutPlaceToPay\PlaceToPayFactory;
 use App\Models\PurchasePaymentStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;

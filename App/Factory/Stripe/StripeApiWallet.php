@@ -2,6 +2,8 @@
 
 namespace App\Factory;
 
+use Illuminate\Http\JsonResponse;
+
 class StripeApiWallet implements IGatewayApiWallet
 {
     private string $email, $password;
@@ -12,15 +14,19 @@ class StripeApiWallet implements IGatewayApiWallet
         $this->password = $password;
     }
 
-    public function request(): void
-    {
-        echo "Send HTTP API request to log in user $this->email with " .
-    "password $this->password </br>";
 
+    public function createRequest(): object
+    {
+        // TODO: Implement createRequest() method.
     }
 
-    public function createPost($content): void
+    public function getBodyResponse(object $request): JsonResponse
     {
-        echo "Send HTTP API requests to create a post in LinkedIn timeline.</br>";
+        // TODO: Implement getBodyResponse() method.
+    }
+
+    public function getRequestInformation(): object
+    {
+        // TODO: Implement getRequestInformation() method.
     }
 }

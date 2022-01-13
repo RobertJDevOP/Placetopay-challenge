@@ -1,8 +1,11 @@
 <?php
 
-namespace App\Factory;
-use App\Helpers\BodyArrayPlaceToPayWebC;
+namespace App\Factory\WebCheckoutPlaceToPay;
+
+use App\Factory\FactoryApiWalletGateway;
+use App\Helpers\ArrayHelperWebCheckout;
 use Illuminate\Database\Eloquent\Model;
+use App\Factory\IGatewayApiWallet;
 
 class PlaceToPayFactory extends FactoryApiWalletGateway
 {
@@ -19,7 +22,7 @@ class PlaceToPayFactory extends FactoryApiWalletGateway
 
     public function createRequestGatewayApiWallet(): IGatewayApiWallet
     {
-        $obj= new BodyArrayPlaceToPayWebC();
+        $obj= new ArrayHelperWebCheckout();
         list ($bodyRequest,$purchaseOrderId)=$obj->bodyRequestApi($this->purchaseOrder);
 
         return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),$purchaseOrderId,null);
@@ -27,7 +30,7 @@ class PlaceToPayFactory extends FactoryApiWalletGateway
 
     public function getRequestInformationGatewayApiWallet(): IGatewayApiWallet
     {
-        $obj= new BodyArrayPlaceToPayWebC();
+        $obj= new ArrayHelperWebCheckout();
         $bodyRequest=$obj->bodyRequestInformationApi();
 
         return new PlaceToPayWebCheckoutApiWallet($bodyRequest,$obj->getEndpointCreateSession(),$this->purchaseOrderId,$this->requestId);

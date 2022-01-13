@@ -1,16 +1,13 @@
 <?php
 
-namespace Tests\Feature\Wallet\PlaceToPayWebCheckout\Mocks;
-
-use App\Factory\FactoryApiWalletGateway;
+namespace Tests\PurchaseOrder\StoreTest;
 
 use App\Models\Product;
 use App\Models\PurchaseOrder;
 use App\Models\PurchaseOrderDetail;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Http;
+
 use Tests\TestCase;
 
 class StoreTest extends TestCase

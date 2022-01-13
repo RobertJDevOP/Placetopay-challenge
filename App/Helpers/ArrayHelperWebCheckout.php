@@ -5,7 +5,7 @@ namespace App\Helpers;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class BodyArrayPlaceToPayWebC
+class ArrayHelperWebCheckout
 {
     private string $login,$apiKey,$endpointCreateSession,$tranKey,$seed,$nonce,$locale;
 
