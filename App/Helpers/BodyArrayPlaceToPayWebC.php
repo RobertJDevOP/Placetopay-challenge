@@ -32,8 +32,8 @@ class BodyArrayPlaceToPayWebC
                 'login' => $this->login,
                 'tranKey' => $this->tranKey,
                 'nonce' => base64_encode($this->nonce),
-                'seed' => $this->seed,
-            ]];
+                'seed' => $this->seed,]
+        ];
     }
 
     public function bodyRequestApi(Model $purchaseOrder): array

@@ -291,9 +291,6 @@ var user = document.head.querySelector('meta[name="user"]');
   },
   methods: {
     openModalShoppingCart: function openModalShoppingCart() {
-      /*let  idHelp = {id:100000}
-      this.$store.commit('addProductToCart', idHelp)
-      this.$store.commit('removeProductToCart', this.$store.state.cart.length-1)*/
       this.modalShoppingCart = true;
     },
     getProducts: function getProducts(page) {
@@ -302,7 +299,6 @@ var user = document.head.querySelector('meta[name="user"]');
       });
     },
     searchData: function searchData() {
-      // enviar parametros a la url
       this.$store.dispatch('getProducts', {
         page: this.products.current_page,
         filters: [{
@@ -321,11 +317,10 @@ var user = document.head.querySelector('meta[name="user"]');
     confirmPayment: function confirmPayment() {
       var _this2 = this;
 
-      // FAVOR VALIDAR DATOS ANTES DE PROCESAR..........
+      //  VALIDAR DATOS ANTES DE PROCESAR..........
       var productsPayment = this.$store.state.cart;
       var totalPrice = this.totalPrice;
       var totalProduct = this.totalProduct;
-      console.log(productsPayment);
       axios.post('/storeShoppingCart', {
         params: {
           productsPayment: productsPayment,
@@ -334,8 +329,7 @@ var user = document.head.querySelector('meta[name="user"]');
         }
       }, {}).then(function (response) {
         _this2.modalUserDataConfirmation = false;
-        window.open(response.data, '_blank'); //MostrarPlaceToPaY
-        //  P.init(response.data, { opacity: 0.4 });
+        window.open(response.data, '_blank'); //  P.init(response.data, { opacity: 0.4 });
       })["catch"](function (error) {
         return console.error(error);
       });

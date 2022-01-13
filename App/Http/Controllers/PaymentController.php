@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\PurchaseOrder;
-use App\FactoryMethod\FactoryApiWalletGateway;
-use App\FactoryMethod\PlaceToPayFactory;
+use App\Factory\FactoryApiWalletGateway;
+use App\Factory\PlaceToPayFactory;
 use App\Models\PurchasePaymentStatus;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -37,7 +37,9 @@ class PaymentController extends Controller
         $apiRequest = 'PlaceToPayFactory';
         $PurchasePaymentStatus=PurchasePaymentStatus::select('requestId')->where('id_purchase_order', $PurchaseOrderId)
                                                                         ->latest('id_purchase_payment')->first();
+
         createGetRequestInformationApiWallet(new PlaceToPayFactory(null,$PurchasePaymentStatus->requestId,$PurchaseOrderId));
+
         $purchaseOrder=PurchasePaymentStatus::select('status','id_purchase_order')->where('id_purchase_order', $PurchaseOrderId)
                                                                                   ->latest('id_purchase_payment')->first();;
 

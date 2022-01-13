@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FactoryMethod;
+namespace App\Factory;
 
 class StripeApiWallet implements IGatewayApiWallet
 {

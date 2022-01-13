@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FactoryMethod;
+namespace App\Factory;
 use App\Helpers\BodyArrayPlaceToPayWebC;
 use Illuminate\Database\Eloquent\Model;
 

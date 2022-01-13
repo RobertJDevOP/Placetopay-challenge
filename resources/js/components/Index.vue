@@ -278,16 +278,12 @@ export default {
     },
     methods:{
         openModalShoppingCart(){
-            /*let  idHelp = {id:100000}
-            this.$store.commit('addProductToCart', idHelp)
-            this.$store.commit('removeProductToCart', this.$store.state.cart.length-1)*/
             this.modalShoppingCart=true
         },
         getProducts (page){
             this.$store.dispatch('getProducts',{page:page});
         },
         searchData(){
-            // enviar parametros a la url
             this.$store.dispatch('getProducts',{page:this.products.current_page,filters : [{
                 'findByCategory' : this.findByCategory,
                     'findByPriceRange' : this.findByPriceRange,
@@ -302,11 +298,11 @@ export default {
             this.modalUserDataConfirmation= true;
         },
         confirmPayment(){
-          // FAVOR VALIDAR DATOS ANTES DE PROCESAR..........
+          //  VALIDAR DATOS ANTES DE PROCESAR..........
             let productsPayment =  this.$store.state.cart;
             let totalPrice =  this.totalPrice;
             let totalProduct =  this.totalProduct;
-            console.log(productsPayment);
+
             axios.post('/storeShoppingCart', {
                     params : {
                         productsPayment  :productsPayment,
@@ -317,8 +313,6 @@ export default {
                 ).then((response) => {
                     this.modalUserDataConfirmation= false;
                     window.open(response.data, '_blank')
-                    //MostrarPlaceToPaY
-
                   //  P.init(response.data, { opacity: 0.4 });
                 })
                 .catch((error) => console.error(error))

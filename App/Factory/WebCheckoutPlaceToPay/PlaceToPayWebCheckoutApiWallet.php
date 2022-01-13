@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FactoryMethod;
+namespace App\Factory;
 
 use App\Entities\Status;
 use App\Models\PurchaseOrder;

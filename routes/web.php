@@ -44,6 +44,8 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     Route::name('product.status')->put('/product/{id}/status', [ProductController::class, 'statusProduct']);
     Route::name('product.edit')->get('/product/{id}/edit', [ProductController::class, 'edit']);
     Route::name('product.update')->put('/product/{id}/', [ProductController::class, 'update']);
+
+
 });
 
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\FactoryMethod;
+namespace App\Factory;
 
 use Illuminate\Http\JsonResponse;
 
@@ -13,6 +13,7 @@ abstract class FactoryApiWalletGateway
     public function apiConnect(): JsonResponse
     {
         $API = $this->createRequestGatewayApiWallet();
+        //Try catchhhhh
         $request=$API->createRequest();
 
         /*if($request->successful()){
@@ -38,4 +39,3 @@ abstract class FactoryApiWalletGateway
         return $response;
     }
 }
-
