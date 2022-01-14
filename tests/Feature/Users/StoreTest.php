@@ -15,19 +15,26 @@ class StoreTest extends  TestCase
     /**
      * @test
      */
-    public function new_users_can_register()
+    public function new_users_can_register(): void
     {
        $this->post('/register', [
-                'name' => 'Robertico J',
+                'name' => 'Robertico',
+                'surnames' => 'Carlos',
                 'email' => 'abc@hotmail.com',
                 'password' => '123456789',
                 'password_confirmation' => '123456789',
+                'document_type' => 'CC',
+                'user_street' => 'Barrio bucarica blq 17',
+                'cell_phone' => '123456789',
+                'number_document' => '1095838453',
                 ]);
 
         $userA = User::orderBy('id', 'desc')->first();
 
-        $this->assertEquals('Robertico J', $userA->name);
+
+        $this->assertEquals('Robertico', $userA->name);
         $this->assertEquals('abc@hotmail.com', $userA->email);
+        $this->assertEquals('CC', $userA->document_type);
         $this->assertTrue(Hash::check('123456789', $userA->password));
     }
 
@@ -35,7 +42,7 @@ class StoreTest extends  TestCase
      * @test
      * @dataProvider usersDataProvider
      */
-    public function it_cannot_save_user_when_data_is_incorrect(string $field,mixed $value = null)
+    public function it_cannot_save_user_when_data_is_incorrect(string $field,mixed $value = null): void
     {
         $data = [
             'name' => 'Rob',
@@ -54,7 +61,7 @@ class StoreTest extends  TestCase
     /**
      * @test
      */
-    public function it_cannot_save_user_with_not_unique_email()
+    public function it_cannot_save_user_with_not_unique_email(): void
     {
         User::factory()->create();
 

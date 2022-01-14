@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\ProductController;
+use App\Http\Controllers\PaymentController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -19,5 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::get('products/', [\App\Http\Controllers\Api\ProductController::class, 'index']);
-Route::get('categories/', [\App\Http\Controllers\Api\ProductController::class, 'getCategories']);
+Route::get('products/', [ProductController::class, 'index']);
+Route::get('categories/', [ProductController::class, 'getCategories']);
+

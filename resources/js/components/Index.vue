@@ -114,6 +114,8 @@
         </ul>
     </nav>
 
+    <div id="MostrarPlaceToPaY"></div>
+
     <b-modal v-model="modalShoppingCart" :width="1280" scroll="keep">
         <header class="modal-card-head">
             <p class="modal-card-title">Shopping Cart</p>
@@ -276,16 +278,12 @@ export default {
     },
     methods:{
         openModalShoppingCart(){
-            /*let  idHelp = {id:100000}
-            this.$store.commit('addProductToCart', idHelp)
-            this.$store.commit('removeProductToCart', this.$store.state.cart.length-1)*/
             this.modalShoppingCart=true
         },
         getProducts (page){
             this.$store.dispatch('getProducts',{page:page});
         },
         searchData(){
-            // enviar parametros a la url
             this.$store.dispatch('getProducts',{page:this.products.current_page,filters : [{
                 'findByCategory' : this.findByCategory,
                     'findByPriceRange' : this.findByPriceRange,
@@ -300,14 +298,22 @@ export default {
             this.modalUserDataConfirmation= true;
         },
         confirmPayment(){
-          // FAVOR VALIDAR DATOS ANTES DE PROCESAR..........
+          //  VALIDAR DATOS ANTES DE PROCESAR..........
             let productsPayment =  this.$store.state.cart;
             let totalPrice =  this.totalPrice;
             let totalProduct =  this.totalProduct;
-            axios.post('/storeShoppingCart', { productsPayment,totalProduct,totalPrice}, { }
-                )
-                .then((response) => {
-                    console.log(response);
+
+            axios.post('/storeShoppingCart', {
+                    params : {
+                        productsPayment  :productsPayment,
+                        totalProduct: totalProduct,
+                        totalPrice: totalPrice}
+
+                },{},
+                ).then((response) => {
+                    this.modalUserDataConfirmation= false;
+                    window.open(response.data, '_blank')
+                  //  P.init(response.data, { opacity: 0.4 });
                 })
                 .catch((error) => console.error(error))
         }

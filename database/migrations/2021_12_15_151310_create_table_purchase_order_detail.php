@@ -14,10 +14,10 @@ class CreateTablePurchaseOrderDetail extends Migration
     public function up()
     {
         Schema::create('purchase_order_detail', function (Blueprint $table) {
-            $table->unsignedBigInteger('purchase_order_id')->nullable();
-            $table->unsignedBigInteger('product_id')->nullable();
-            $table->integer('qty')->nullable();
-            $table->decimal('price')->nullable();
+            $table->unsignedBigInteger('purchase_order_id');
+            $table->unsignedBigInteger('product_id');
+            $table->integer('qty');
+            $table->decimal('price');
             $table->foreign('purchase_order_id')->references('id')->on('purchase_order');
             $table->foreign('product_id')->references('id')->on('products');
             $table->timestamps();

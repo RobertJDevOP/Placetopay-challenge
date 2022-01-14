@@ -72,7 +72,6 @@ class ProductController extends Controller
             $image = $request->file('url_product_img');
             $fileName = time().'.'.$image->getClientOriginalExtension();
 
-            //Storage::delete($product->url_product_img);
             $image->storeAs('public/images',$fileName);
             $product->url_product_img = $fileName;
         }

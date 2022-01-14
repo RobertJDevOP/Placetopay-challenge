@@ -19,5 +19,7 @@
 <script src="{{ asset(mix('js/manifest.js')) }}"></script>
 <script src="{{ asset(mix('js/vendor.js')) }}"></script>
 <script src="{{ asset(mix('js/app.js')) }}"></script>
+<script src="https://checkout-co.placetopay.dev/lightbox.min.js"></script>
+
 </body>
 </html>

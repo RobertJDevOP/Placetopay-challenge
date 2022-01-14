@@ -1,6 +1,7 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
 import  Index from './components/Index'
+import  Table from './components/TablePurchaseOrder'
 
 require('./bootstrap');
 require('./buefy')
@@ -8,6 +9,7 @@ require('./buefy')
 Vue.use(Vuex);
 
 Vue.component('Index', Index)
+Vue.component('Purchaseorder', Table)
 
 const store = new Vuex.Store({
 
