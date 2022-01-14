@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
@@ -49,7 +50,7 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     Route::get('/reports', function () {
         return view('reports.index');
     });
-
+    Route::post('/generateReport', [ReportController::class,'generate']);
 });
 
 

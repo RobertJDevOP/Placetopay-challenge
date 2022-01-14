@@ -422,7 +422,17 @@ __webpack_require__.r(__webpack_exports__);
     };
   },
   methods: {
-    searchData: function searchData() {}
+    searchData: function searchData() {
+      axios.post('/generateReport', {
+        params: {
+          value: 'test'
+        }
+      }, {}).then(function (response) {
+        console.log(response);
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    }
   }
 });
 

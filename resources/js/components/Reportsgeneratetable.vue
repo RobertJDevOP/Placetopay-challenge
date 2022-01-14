@@ -72,7 +72,14 @@ export default {
     },
     methods:{
         searchData(){
-
+                axios.post('/generateReport', {
+                        params : {
+                            value: 'test',
+                        }
+                    },{},
+                ).then((response) => {
+                  console.log(response);
+                }).catch((error) => console.error(error))
         }
     }
 }
