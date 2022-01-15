@@ -7,6 +7,8 @@ import  TableReports from './components/Reportsgeneratetable'
 require('./bootstrap');
 require('./buefy')
 
+
+
 Vue.use(Vuex);
 
 Vue.component('Index', Index)

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\NotifyReportFinish;
 use App\Jobs\ReporteGenerateProcess;
 use App\Models\Reports;
 use Illuminate\Bus\Batch;
@@ -22,13 +23,13 @@ class ReportController extends Controller
             new ReporteGenerateProcess(),
         ]) ->name('reporte1')
         ->then(function (Batch $batch) {
-            Log::info('Dios mio termino el batch xd',['batch id'=>$batch->id]);
+            Log::info('Termino proceso job queue xd',['batch id'=>$batch->id]);
+            event(new NotifyReportFinish('TERMINO EL PROCESO :)'));
         })->catch(function (Batch $batch, Throwable $e) {
 
         })->finally(function (Batch $batch) {
             Log::info('termino ejecucion del batch',['batch id'=>$batch->progress()]);
         })->dispatch();
-
 
     }
 
@@ -44,6 +45,5 @@ class ReportController extends Controller
         $idBatch=1;
 
         return Bus::findBatch($idBatch);
-
     }
 }

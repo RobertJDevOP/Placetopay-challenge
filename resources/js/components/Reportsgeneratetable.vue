@@ -78,6 +78,10 @@
 </template>
 
 <script>
+
+import Echo from 'laravel-echo'
+window.Pusher = require('pusher-js')
+
 export default {
     data() {
         return {
@@ -115,12 +119,19 @@ export default {
     },
     mounted() {
        this.getReports();
-       //set interval y la magia XD----
-        setInterval(()=>{
-            if(this.batchProgress >=100){
-                //console.log("ok mandandoo peticion..");
-            }
-        },6000)
+        window.Echo = new Echo({
+            broadcaster: 'pusher',
+            key: 'robertico',
+            wsHost: window.location.hostname,
+            wsPort: 6001,
+            disableStats: true,
+            forceTLS: false,
+            enabledTransports: ['ws', 'wss']
+        })
+        window.Echo.channel('home').listen('NotifyReportFinish', (e) => {
+            console.log(e.message)
+        })
+
     }
 }
 </script>

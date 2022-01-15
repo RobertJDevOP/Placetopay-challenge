@@ -350,6 +350,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 //
 //
 //
@@ -429,6 +430,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -468,14 +471,19 @@ __webpack_require__.r(__webpack_exports__);
     getProgressBar: function getProgressBar() {}
   },
   mounted: function mounted() {
-    var _this3 = this;
-
-    this.getReports(); //set interval y la magia XD----
-
-    setInterval(function () {
-      if (_this3.batchProgress >= 100) {//console.log("ok mandandoo peticion..");
-      }
-    }, 6000);
+    this.getReports();
+    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
+      broadcaster: 'pusher',
+      key: 'robertico',
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true,
+      forceTLS: false,
+      enabledTransports: ['ws', 'wss']
+    });
+    window.Echo.channel('home').listen('NotifyReportFinish', function (e) {
+      console.log(e.message);
+    });
   }
 });
 
