@@ -410,6 +410,25 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -418,21 +437,45 @@ __webpack_require__.r(__webpack_exports__);
       options: {
         0: 'Reporte por ventas',
         1: 'Reporte por usuarios'
-      }
+      },
+      reports: [],
+      batchProgress: 100
     };
   },
   methods: {
     searchData: function searchData() {
+      var _this = this;
+
       axios.post('/generateReport', {
         params: {
           value: 'test'
         }
       }, {}).then(function (response) {
-        console.log(response);
+        _this.getReports();
       })["catch"](function (error) {
         return console.error(error);
       });
-    }
+    },
+    getReports: function getReports() {
+      var _this2 = this;
+
+      axios.get('/api/reports').then(function (response) {
+        _this2.reports = response.data;
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    getProgressBar: function getProgressBar() {}
+  },
+  mounted: function mounted() {
+    var _this3 = this;
+
+    this.getReports(); //set interval y la magia XD----
+
+    setInterval(function () {
+      if (_this3.batchProgress >= 100) {//console.log("ok mandandoo peticion..");
+      }
+    }, 6000);
   }
 });
 
@@ -449,7 +492,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
 //
 //
 //
@@ -1859,11 +1901,58 @@ var render = function () {
           ]),
         ]
       ),
+      _vm._v(" "),
+      _c("br"),
+      _vm._v("Your reports\n    "),
+      _c(
+        "table",
+        { staticClass: "table is-narrow is-hoverable is-fullwidth" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c(
+            "tbody",
+            _vm._l(_vm.reports, function (report) {
+              return _c("tr", { key: report.id_report }, [
+                _c("td", [_vm._v(_vm._s(report.id_report))]),
+                _vm._v(" "),
+                _c("td", [_vm._v(_vm._s(report.batch_name))]),
+                _vm._v(" "),
+                _c(
+                  "td",
+                  [
+                    _c("b-progress", {
+                      attrs: { value: 80, "show-value": "", format: "percent" },
+                    }),
+                  ],
+                  1
+                ),
+              ])
+            }),
+            0
+          ),
+        ]
+      ),
     ],
     1
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("thead", [
+      _c("tr", [
+        _c("th", [_vm._v("#")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Type of report")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Process")]),
+      ]),
+    ])
+  },
+]
 render._withStripped = true
 
 

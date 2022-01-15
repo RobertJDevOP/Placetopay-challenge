@@ -51,6 +51,7 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
         return view('reports.index');
     });
     Route::post('/generateReport', [ReportController::class,'generate']);
+    Route::get('api/reports/', [ReportController::class,'getReports']);
 });
 
 
@@ -69,6 +70,7 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     // refactorizar debe estar en api y usar token de autenticacion
     Route::post('/retryPayment', [PaymentController::class, 'retryPayment']);
     Route::get('api/orders/',[PurchaseOrderController::class,'index']);
+        Route::get('api/getProgress/{batchName}',[PurchaseOrderController::class,'index']);
 });
 
 

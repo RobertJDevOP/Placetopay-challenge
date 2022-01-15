@@ -3,24 +3,47 @@
 namespace App\Http\Controllers;
 
 use App\Jobs\ReporteGenerateProcess;
+use App\Models\Reports;
+use Illuminate\Bus\Batch;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Log;
 
 class ReportController extends Controller
 {
-    public function generate(){
+    public function generate(Reports $reports){
+
+        $reports->batch_name='reporte1';
+        $reports->path=null;
+        $reports->save();
 
         $batch = Bus::batch([
             new ReporteGenerateProcess(),
-        ])->then(function (Batch $batch) {
-            // All jobs completed successfully...
+        ]) ->name('reporte1')
+        ->then(function (Batch $batch) {
+            Log::info('Dios mio termino el batch xd',['batch id'=>$batch->id]);
         })->catch(function (Batch $batch, Throwable $e) {
-            // First batch job failure detected...
+
         })->finally(function (Batch $batch) {
-             return $batch->id;
+            Log::info('termino ejecucion del batch',['batch id'=>$batch->progress()]);
         })->dispatch();
 
 
-       // return $batch;
+    }
+
+    public  function  getReports(Reports $reports): JsonResponse
+    {
+        $data = $reports->all();
+
+        return response()->json($data);
+    }
+
+    public function batchInProgress()
+    {
+        $idBatch=1;
+
+        return Bus::findBatch($idBatch);
+
     }
 }

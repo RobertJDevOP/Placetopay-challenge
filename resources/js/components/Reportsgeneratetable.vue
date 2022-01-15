@@ -55,6 +55,25 @@
 
             </div>
         </b-collapse>
+
+        <br>Your reports
+        <table class="table is-narrow is-hoverable is-fullwidth">
+            <thead>
+            <tr>
+                <th>#</th>
+                <th>Type of report</th>
+                <th>Process</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="report in reports" :key="report.id_report" >
+                <td>{{report.id_report}}</td>
+                <td>{{report.batch_name}}</td>
+                <td>   <b-progress :value="80" show-value format="percent"></b-progress></td>
+            </tr>
+            </tbody>
+        </table>
+
     </div>
 </template>
 
@@ -68,6 +87,8 @@ export default {
                 0:'Reporte por ventas',
                 1:'Reporte por usuarios',
             },
+            reports : [],
+            batchProgress : 100,
         }
     },
     methods:{
@@ -78,9 +99,28 @@ export default {
                         }
                     },{},
                 ).then((response) => {
-                  console.log(response);
+                 this.getReports();
                 }).catch((error) => console.error(error))
+        },
+        getReports(){
+            axios.get('/api/reports')
+                .then((response) => {
+                    this.reports=response.data
+                })
+                .catch((error) => console.error(error))
+        },
+        getProgressBar(){
+
         }
+    },
+    mounted() {
+       this.getReports();
+       //set interval y la magia XD----
+        setInterval(()=>{
+            if(this.batchProgress >=100){
+                //console.log("ok mandandoo peticion..");
+            }
+        },6000)
     }
 }
 </script>
