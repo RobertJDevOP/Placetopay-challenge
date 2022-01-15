@@ -5,9 +5,10 @@ namespace App\Events;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
+use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 use Illuminate\Queue\SerializesModels;
 
-class NotifyReportFinish implements ShouldBroadcast
+class NotifyReportFinish implements ShouldBroadcastNow
 {
     use SerializesModels;
 
@@ -29,6 +30,6 @@ class NotifyReportFinish implements ShouldBroadcast
      */
     public function broadcastOn():Channel
     {
-        return new PrivateChannel('home');
+        return new Channel('home');
     }
 }

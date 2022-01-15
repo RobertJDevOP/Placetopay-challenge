@@ -113,9 +113,7 @@ export default {
                 })
                 .catch((error) => console.error(error))
         },
-        getProgressBar(){
 
-        }
     },
     mounted() {
        this.getReports();

@@ -15,7 +15,7 @@ class ReportController extends Controller
 {
     public function generate(Reports $reports){
 
-        $reports->batch_name='reporte1';
+        /*$reports->batch_name='reporte1';
         $reports->path=null;
         $reports->save();
 
@@ -24,12 +24,12 @@ class ReportController extends Controller
         ]) ->name('reporte1')
         ->then(function (Batch $batch) {
             Log::info('Termino proceso job queue xd',['batch id'=>$batch->id]);
-            event(new NotifyReportFinish('TERMINO EL PROCESO :)'));
+            event(new NotifyReportFinish('TERMINO EL PROCESO '));
         })->catch(function (Batch $batch, Throwable $e) {
 
         })->finally(function (Batch $batch) {
             Log::info('termino ejecucion del batch',['batch id'=>$batch->progress()]);
-        })->dispatch();
+        })->dispatch();*/
 
     }
 
