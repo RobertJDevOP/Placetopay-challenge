@@ -50,7 +50,7 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     Route::get('/reports', function () {
         return view('reports.index');
     });
-    Route::post('/generateReport', [ReportController::class,'generate']);
+    Route::post('/generateReport', [ReportController::class,'store']);
     Route::get('api/reports/', [ReportController::class,'getReports']);
     Route::get('api/getProgress/{batchName}',[PurchaseOrderController::class,'index']);
 });

@@ -15,7 +15,7 @@
                     <div class="column is-2">
                         <label class="label">Report type</label>
                         <div class="select">
-                            <select>
+                            <select v-model="reportType">
                                 <option v-for="(option, index) in options " :value=index>{{ option }}</option>
                             </select>
                         </div>
@@ -88,20 +88,19 @@ export default {
             finishDate : [],
             startDate : [],
             options:{
-                0:'Reporte por ventas',
-                1:'Reporte por usuarios',
+                'salesReport' :'Reporte por ventas',
+                'productsReport':'Reporte por usuarios',
             },
             reports : [],
+            reportType: 'Select type of report',
             batchProgress : 100,
         }
     },
     methods:{
         searchData(){
                 axios.post('/generateReport', {
-                        params : {
-                            value: 'test',
-                        }
-                    },{},
+                            typeReport: this.reportType,
+                    },
                 ).then((response) => {
                  this.getReports();
                 }).catch((error) => console.error(error))
@@ -117,7 +116,7 @@ export default {
     },
     mounted() {
        this.getReports();
-        window.Echo = new Echo({
+        /*window.Echo = new Echo({
             broadcaster: 'pusher',
             key: 'robertico',
             wsHost: window.location.hostname,
@@ -128,7 +127,7 @@ export default {
         })
         window.Echo.channel('home').listen('NotifyReportFinish', (e) => {
             console.log(e.message)
-        })
+        })*/
 
     }
 }

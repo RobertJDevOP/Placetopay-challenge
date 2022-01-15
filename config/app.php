@@ -191,8 +191,7 @@ return [
         App\Providers\FortifyViewServiceProvider::class,
         App\Providers\ModelFilterProvider::class,
         Intervention\Image\ImageServiceProvider::class,
-
-
+        App\Providers\ReportProvider::class,
     ],
 
     /*

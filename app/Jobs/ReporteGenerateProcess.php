@@ -14,23 +14,15 @@ class ReporteGenerateProcess implements ShouldQueue
 {
     use Batchable , Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    /**
-     * Create a new job instance.
-     *
-     * @return void
-     */
-    public function __construct()
+    public string $sleep;
+
+    public function __construct(string $sleep)
     {
-        //
+        $this->sleep=$sleep;
     }
 
-    /**
-     * Execute the job.
-     *
-     * @return void
-     */
-    public function handle()
+    public function handle(): void
     {
-        sleep(60);
+        sleep($this->sleep);
     }
 }

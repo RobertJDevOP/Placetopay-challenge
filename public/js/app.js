@@ -438,10 +438,11 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       finishDate: [],
       startDate: [],
       options: {
-        0: 'Reporte por ventas',
-        1: 'Reporte por usuarios'
+        'salesReport': 'Reporte por ventas',
+        'productsReport': 'Reporte por usuarios'
       },
       reports: [],
+      reportType: 'Select type of report',
       batchProgress: 100
     };
   },
@@ -450,10 +451,8 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       var _this = this;
 
       axios.post('/generateReport', {
-        params: {
-          value: 'test'
-        }
-      }, {}).then(function (response) {
+        typeReport: this.reportType
+      }).then(function (response) {
         _this.getReports();
       })["catch"](function (error) {
         return console.error(error);
@@ -467,23 +466,22 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       })["catch"](function (error) {
         return console.error(error);
       });
-    },
-    getProgressBar: function getProgressBar() {}
+    }
   },
   mounted: function mounted() {
     this.getReports();
-    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_0__["default"]({
-      broadcaster: 'pusher',
-      key: 'robertico',
-      wsHost: window.location.hostname,
-      wsPort: 6001,
-      disableStats: true,
-      forceTLS: false,
-      enabledTransports: ['ws', 'wss']
-    });
-    window.Echo.channel('home').listen('NotifyReportFinish', function (e) {
-      console.log(e.message);
-    });
+    /*window.Echo = new Echo({
+        broadcaster: 'pusher',
+        key: 'robertico',
+        wsHost: window.location.hostname,
+        wsPort: 6001,
+        disableStats: true,
+        forceTLS: false,
+        enabledTransports: ['ws', 'wss']
+    })
+    window.Echo.channel('home').listen('NotifyReportFinish', (e) => {
+        console.log(e.message)
+    })*/
   }
 });
 
@@ -1820,6 +1818,31 @@ var render = function () {
                 _c("div", { staticClass: "select" }, [
                   _c(
                     "select",
+                    {
+                      directives: [
+                        {
+                          name: "model",
+                          rawName: "v-model",
+                          value: _vm.reportType,
+                          expression: "reportType",
+                        },
+                      ],
+                      on: {
+                        change: function ($event) {
+                          var $$selectedVal = Array.prototype.filter
+                            .call($event.target.options, function (o) {
+                              return o.selected
+                            })
+                            .map(function (o) {
+                              var val = "_value" in o ? o._value : o.value
+                              return val
+                            })
+                          _vm.reportType = $event.target.multiple
+                            ? $$selectedVal
+                            : $$selectedVal[0]
+                        },
+                      },
+                    },
                     _vm._l(_vm.options, function (option, index) {
                       return _c("option", { domProps: { value: index } }, [
                         _vm._v(_vm._s(option)),
