@@ -350,7 +350,36 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -443,7 +472,8 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       },
       reports: [],
       reportType: 'Select type of report',
-      batchProgress: 100
+      batchProgress: 100,
+      idReportForProccess: []
     };
   },
   methods: {
@@ -466,22 +496,59 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
       })["catch"](function (error) {
         return console.error(error);
       });
-    }
+    },
+    test: function test(_ref) {
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        var url, label, response, blob, link;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                url = _ref.url, label = _ref.label;
+                _context.next = 3;
+                return axios.get(url, {
+                  responseType: "blob"
+                });
+
+              case 3:
+                response = _context.sent;
+                blob = new Blob([response.data], {
+                  type: "application/txt"
+                });
+                link = document.createElement("a");
+                link.href = URL.createObjectURL(blob);
+                link.download = label;
+                link.click();
+                URL.revokeObjectURL(link.href);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    } //Con este metodo me puedo ahorrar una solicitud axios y simplemente lo puedo realizar mas dinamico......
+
   },
   mounted: function mounted() {
+    var _this3 = this;
+
     this.getReports();
-    /*window.Echo = new Echo({
-        broadcaster: 'pusher',
-        key: 'robertico',
-        wsHost: window.location.hostname,
-        wsPort: 6001,
-        disableStats: true,
-        forceTLS: false,
-        enabledTransports: ['ws', 'wss']
-    })
-    window.Echo.channel('home').listen('NotifyReportFinish', (e) => {
-        console.log(e.message)
-    })*/
+    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__["default"]({
+      broadcaster: 'pusher',
+      key: 'robertico',
+      wsHost: window.location.hostname,
+      wsPort: 6001,
+      disableStats: true,
+      forceTLS: false,
+      enabledTransports: ['ws', 'wss']
+    });
+    window.Echo.channel('home').listen('NotifyReportFinish', function (e) {
+      if (e.message == "FINISH") {
+        _this3.getReports();
+      }
+    });
   }
 });
 
@@ -1934,7 +2001,7 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("br"),
-      _vm._v("Your reports\n    "),
+      _vm._v("Your reports\n\n\n\n    "),
       _c(
         "table",
         { staticClass: "table is-narrow is-hoverable is-fullwidth" },
@@ -1943,20 +2010,54 @@ var render = function () {
           _vm._v(" "),
           _c(
             "tbody",
-            _vm._l(_vm.reports, function (report) {
+            _vm._l(_vm.reports, function (report, index) {
               return _c("tr", { key: report.id_report }, [
-                _c("td", [_vm._v(_vm._s(report.id_report))]),
+                _c("td", [_vm._v(_vm._s(report.id_report) + "\n            ")]),
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(report.batch_name))]),
+                _vm._v(" "),
+                _c("td"),
                 _vm._v(" "),
                 _c(
                   "td",
                   [
-                    _c("b-progress", {
-                      attrs: { value: 80, "show-value": "", format: "percent" },
-                    }),
+                    report.status == "FINISH"
+                      ? [
+                          _c("b-collapse", { attrs: { open: true } }, [
+                            _c("div", { staticClass: "notification" }, [
+                              _c("div", { staticClass: "content" }, [
+                                _vm._v(
+                                  "\n                            The file is ready to download, "
+                                ),
+                                _c(
+                                  "a",
+                                  {
+                                    on: {
+                                      click: function ($event) {
+                                        $event.preventDefault()
+                                        return _vm.test({
+                                          url: "/shopreports/" + report.path,
+                                          label: "report.txt",
+                                        })
+                                      },
+                                    },
+                                  },
+                                  [_vm._v("click here")]
+                                ),
+                              ]),
+                            ]),
+                          ]),
+                        ]
+                      : [
+                          _c(
+                            "b-collapse",
+                            { attrs: { open: true } },
+                            [_c("b-progress")],
+                            1
+                          ),
+                        ],
                   ],
-                  1
+                  2
                 ),
               ])
             }),
@@ -1979,7 +2080,9 @@ var staticRenderFns = [
         _vm._v(" "),
         _c("th", [_vm._v("Type of report")]),
         _vm._v(" "),
-        _c("th", [_vm._v("Process")]),
+        _c("th", [_vm._v("Created at")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("File")]),
       ]),
     ])
   },

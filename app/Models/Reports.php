@@ -9,6 +9,8 @@ class Reports extends Model
 {
     use HasFactory;
 
+    public $primaryKey = 'id_report';
+
     protected $fillable = [
         'batch_name', 'path'
     ];
@@ -16,5 +18,4 @@ class Reports extends Model
     protected $hidden = [
         'created_at', 'updated_at',
     ];
-
 }

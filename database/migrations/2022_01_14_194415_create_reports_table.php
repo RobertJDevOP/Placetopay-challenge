@@ -11,7 +11,7 @@ class CreateReportsTable extends Migration
         Schema::create('reports', function (Blueprint $table) {
             $table->bigIncrements('id_report');
             $table->string('batch_name');
-            $table->string('path',255)->nullable();
+            $table->string('path',255)->nullable(true);
             $table->timestamps();
         });
     }

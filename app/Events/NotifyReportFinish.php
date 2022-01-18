@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -13,6 +14,7 @@ class NotifyReportFinish implements ShouldBroadcastNow
     use SerializesModels;
 
     public string $message;
+
     /**
      * Create a new event instance.
      *
@@ -21,6 +23,7 @@ class NotifyReportFinish implements ShouldBroadcastNow
     public function __construct(string $message)
     {
         $this->message=$message;
+
     }
 
     /**

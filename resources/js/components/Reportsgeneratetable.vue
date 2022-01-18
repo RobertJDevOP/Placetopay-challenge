@@ -57,19 +57,40 @@
         </b-collapse>
 
         <br>Your reports
+
+
+
         <table class="table is-narrow is-hoverable is-fullwidth">
             <thead>
             <tr>
                 <th>#</th>
                 <th>Type of report</th>
-                <th>Process</th>
+                <th>Created at</th>
+                <th>File</th>
             </tr>
             </thead>
             <tbody>
-            <tr v-for="report in reports" :key="report.id_report" >
-                <td>{{report.id_report}}</td>
+            <tr v-for="(report,index) in reports" :key="report.id_report" >
+                <td>{{report.id_report}}
+                </td>
                 <td>{{report.batch_name}}</td>
-                <td>   <b-progress :value="80" show-value format="percent"></b-progress></td>
+                <td></td>
+                <td>
+                <template v-if="report.status=='FINISH'">
+                    <b-collapse :open="true" >
+                        <div class="notification">
+                            <div class="content">
+                                The file is ready to download, <a @click.prevent="test({url :'/shopreports/'+report.path , label : 'report.txt'})">click here</a>
+                            </div>
+                        </div>
+                    </b-collapse>
+                </template>
+                <template v-else>
+                    <b-collapse :open="true" >
+                        <b-progress></b-progress>
+                    </b-collapse>
+                </template>
+                </td>
             </tr>
             </tbody>
         </table>
@@ -94,6 +115,7 @@ export default {
             reports : [],
             reportType: 'Select type of report',
             batchProgress : 100,
+            idReportForProccess:[]
         }
     },
     methods:{
@@ -112,11 +134,21 @@ export default {
                 })
                 .catch((error) => console.error(error))
         },
+        async test({ url, label }) {
+            const response = await axios.get(url, { responseType: "blob" });
+            const blob = new Blob([response.data], { type: "application/txt" });
+            const link = document.createElement("a");
+            link.href = URL.createObjectURL(blob);
+            link.download = label;
+            link.click();
+            URL.revokeObjectURL(link.href);
+        }
+        //Con este metodo me puedo ahorrar una solicitud axios y simplemente lo puedo realizar mas dinamico......
 
     },
     mounted() {
        this.getReports();
-        /*window.Echo = new Echo({
+        window.Echo = new Echo({
             broadcaster: 'pusher',
             key: 'robertico',
             wsHost: window.location.hostname,
@@ -126,8 +158,10 @@ export default {
             enabledTransports: ['ws', 'wss']
         })
         window.Echo.channel('home').listen('NotifyReportFinish', (e) => {
-            console.log(e.message)
-        })*/
+            if(e.message=="FINISH"){
+                this.getReports();
+            }
+        })
 
     }
 }
