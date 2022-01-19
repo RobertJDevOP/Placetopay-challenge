@@ -18,7 +18,7 @@ class ReportController extends Controller
 
     public function index(Reports $reports): JsonResponse
     {
-        $data = $reports->all();
+        $data = $reports::select('id_report','path','created_at','status','name')->get();
 
         return response()->json($data);
     }

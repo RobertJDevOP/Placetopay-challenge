@@ -33,7 +33,7 @@
 
 
                     <div class="column is-3">
-                       <br> <b-button @click="searchData()" type="is-link" native-type="submit" icon-left="magnify">Generate</b-button>
+                       <br> <b-button @click="searchData()" type="is-warning is-light" native-type="submit" icon-left="magnify">Generate</b-button>
                     </div>
                 </div>
 
@@ -41,9 +41,7 @@
             </div>
         </b-collapse>
 
-        <br>Your reports
-
-
+        <br><br>
 
         <table class="table is-narrow is-hoverable is-fullwidth">
             <thead>
@@ -52,29 +50,34 @@
                 <th>Type of report</th>
                 <th>Created at</th>
                 <th>File</th>
+                <th>Actions</th>
             </tr>
             </thead>
             <tbody>
             <tr v-for="(report,index) in reports" :key="report.id_report" >
                 <td>{{report.id_report}}</td>
                 <td>{{report.name}}</td>
-                <td>{{report.created_at}}</td>
+                <td>{{report.crated_formatted}}</td>
                 <td>
-                <template v-if="report.status=='FINISH'">
-                    <b-collapse :open="true" >
-                        <div class="notification">
+                <div v-if="report.status=='FINISH'">
+                        <div class="notification is-success is-light">
                             <div class="content">
                                 The file is ready to download, <a @click.prevent="test({url :'/shopreports/'+report.path , label : report.path})">click here</a>
                             </div>
                         </div>
-                    </b-collapse>
-                </template>
-                <template v-else>
-                    <b-collapse :open="true" >
-                        <b-progress></b-progress>
-                    </b-collapse>
-                </template>
+                </div>
+                <div v-else-if="report.status=='FAILED'">
+                        <div class="notification is-danger is-light">
+                            <div class="content">
+                                An error occurred, Please contact the system administrator
+                            </div>
+                        </div>
+                </div>
+                <div v-else>
+                        <b-progress   type="is-success" ></b-progress>
+                </div>
                 </td>
+                <td></td>
             </tr>
             </tbody>
         </table>
@@ -84,11 +87,8 @@
 
 <script>
 
-import Echo from 'laravel-echo'
-window.Pusher = require('pusher-js')
-
 export default {
-    data() {
+    data(){
         return {
             dates : [],
             options:{
@@ -101,18 +101,33 @@ export default {
     },
     methods:{
         searchData(){
-                //Validacion al lado del front-
-                axios.post('/generateReport', {
+            this.$buefy.dialog.confirm({
+                message: 'Are you sure to generate the selected report?',
+                onConfirm: () =>
+                    axios.post('/generateReport', {
                             typeReport: this.reportType,
                             dates: this.dates,
-                    },
-                ).then((response) => {
-                 this.getReports();
-                }).catch((error) => console.error(error))
+                        },
+                    ).then((response) => {
+                        this.getReports();
+                    }).catch((error) =>
+                        this.$buefy.dialog.alert({
+                            title: 'Error',
+                            message: 'The requested information is not correct',
+                            type: 'is-danger',
+                            hasIcon: true,
+                            icon: 'times-circle',
+                            iconPack: 'fa',
+                            ariaRole: 'alertdialog',
+                            ariaModal: true
+                        })
+                    )
+            })
         },
         getReports(){
                 axios.get('/api/reports')
                     .then((response) => {
+                        console.log(response);
                         this.reports=response.data
                     })
                 .catch((error) => console.error(error))
@@ -126,26 +141,15 @@ export default {
             link.click();
             URL.revokeObjectURL(link.href);
         }
-       //Pendiente no hacer doble peticion del getReports
-
     },
-    mounted() {
-       this.getReports();
-        window.Echo = new Echo({
-            broadcaster: 'pusher',
-            key: 'robertico',
-            wsHost: window.location.hostname,
-            wsPort: 6001,
-            disableStats: true,
-            forceTLS: false,
-            enabledTransports: ['ws', 'wss']
-        })
-        window.Echo.channel('home').listen('NotifyReportFinish', (e) => {
+    mounted(){
+        //Pendiente no hacer doble peticion del getReports
+        this.getReports();
+        window.Echo.channel('reports').listen('NotifyReportFinish', (e) => {
             if(e.message=="FINISH"){
                 this.getReports();
             }
         })
-
     }
 }
 </script>

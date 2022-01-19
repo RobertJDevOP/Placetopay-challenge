@@ -11,8 +11,16 @@ class Reports extends Model
 
     public $primaryKey = 'id_report';
 
+    protected $appends = [
+       'crated_formatted'
+    ];
+
     protected $hidden = [
         'created_at', 'updated_at',
     ];
 
+    public function getCratedFormattedAttribute(): string
+    {
+        return date('d-m-Y', strtotime($this->attributes['created_at']));
+    }
 }

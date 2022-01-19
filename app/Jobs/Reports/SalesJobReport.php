@@ -26,6 +26,7 @@ class SalesJobReport implements ShouldQueue
 
     public function handle(): void
     {
+
         Excel::store(new ReportSalesExport($this->dateRange), $this->fileName, 'shopreports', \Maatwebsite\Excel\Excel::CSV);
     }
 }

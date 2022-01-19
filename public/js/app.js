@@ -352,7 +352,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
@@ -443,8 +442,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-
-window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -461,20 +461,34 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
     searchData: function searchData() {
       var _this = this;
 
-      //Validacion al lado del front-
-      axios.post('/generateReport', {
-        typeReport: this.reportType,
-        dates: this.dates
-      }).then(function (response) {
-        _this.getReports();
-      })["catch"](function (error) {
-        return console.error(error);
+      this.$buefy.dialog.confirm({
+        message: 'Are you sure to generate the selected report?',
+        onConfirm: function onConfirm() {
+          return axios.post('/generateReport', {
+            typeReport: _this.reportType,
+            dates: _this.dates
+          }).then(function (response) {
+            _this.getReports();
+          })["catch"](function (error) {
+            return _this.$buefy.dialog.alert({
+              title: 'Error',
+              message: 'The requested information is not correct',
+              type: 'is-danger',
+              hasIcon: true,
+              icon: 'times-circle',
+              iconPack: 'fa',
+              ariaRole: 'alertdialog',
+              ariaModal: true
+            });
+          });
+        }
       });
     },
     getReports: function getReports() {
       var _this2 = this;
 
       axios.get('/api/reports').then(function (response) {
+        console.log(response);
         _this2.reports = response.data;
       })["catch"](function (error) {
         return console.error(error);
@@ -511,23 +525,14 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
           }
         }, _callee);
       }))();
-    } //Pendiente no hacer doble peticion del getReports
-
+    }
   },
   mounted: function mounted() {
     var _this3 = this;
 
+    //Pendiente no hacer doble peticion del getReports
     this.getReports();
-    window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_1__["default"]({
-      broadcaster: 'pusher',
-      key: 'robertico',
-      wsHost: window.location.hostname,
-      wsPort: 6001,
-      disableStats: true,
-      forceTLS: false,
-      enabledTransports: ['ws', 'wss']
-    });
-    window.Echo.channel('home').listen('NotifyReportFinish', function (e) {
+    window.Echo.channel('reports').listen('NotifyReportFinish', function (e) {
       if (e.message == "FINISH") {
         _this3.getReports();
       }
@@ -733,26 +738,37 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_Index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Index */ "./resources/js/components/Index.vue");
 /* harmony import */ var _components_TablePurchaseOrder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/TablePurchaseOrder */ "./resources/js/components/TablePurchaseOrder.vue");
 /* harmony import */ var _components_Reportsgeneratetable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Reportsgeneratetable */ "./resources/js/components/Reportsgeneratetable.vue");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
 
 
 
 
 
+
+window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 
 __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./buefy */ "./resources/js/buefy.js");
 
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_4__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].component('Index', _components_Index__WEBPACK_IMPORTED_MODULE_0__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].component('Purchaseorder', _components_TablePurchaseOrder__WEBPACK_IMPORTED_MODULE_1__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_3__["default"].component('Reportsgeneratetable', _components_Reportsgeneratetable__WEBPACK_IMPORTED_MODULE_2__["default"]);
-var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store({
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_5__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('Index', _components_Index__WEBPACK_IMPORTED_MODULE_0__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('Purchaseorder', _components_TablePurchaseOrder__WEBPACK_IMPORTED_MODULE_1__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('Reportsgeneratetable', _components_Reportsgeneratetable__WEBPACK_IMPORTED_MODULE_2__["default"]);
+window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_3__["default"]({
+  broadcaster: 'pusher',
+  key: "KEYSHOPAPP9862245da41170ff2",
+  wsHost: window.location.hostname,
+  wsPort: 6001,
+  disableStats: true,
+  forceTLS: false
+});
+var store = new vuex__WEBPACK_IMPORTED_MODULE_5__["default"].Store({
   state: {
     cart: [],
     products: [],
@@ -780,7 +796,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store({
         var item = state.cart[duplicatedProductIndex];
         item.qty++; // propiedad reactiva el array no lo era entonces toca ASI XDD lo agrego
 
-        vue__WEBPACK_IMPORTED_MODULE_3__["default"].set(state.cart, duplicatedProductIndex, item);
+        vue__WEBPACK_IMPORTED_MODULE_4__["default"].set(state.cart, duplicatedProductIndex, item);
         return;
       }
 
@@ -823,7 +839,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_4__["default"].Store({
     }
   }
 });
-var app = new vue__WEBPACK_IMPORTED_MODULE_3__["default"]({
+var app = new vue__WEBPACK_IMPORTED_MODULE_4__["default"]({
   store: store,
   el: '#app'
 });
@@ -1936,7 +1952,7 @@ var render = function () {
                     "b-button",
                     {
                       attrs: {
-                        type: "is-link",
+                        type: "is-warning is-light",
                         "native-type": "submit",
                         "icon-left": "magnify",
                       },
@@ -1957,7 +1973,8 @@ var render = function () {
       ),
       _vm._v(" "),
       _c("br"),
-      _vm._v("Your reports\n\n\n\n    "),
+      _c("br"),
+      _vm._v(" "),
       _c(
         "table",
         { staticClass: "table is-narrow is-hoverable is-fullwidth" },
@@ -1972,49 +1989,48 @@ var render = function () {
                 _vm._v(" "),
                 _c("td", [_vm._v(_vm._s(report.name))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(report.created_at))]),
+                _c("td", [_vm._v(_vm._s(report.crated_formatted))]),
                 _vm._v(" "),
-                _c(
-                  "td",
-                  [
-                    report.status == "FINISH"
-                      ? [
-                          _c("b-collapse", { attrs: { open: true } }, [
-                            _c("div", { staticClass: "notification" }, [
-                              _c("div", { staticClass: "content" }, [
-                                _vm._v(
-                                  "\n                            The file is ready to download, "
-                                ),
-                                _c(
-                                  "a",
-                                  {
-                                    on: {
-                                      click: function ($event) {
-                                        $event.preventDefault()
-                                        return _vm.test({
-                                          url: "/shopreports/" + report.path,
-                                          label: report.path,
-                                        })
-                                      },
+                _c("td", [
+                  report.status == "FINISH"
+                    ? _c("div", [
+                        _c(
+                          "div",
+                          { staticClass: "notification is-success is-light" },
+                          [
+                            _c("div", { staticClass: "content" }, [
+                              _vm._v(
+                                "\n                            The file is ready to download, "
+                              ),
+                              _c(
+                                "a",
+                                {
+                                  on: {
+                                    click: function ($event) {
+                                      $event.preventDefault()
+                                      return _vm.test({
+                                        url: "/shopreports/" + report.path,
+                                        label: report.path,
+                                      })
                                     },
                                   },
-                                  [_vm._v("click here")]
-                                ),
-                              ]),
+                                },
+                                [_vm._v("click here")]
+                              ),
                             ]),
-                          ]),
-                        ]
-                      : [
-                          _c(
-                            "b-collapse",
-                            { attrs: { open: true } },
-                            [_c("b-progress")],
-                            1
-                          ),
-                        ],
-                  ],
-                  2
-                ),
+                          ]
+                        ),
+                      ])
+                    : report.status == "FAILED"
+                    ? _c("div", [_vm._m(1, true)])
+                    : _c(
+                        "div",
+                        [_c("b-progress", { attrs: { type: "is-success" } })],
+                        1
+                      ),
+                ]),
+                _vm._v(" "),
+                _c("td"),
               ])
             }),
             0
@@ -2039,6 +2055,20 @@ var staticRenderFns = [
         _c("th", [_vm._v("Created at")]),
         _vm._v(" "),
         _c("th", [_vm._v("File")]),
+        _vm._v(" "),
+        _c("th", [_vm._v("Actions")]),
+      ]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "notification is-danger is-light" }, [
+      _c("div", { staticClass: "content" }, [
+        _vm._v(
+          "\n                            An error occurred, Please contact the system administrator\n                        "
+        ),
       ]),
     ])
   },

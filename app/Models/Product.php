@@ -39,11 +39,11 @@ class Product extends Model
         return $this->belongsToMany(PurchaseOrderDetail::class,'product_id','id');
     }
 
-
     public function getCratedFormattedAttribute(): string
     {
         return date('d-m-Y', strtotime($this->attributes['created_at']));
     }
+
     public function getUpdateFormattedAttribute(): string
     {
         return date('d-m-Y', strtotime($this->attributes['updated_at']));

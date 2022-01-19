@@ -6,9 +6,9 @@ use App\Models\Reports;
 
 class SalesUpdateAction
 {
-    public static function execute(string $batchId,int $reportId,mixed $path): void
+    public static function execute(string $batchId,int $reportId,mixed $path,string $status): void
     {
-        Reports::where('id_report', $reportId)->update(['status' => 'FINISH',
+        Reports::where('id_report', $reportId)->update(['status' => $status,
                                                         'path'=>$path,
                                                         'id_batch_job'=>$batchId]);
     }
