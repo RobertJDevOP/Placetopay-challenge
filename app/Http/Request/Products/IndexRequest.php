@@ -15,7 +15,6 @@ class IndexRequest extends FormRequest
 
     public function rules(): array
     {
-        // verificar presio de lista---
         return [
             'product_name' => ['required', 'string', 'max:255', Rule::unique(Product::class)],
             'category_id'=> ['required', 'numeric','exists:products_categories,id'],

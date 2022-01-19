@@ -51,7 +51,7 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
         return view('reports.index');
     });
     Route::post('/generateReport', [ReportController::class,'store']);
-    Route::get('api/reports/', [ReportController::class,'getReports']);
+    Route::get('api/reports/', [ReportController::class,'index']);
     Route::get('api/getProgress/{batchName}',[PurchaseOrderController::class,'index']);
 });
 

@@ -443,45 +443,28 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/dist/web/pusher.js");
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
-      finishDate: [],
-      startDate: [],
+      dates: [],
       options: {
-        'salesReport': 'Reporte por ventas',
-        'productsReport': 'Reporte por usuarios'
+        'salesReport': 'Sales report',
+        'productsReport': 'Products report'
       },
       reports: [],
-      reportType: 'Select type of report',
-      batchProgress: 100,
-      idReportForProccess: []
+      reportType: null
     };
   },
   methods: {
     searchData: function searchData() {
       var _this = this;
 
+      //Validacion al lado del front-
       axios.post('/generateReport', {
-        typeReport: this.reportType
+        typeReport: this.reportType,
+        dates: this.dates
       }).then(function (response) {
         _this.getReports();
       })["catch"](function (error) {
@@ -513,7 +496,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
               case 3:
                 response = _context.sent;
                 blob = new Blob([response.data], {
-                  type: "application/txt"
+                  type: "application/csv"
                 });
                 link = document.createElement("a");
                 link.href = URL.createObjectURL(blob);
@@ -528,7 +511,7 @@ window.Pusher = __webpack_require__(/*! pusher-js */ "./node_modules/pusher-js/d
           }
         }, _callee);
       }))();
-    } //Con este metodo me puedo ahorrar una solicitud axios y simplemente lo puedo realizar mas dinamico......
+    } //Pendiente no hacer doble peticion del getReports
 
   },
   mounted: function mounted() {
@@ -947,7 +930,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var _Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true& */ "./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true&");
+/* harmony import */ var _Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6& */ "./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&");
 /* harmony import */ var _Reportsgeneratetable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Reportsgeneratetable.vue?vue&type=script&lang=js& */ "./resources/js/components/Reportsgeneratetable.vue?vue&type=script&lang=js&");
 /* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
 
@@ -959,11 +942,11 @@ __webpack_require__.r(__webpack_exports__);
 ;
 var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
   _Reportsgeneratetable_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  _Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
   false,
   null,
-  "ca0c4ff6",
+  null,
   null
   
 )
@@ -1079,19 +1062,19 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true&":
-/*!*****************************************************************************************************!*\
-  !*** ./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true& ***!
-  \*****************************************************************************************************/
+/***/ "./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&":
+/*!*****************************************************************************************!*\
+  !*** ./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6& ***!
+  \*****************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true&");
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Reportsgeneratetable_vue_vue_type_template_id_ca0c4ff6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&");
 
 
 /***/ }),
@@ -1819,10 +1802,10 @@ render._withStripped = true
 
 /***/ }),
 
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true&":
-/*!********************************************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&scoped=true& ***!
-  \********************************************************************************************************************************************************************************************************************************************/
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6&":
+/*!********************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Reportsgeneratetable.vue?vue&type=template&id=ca0c4ff6& ***!
+  \********************************************************************************************************************************************************************************************************************************/
 /***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
 "use strict";
@@ -1879,63 +1862,61 @@ var render = function () {
           _vm._v(" "),
           _c("div", { staticClass: "card-content" }, [
             _c("div", { staticClass: "columns" }, [
-              _c("div", { staticClass: "column is-2" }, [
-                _c("label", { staticClass: "label" }, [_vm._v("Report type")]),
-                _vm._v(" "),
-                _c("div", { staticClass: "select" }, [
+              _c(
+                "div",
+                { staticClass: "column is-3" },
+                [
+                  _c("label", { staticClass: "label" }, [
+                    _vm._v("Report type"),
+                  ]),
+                  _vm._v(" "),
                   _c(
-                    "select",
+                    "b-select",
                     {
-                      directives: [
-                        {
-                          name: "model",
-                          rawName: "v-model",
-                          value: _vm.reportType,
-                          expression: "reportType",
+                      attrs: { placeholder: "Select report category" },
+                      model: {
+                        value: _vm.reportType,
+                        callback: function ($$v) {
+                          _vm.reportType = $$v
                         },
-                      ],
-                      on: {
-                        change: function ($event) {
-                          var $$selectedVal = Array.prototype.filter
-                            .call($event.target.options, function (o) {
-                              return o.selected
-                            })
-                            .map(function (o) {
-                              var val = "_value" in o ? o._value : o.value
-                              return val
-                            })
-                          _vm.reportType = $event.target.multiple
-                            ? $$selectedVal
-                            : $$selectedVal[0]
-                        },
+                        expression: "reportType",
                       },
                     },
                     _vm._l(_vm.options, function (option, index) {
                       return _c("option", { domProps: { value: index } }, [
-                        _vm._v(_vm._s(option)),
+                        _vm._v(
+                          "\n                                " +
+                            _vm._s(option) +
+                            "\n                            "
+                        ),
                       ])
                     }),
                     0
                   ),
-                ]),
-              ]),
+                ],
+                1
+              ),
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "column is-4" },
+                { staticClass: "column is-3" },
                 [
                   _c(
                     "b-field",
-                    { attrs: { label: "Start date", type: "", message: "" } },
+                    { attrs: { label: "Report date range" } },
                     [
                       _c("b-datepicker", {
-                        attrs: { selected: "", name: "", locale: "en-ca" },
+                        attrs: {
+                          placeholder: "Click to select",
+                          locale: "en-us",
+                          range: "",
+                        },
                         model: {
-                          value: _vm.startDate,
+                          value: _vm.dates,
                           callback: function ($$v) {
-                            _vm.startDate = $$v
+                            _vm.dates = $$v
                           },
-                          expression: "startDate",
+                          expression: "dates",
                         },
                       }),
                     ],
@@ -1947,32 +1928,7 @@ var render = function () {
               _vm._v(" "),
               _c(
                 "div",
-                { staticClass: "column is-4" },
-                [
-                  _c(
-                    "b-field",
-                    { attrs: { label: "Finish date", type: "", message: "" } },
-                    [
-                      _c("b-datepicker", {
-                        attrs: { selected: "", name: "", locale: "en-ca" },
-                        model: {
-                          value: _vm.finishDate,
-                          callback: function ($$v) {
-                            _vm.finishDate = $$v
-                          },
-                          expression: "finishDate",
-                        },
-                      }),
-                    ],
-                    1
-                  ),
-                ],
-                1
-              ),
-              _vm._v(" "),
-              _c(
-                "div",
-                { staticClass: "column is-2" },
+                { staticClass: "column is-3" },
                 [
                   _c("br"),
                   _vm._v(" "),
@@ -2012,11 +1968,11 @@ var render = function () {
             "tbody",
             _vm._l(_vm.reports, function (report, index) {
               return _c("tr", { key: report.id_report }, [
-                _c("td", [_vm._v(_vm._s(report.id_report) + "\n            ")]),
+                _c("td", [_vm._v(_vm._s(report.id_report))]),
                 _vm._v(" "),
-                _c("td", [_vm._v(_vm._s(report.batch_name))]),
+                _c("td", [_vm._v(_vm._s(report.name))]),
                 _vm._v(" "),
-                _c("td"),
+                _c("td", [_vm._v(_vm._s(report.created_at))]),
                 _vm._v(" "),
                 _c(
                   "td",
@@ -2037,7 +1993,7 @@ var render = function () {
                                         $event.preventDefault()
                                         return _vm.test({
                                           url: "/shopreports/" + report.path,
-                                          label: "report.txt",
+                                          label: report.path,
                                         })
                                       },
                                     },

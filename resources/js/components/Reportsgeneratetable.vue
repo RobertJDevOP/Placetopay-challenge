@@ -12,42 +12,27 @@
 
             <div class="card-content">
                 <div class="columns">
-                    <div class="column is-2">
+                    <div class="column is-3">
                         <label class="label">Report type</label>
-                        <div class="select">
-                            <select v-model="reportType">
-                                <option v-for="(option, index) in options " :value=index>{{ option }}</option>
-                            </select>
-                        </div>
+                            <b-select  v-model="reportType" placeholder="Select report category">
+                                <option v-for="(option, index) in options" :value="index">
+                                    {{ option }}
+                                </option>
+                            </b-select>
                     </div>
-                    <div class="column is-4">
+                    <div class="column is-3">
                         <b-field
-                            label="Start date"
-                            type=""
-                            message="">
+                            label="Report date range">
                             <b-datepicker
-                                selected=""
-                                name=""
-                                v-model="startDate"
-                                locale="en-ca">
-                            </b-datepicker>
-                        </b-field>
-                    </div>
-                    <div class="column is-4">
-                        <b-field
-                            label="Finish date"
-                            type=""
-                            message="">
-                            <b-datepicker
-                                selected=""
-                                name=""
-                                v-model="finishDate"
-                                locale="en-ca">
+                                placeholder="Click to select"
+                                v-model="dates"
+                                locale="en-us" range>
                             </b-datepicker>
                         </b-field>
                     </div>
 
-                    <div class="column is-2">
+
+                    <div class="column is-3">
                        <br> <b-button @click="searchData()" type="is-link" native-type="submit" icon-left="magnify">Generate</b-button>
                     </div>
                 </div>
@@ -71,16 +56,15 @@
             </thead>
             <tbody>
             <tr v-for="(report,index) in reports" :key="report.id_report" >
-                <td>{{report.id_report}}
-                </td>
-                <td>{{report.batch_name}}</td>
-                <td></td>
+                <td>{{report.id_report}}</td>
+                <td>{{report.name}}</td>
+                <td>{{report.created_at}}</td>
                 <td>
                 <template v-if="report.status=='FINISH'">
                     <b-collapse :open="true" >
                         <div class="notification">
                             <div class="content">
-                                The file is ready to download, <a @click.prevent="test({url :'/shopreports/'+report.path , label : 'report.txt'})">click here</a>
+                                The file is ready to download, <a @click.prevent="test({url :'/shopreports/'+report.path , label : report.path})">click here</a>
                             </div>
                         </div>
                     </b-collapse>
@@ -106,44 +90,43 @@ window.Pusher = require('pusher-js')
 export default {
     data() {
         return {
-            finishDate : [],
-            startDate : [],
+            dates : [],
             options:{
-                'salesReport' :'Reporte por ventas',
-                'productsReport':'Reporte por usuarios',
+                'salesReport' :'Sales report',
+                'productsReport':'Products report',
             },
             reports : [],
-            reportType: 'Select type of report',
-            batchProgress : 100,
-            idReportForProccess:[]
+            reportType: null,
         }
     },
     methods:{
         searchData(){
+                //Validacion al lado del front-
                 axios.post('/generateReport', {
                             typeReport: this.reportType,
+                            dates: this.dates,
                     },
                 ).then((response) => {
                  this.getReports();
                 }).catch((error) => console.error(error))
         },
         getReports(){
-            axios.get('/api/reports')
-                .then((response) => {
-                    this.reports=response.data
-                })
+                axios.get('/api/reports')
+                    .then((response) => {
+                        this.reports=response.data
+                    })
                 .catch((error) => console.error(error))
         },
         async test({ url, label }) {
             const response = await axios.get(url, { responseType: "blob" });
-            const blob = new Blob([response.data], { type: "application/txt" });
+            const blob = new Blob([response.data], { type: "application/csv" });
             const link = document.createElement("a");
             link.href = URL.createObjectURL(blob);
             link.download = label;
             link.click();
             URL.revokeObjectURL(link.href);
         }
-        //Con este metodo me puedo ahorrar una solicitud axios y simplemente lo puedo realizar mas dinamico......
+       //Pendiente no hacer doble peticion del getReports
 
     },
     mounted() {
@@ -167,6 +150,3 @@ export default {
 }
 </script>
 
-<style scoped>
-
-</style>

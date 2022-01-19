@@ -6,12 +6,7 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateJobsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
-    public function up()
+    public function up(): void
     {
         Schema::create('jobs', function (Blueprint $table) {
             $table->bigIncrements('id');

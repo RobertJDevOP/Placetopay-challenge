@@ -2,45 +2,37 @@
 
 namespace App\Reports;
 
+use App\Actions\Reports\SalesStoreAction;
+use App\Actions\Reports\SalesUpdateAction;
 use App\Events\NotifyReportFinish;
 use App\Jobs\ReporteGenerateProcess;
-use App\Models\Reports;
+use App\Models\SalesReport;
 use Illuminate\Bus\Batch;
 use Illuminate\Support\Facades\Bus;
-use Illuminate\Support\Facades\Storage;
 
 class Sales implements ReportsContract
 {
-
-    private string $nameReport;
+    private array $dates;
     private int $idReport;
+    private mixed $fileName;
 
-    public function __construct(string $nameReport)
+    public function __construct(array $dates)
     {
-        $this->nameReport=$nameReport;
+        $this->dates=$dates;
+        $this->fileName = 'Salesreport'.time().'.csv';
+        $this->idReport = SalesStoreAction::execute();
     }
 
     public function generate(): void
     {
-        $report = new Reports();
-        $report->batch_name=$this->nameReport;
-        $report->status='PROCESSING';
-        $report->save();
+        $salesRecords = SalesReport::filter(['dates'=>$this->dates])->get();
 
-        $this->idReport=$report->id_report;
-         Storage::disk('shopreports')->append('sales.txt','Sales report');
-
-        $sleep=20;
         $batch = Bus::batch([
-            new ReporteGenerateProcess($sleep),
-        ])->name('reporte1')
+            new ReporteGenerateProcess($salesRecords->toArray(),$this->fileName),
+        ])->name('salesReport')
         ->then(function (Batch $batch){
-          //  Log::info('Termino proceso job queue ',['batch id'=>$batch->id]);
-
-            Reports::where('id_report', $this->idReport)
-                ->update(['status' => 'FINISH','path'=>'sales.txt']);
-            event(new NotifyReportFinish('FINISH'));
-
+              SalesUpdateAction::execute($batch->id,$this->idReport,$this->fileName);
+              event(new NotifyReportFinish('FINISH'));
         })->dispatch();
     }
 }
