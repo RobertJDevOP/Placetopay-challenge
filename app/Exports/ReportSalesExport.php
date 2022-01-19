@@ -2,13 +2,20 @@
 
 namespace App\Exports;
 
-use App\Models\User;
-use Maatwebsite\Excel\Concerns\FromCollection;
+use App\Models\SalesReport;
+use Maatwebsite\Excel\Concerns\FromQuery;
 use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
-use Maatwebsite\Excel\Concerns\WithHeadings;
+use Maatwebsite\Excel\Concerns\WithMapping;
 
-class ReportSalesExport implements FromCollection, WithCustomCsvSettings, WithHeadings
+class ReportSalesExport implements  WithCustomCsvSettings, FromQuery, WithMapping
 {
+    private array $dateRange;
+
+    public function __construct(array $dateRange)
+    {
+        $this->dateRange=$dateRange;
+    }
+
     public function getCsvSettings(): array
     {
         return [
@@ -16,15 +23,19 @@ class ReportSalesExport implements FromCollection, WithCustomCsvSettings, WithHe
         ];
     }
 
-    public function headings(): array
+    public function map($sales): array
     {
-        return ["name", "email","surnames"];
+        return [
+            $sales->id,
+            $sales->total,
+            $sales->qty,
+            $sales->status,
+            $sales->crated_formatted
+        ];
     }
-    /**
-    * @return \Illuminate\Support\Collection
-    */
-    public function collection()
+
+    public function query()
     {
-        return User::all();
+        return SalesReport::filter(['dates'=>$this->dateRange]);
     }
 }

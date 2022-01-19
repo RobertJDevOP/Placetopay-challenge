@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Reports;
 
 use App\Exports\ReportSalesExport;
 use Illuminate\Bus\Batchable;
@@ -11,21 +11,21 @@ use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Maatwebsite\Excel\Facades\Excel;
 
-class ReporteGenerateProcess implements ShouldQueue
+class SalesJobReport implements ShouldQueue
 {
     use Batchable , Dispatchable, InteractsWithQueue, Queueable, SerializesModels;
 
-    private array $salesRecord;
+    private array $dateRange;
     private mixed $fileName;
 
-    public function __construct(array $salesRecord,mixed $fileName)
+    public function __construct(array $dateRange,mixed $fileName)
     {
-        $this->salesRecord=$salesRecord;
+        $this->dateRange=$dateRange;
         $this->fileName=$fileName;
     }
 
     public function handle(): void
     {
-        Excel::store(new ReportSalesExport(), $this->fileName, 'shopreports', \Maatwebsite\Excel\Excel::CSV);
+        Excel::store(new ReportSalesExport($this->dateRange), $this->fileName, 'shopreports', \Maatwebsite\Excel\Excel::CSV);
     }
 }

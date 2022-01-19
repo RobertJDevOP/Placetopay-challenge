@@ -16,7 +16,7 @@ class SalesReportFilters extends Filter
 
     protected function select(): Filter
     {
-        $this->query->select(['total','qty','purchase_payment_status.status'])
+        $this->query->select(['purchase_order.id','purchase_order.created_at','purchase_order.updated_at','total','qty','purchase_payment_status.status'])
                         ->whereIn('purchase_payment_status.status', [Status::APPROVED]);
         return $this;
     }
@@ -24,6 +24,7 @@ class SalesReportFilters extends Filter
     protected function joins(): Filter
     {
         $this->query->join('purchase_payment_status', 'purchase_payment_status.id_purchase_order', '=', 'purchase_order.id');
+
         return $this;
     }
 }
