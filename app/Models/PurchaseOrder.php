@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Entities\Status;
+use App\Constants\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

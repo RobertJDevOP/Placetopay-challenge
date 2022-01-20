@@ -2,7 +2,7 @@
 
 namespace App\Filters\ModelFilters;
 
-use App\Entities\Status;
+use App\Constants\Status;
 use App\Filters\Conditions\DateRangeSalesReport;
 use App\Filters\Filter;
 use App\Models\PurchaseOrder;

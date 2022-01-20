@@ -14,7 +14,6 @@ class ReportProvider extends ServiceProvider
         $this->app->bind(ReportsContract::class,function ($app,$params){
             return match ($params['typeReport']){
                'salesReport' => new Sales($params['dates']),
-               'productsReport' => 'Hola2',
                 default => throw new Exception('Type report not found'),
             };
         });
