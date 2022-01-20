@@ -13,6 +13,8 @@ class ShopController extends Controller
 {
     public function storeShoppingCart(Request $request): RedirectResponse
     {
+        $wallet = $request['params']['wallet'];
+
         $order = PurchaseOrder::create([
             'user_id' => auth()->user()->id,
             'qty' => $request['params']['totalProduct'],
@@ -29,6 +31,6 @@ class ShopController extends Controller
             ]);
         }
 
-        return redirect(route('shop.checkout', $order));
+        return redirect(route('shop.checkout', [$order,$wallet]));
     }
 }

@@ -16,7 +16,7 @@ Vue.component('Index', Index)
 Vue.component('Purchaseorder', Table)
 Vue.component('Reportsgeneratetable', TableReports)
 
-
+/*
 window.Echo = new Echo({
     broadcaster: 'pusher',
     key: process.env.MIX_PUSHER_APP_KEY,
@@ -25,7 +25,7 @@ window.Echo = new Echo({
     disableStats: true,
     forceTLS: false,
 })
-
+*/
 
 const store = new Vuex.Store({
 

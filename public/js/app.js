@@ -325,7 +325,8 @@ var user = document.head.querySelector('meta[name="user"]');
         params: {
           productsPayment: productsPayment,
           totalProduct: totalProduct,
-          totalPrice: totalPrice
+          totalPrice: totalPrice,
+          wallet: 'placetopay'
         }
       }, {}).then(function (response) {
         _this2.modalUserDataConfirmation = false;
@@ -760,14 +761,17 @@ vue__WEBPACK_IMPORTED_MODULE_4__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_5_
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('Index', _components_Index__WEBPACK_IMPORTED_MODULE_0__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('Purchaseorder', _components_TablePurchaseOrder__WEBPACK_IMPORTED_MODULE_1__["default"]);
 vue__WEBPACK_IMPORTED_MODULE_4__["default"].component('Reportsgeneratetable', _components_Reportsgeneratetable__WEBPACK_IMPORTED_MODULE_2__["default"]);
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_3__["default"]({
-  broadcaster: 'pusher',
-  key: "KEYSHOPAPP9862245da41170ff2",
-  wsHost: window.location.hostname,
-  wsPort: 6001,
-  disableStats: true,
-  forceTLS: false
-});
+/*
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    disableStats: true,
+    forceTLS: false,
+})
+*/
+
 var store = new vuex__WEBPACK_IMPORTED_MODULE_5__["default"].Store({
   state: {
     cart: [],
@@ -1233,9 +1237,9 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "\r\n                            " +
+                                  "\n                            " +
                                     _vm._s(indice.name_category) +
-                                    "\r\n                        "
+                                    "\n                        "
                                 ),
                               ]
                             )
@@ -1391,9 +1395,9 @@ var render = function () {
                   _vm._v(" "),
                   _c("div", { staticClass: "content" }, [
                     _vm._v(
-                      "\r\n                        $ " +
+                      "\n                        $ " +
                         _vm._s(product.list_price) +
-                        "\r\n                    "
+                        "\n                    "
                     ),
                   ]),
                 ]),
@@ -1517,15 +1521,15 @@ var render = function () {
                             ]),
                           ]),
                           _vm._v(
-                            "\r\n\r\n                            " +
+                            "\n\n                            " +
                               _vm._s(product.product_name) +
-                              "\r\n                            Precio : " +
+                              "\n                            Precio : " +
                               _vm._s(product.list_price) +
-                              "\r\n                            Cantidad  : " +
+                              "\n                            Cantidad  : " +
                               _vm._s(product.qty) +
-                              "\r\n                            Total :" +
+                              "\n                            Total :" +
                               _vm._s(product.list_price * product.qty) +
-                              "\r\n                            "
+                              "\n                            "
                           ),
                           _c(
                             "a",
@@ -1549,7 +1553,7 @@ var render = function () {
                     )
                   }),
                   _vm._v(
-                    "\r\n\r\n                    Informations  Total price\r\n                    "
+                    "\n\n                    Informations  Total price\n                    "
                   ),
                   _c("span", [_vm._v(_vm._s(_vm.totalPrice) + " $")]),
                   _vm._v(" "),

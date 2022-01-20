@@ -307,7 +307,9 @@ export default {
                     params : {
                         productsPayment  :productsPayment,
                         totalProduct: totalProduct,
-                        totalPrice: totalPrice}
+                        totalPrice: totalPrice,
+                        wallet : 'placetopay',
+                    }
 
                 },{},
                 ).then((response) => {
