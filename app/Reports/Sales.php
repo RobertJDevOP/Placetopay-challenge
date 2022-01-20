@@ -2,8 +2,8 @@
 
 namespace App\Reports;
 
-use App\Actions\Reports\SalesStoreAction;
-use App\Actions\Reports\SalesUpdateAction;
+use App\Actions\Reports\StoreAction;
+use App\Actions\Reports\UpdateAction;
 use App\Events\NotifyReportFinish;
 use App\Jobs\Reports\SalesJobReport;
 use Illuminate\Bus\Batch;
@@ -21,7 +21,7 @@ class Sales implements ReportsContract
     {
         $this->dates = $dates;
         $this->fileName = 'Salesreport'.time().'.csv';
-        $this->idReport = SalesStoreAction::execute();
+        $this->idReport = StoreAction::execute('Sales report');
     }
 
     public function generate(): void
@@ -32,7 +32,7 @@ class Sales implements ReportsContract
             ])->name('salesReport')
         ->then(function (Batch $batch) {
 
-            SalesUpdateAction::execute($batch->id,$this->idReport,$this->fileName,'FINISH');
+            UpdateAction::execute($batch->id,$this->idReport,$this->fileName,'FINISH');
 
             event(new NotifyReportFinish('FINISH'));
 
@@ -40,7 +40,7 @@ class Sales implements ReportsContract
 
             Log::withContext(['batch-id' => $batch->id, 'error' => $e]);
 
-            SalesUpdateAction::execute($batch->id,$this->idReport,null,'FAILED');
+            UpdateAction::execute($batch->id,$this->idReport,null,'FAILED');
 
             event(new NotifyReportFinish('FINISH'));
 

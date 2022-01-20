@@ -14,8 +14,16 @@
 </div>
 
 
-<b-button tag="a"  href="product/create"    type="is-warning is-light"> Create a new product</b-button><br><br>
 
+    <b-button tag="a"  href="product/create"    type="is-warning is-light"> Create a new product</b-button><br><br>
+    <Productexport></Productexport>
+
+
+
+
+
+
+<br><br>
 <table class="table is-narrow is-hoverable is-fullwidth">
     <thead>
     <tr>

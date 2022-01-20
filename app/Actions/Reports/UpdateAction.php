@@ -4,7 +4,7 @@ namespace App\Actions\Reports;
 
 use App\Models\Reports;
 
-class SalesUpdateAction
+class UpdateAction
 {
     public static function execute(string $batchId,int $reportId,mixed $path,string $status): void
     {
