@@ -8,7 +8,7 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Maatwebsite\Excel\Facades\Excel;
 use Tests\TestCase;
 
-class IndexTest extends TestCase
+class SalesTest extends TestCase
 {
     use RefreshDatabase;
     use HasAuthenticatedUser;

@@ -26,22 +26,22 @@ class Products implements ReportsContract
         Bus::batch([
             new ProductsJobReport($this->fileName),
         ])->name('ProductReport')
-            ->then(function (Batch $batch){
+        ->then(function (Batch $batch){
 
-                UpdateAction::execute($batch->id,$this->idReport,$this->fileName,'FINISH');
+            UpdateAction::execute($batch->id,$this->idReport,$this->fileName,'FINISH');
 
-                event(new NotifyProductExportFinish('FINISH'));
+            event(new NotifyProductExportFinish('FINISH'));
 
-            })->catch(function (Batch $batch, Throwable $e){
+        })->catch(function (Batch $batch, Throwable $e){
 
-                Log::withContext(['batch-id' => $batch->id, 'error' => $e]);
+            Log::withContext(['batch-id' => $batch->id, 'error' => $e]);
 
-                UpdateAction::execute($batch->id,$this->idReport,null,'FAILED');
+            UpdateAction::execute($batch->id,$this->idReport,null,'FAILED');
 
-                event(new NotifyProductExportFinish('FINISH'));
+            event(new NotifyProductExportFinish('FINISH'));
 
-            })->finally(function (Batch $batch){
+        })->finally(function (Batch $batch){
 
-            })->dispatch();
+        })->dispatch();
     }
 }

@@ -28,8 +28,7 @@ class Sales implements ReportsContract
     {
         Bus::batch([
             new SalesJobReport($this->dates,$this->fileName),
-
-            ])->name('salesReport')
+        ])->name('salesReport')
         ->then(function (Batch $batch) {
 
             UpdateAction::execute($batch->id,$this->idReport,$this->fileName,'FINISH');
