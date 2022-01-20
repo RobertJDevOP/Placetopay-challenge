@@ -60,7 +60,8 @@ class StoreTest extends TestCase
                        'qty' => 1,
                        'list_price' =>300000,
                    ],
-                ]
+                ],
+                'wallet'=>'placetopay'
             ]
         ];
     }
