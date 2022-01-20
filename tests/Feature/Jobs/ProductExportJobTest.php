@@ -2,6 +2,7 @@
 
 namespace Jobs;
 
+
 use App\Jobs\Reports\ProductsJobReport;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Bus;
@@ -13,6 +14,7 @@ class ProductExportJobTest extends  TestCase
 {
     use RefreshDatabase;
     use HasAuthenticatedUser;
+
 
     public function setUp(): void
     {
@@ -37,5 +39,15 @@ class ProductExportJobTest extends  TestCase
         $this->actingAs($this->defaultUser())->post('/api/exportProducts');
 
         Queue::assertPushed(ProductsJobReport::class);
+    }
+
+    public  function test_it_cant_dispatched_bus_successfully(): void
+    {
+        Bus::fake();
+
+        $this->actingAs($this->defaultUser())->post('/api/exportProducts');
+
+        Bus::assertNotDispatchedSync(ProductsJobReport::class);
+        Bus::assertNotDispatchedAfterResponse(ProductsJobReport::class);
     }
 }
