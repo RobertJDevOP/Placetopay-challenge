@@ -2,7 +2,6 @@
 
 namespace Events;
 
-use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Event;
 use Tests\Concerns\HasAuthenticatedUser;

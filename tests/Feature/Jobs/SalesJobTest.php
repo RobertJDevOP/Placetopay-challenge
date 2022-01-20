@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Queue;
 use Tests\Concerns\HasAuthenticatedUser;
 use Tests\TestCase;
 
-class IndexTest extends  TestCase
+class SalesJobTest extends  TestCase
 {
     use RefreshDatabase;
     use HasAuthenticatedUser;
