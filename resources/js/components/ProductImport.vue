@@ -30,12 +30,29 @@
             </div>
             <div v-else-if="importStatus=='FAILED'">
                 <div class="columns">
+                    <div class="column is-4">
+                        <b-field class="file is-success is-light" :class="{'has-name': !!file}">
+                            <b-upload size="is-small" v-model="file" class="file-label" rounded>
+                                    <span class="file-cta">
+                                        <b-icon class="file-icon" icon="upload"></b-icon>
+                                        <span class="file-label">Import file csv</span>
+                                    </span>
+                                <span class="file-name" v-if="file">
+                                        {{ file.name }}
+                                    </span>
+                            </b-upload>
+                        </b-field>
+                    </div>
+                    <div class="column is-2">
+                        <b-button native-type="submit" @click="metodoNormal()"  type="is-warning is-light" rounded>Load file</b-button>
+                    </div>
                     <div class="column is-6">
-                        <div class="notification is-danger is-light">
-                            <div class="content">
-                                An error occurred, Please contact the system administrator
-                            </div>
-                        </div>
+                        <b-notification
+                            auto-close
+                            type="is-danger is-light"
+                            aria-close-label="Close notification">
+                            In the last import an error occurred, Please contact the system administrator
+                        </b-notification>
                     </div>
                 </div>
             </div>
@@ -105,6 +122,18 @@ export default {
             if (e.message == "FINISH" ) {
                 this.getStatusImport();
             }
+        })
+        window.Echo.channel('importProductValidator').listen('ImportProductsValidateErrors', (e) => {
+            this.$buefy.dialog.alert({
+                title: 'Error',
+                message: [e.errors] ,
+                type: 'is-danger',
+                hasIcon: true,
+                icon: 'times-circle',
+                iconPack: 'fa',
+                ariaRole: 'alertdialog',
+                ariaModal: true
+            })
         })
     }
 }
