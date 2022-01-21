@@ -3,7 +3,6 @@
 namespace App\Jobs\Reports;
 
 use App\Exports\ReportProducts;
-use App\Exports\ReportSalesExport;
 use Illuminate\Bus\Batchable;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;

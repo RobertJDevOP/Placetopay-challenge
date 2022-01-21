@@ -4,7 +4,7 @@
     <div v-if="exportStatus==='FINISH'">
             <div class="columns">
                     <div class="column is-4">
-                         <b-button  @click="exportCSV()" type="is-warning is-success"> Export product in csv</b-button>
+                         <b-button  @click="exportCSV()" type="is-warning is-light" rounded> Export product in csv</b-button>
                     </div>
                     <div class="column is-8">
                         <div class="notification is-success is-light">
@@ -17,6 +17,9 @@
     </div>
     <div v-else-if="exportStatus=='FAILED'">
         <div class="columns">
+            <div class="column is-4">
+                <b-button  @click="exportCSV()" type="is-warning is-light" rounded> Export product in csv</b-button>
+            </div>
             <div class="column is-6">
                     <div class="notification is-danger is-light">
                         <div class="content">
@@ -36,7 +39,7 @@
     <div v-else-if="exportStatus=='WITHOUT_PROCESSING'">
         <div class="columns">
             <div class="column is-4">
-                <b-button  @click="exportCSV()" type="is-warning is-success"> Export product in csv</b-button>
+                <b-button  @click="exportCSV()" type="is-warning is-light" rounded> Export product in csv</b-button>
             </div>
         </div>
     </div>
@@ -56,7 +59,7 @@ export default {
     },
     methods : {
         getStatusExport(){
-            axios.get('/api/getReportStatus')
+            axios.get('/api/getReportStatus/'+'Products report')
                 .then((response) => {
                     this.exportStatus=response.data.status;
                     this.exportPath=response.data.exportPath;

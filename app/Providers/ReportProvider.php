@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Product;
+use App\Reports\ImportProducts;
 use App\Reports\Products;
 use App\Reports\ReportsContract;
 use App\Reports\Sales;
@@ -17,6 +18,7 @@ class ReportProvider extends ServiceProvider
             return match ($params['typeReport']){
                 'salesReport' => new Sales($params['dates']),
                 'productReport' => new Products(),
+                'importProducts' => new ImportProducts($params['file']),
                 default => throw new Exception('Type report not found'),
             };
         });

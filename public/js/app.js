@@ -406,6 +406,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -417,7 +420,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     getStatusExport: function getStatusExport() {
       var _this = this;
 
-      axios.get('/api/getReportStatus').then(function (response) {
+      axios.get('/api/getReportStatus/' + 'Products report').then(function (response) {
         _this.exportStatus = response.data.status;
         _this.exportPath = response.data.exportPath;
       })["catch"](function (error) {
@@ -478,6 +481,138 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     window.Echo.channel('exports').listen('NotifyProductExportFinish', function (e) {
       if (e.message == "FINISH") {
         _this3.getStatusExport();
+      }
+    });
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductImport.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductImport.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      importStatus: '',
+      file: null
+    };
+  },
+  methods: {
+    getStatusImport: function getStatusImport() {
+      var _this = this;
+
+      axios.get('/api/getReportStatus/' + 'Products import').then(function (response) {
+        console.log(response.data.status);
+        _this.importStatus = response.data.status;
+      })["catch"](function (error) {
+        return console.error(error);
+      });
+    },
+    metodoNormal: function metodoNormal() {
+      var _this2 = this;
+
+      //Validate extension ared csv fronted and backend
+      var formData = new FormData();
+      formData.append('file', this.file);
+      this.$buefy.dialog.confirm({
+        message: 'Are you sure to import this file?',
+        onConfirm: function onConfirm() {
+          return axios.post('/api/importProducts', formData).then(function (response) {
+            _this2.getStatusImport();
+          })["catch"](function (error) {
+            return console.log(error);
+          });
+        }
+      });
+    }
+  },
+  beforeMount: function beforeMount() {
+    var _this3 = this;
+
+    this.getStatusImport();
+    window.Echo.channel('importsProduct').listen('NotifyImportProductFinish', function (e) {
+      if (e.message == "FINISH") {
+        _this3.getStatusImport();
       }
     });
   }
@@ -884,13 +1019,15 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _components_Index__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./components/Index */ "./resources/js/components/Index.vue");
 /* harmony import */ var _components_TablePurchaseOrder__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./components/TablePurchaseOrder */ "./resources/js/components/TablePurchaseOrder.vue");
 /* harmony import */ var _components_Reportsgeneratetable__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/Reportsgeneratetable */ "./resources/js/components/Reportsgeneratetable.vue");
 /* harmony import */ var _components_ProductExport__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/ProductExport */ "./resources/js/components/ProductExport.vue");
-/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+/* harmony import */ var _components_ProductImport__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./components/ProductImport */ "./resources/js/components/ProductImport.vue");
+/* harmony import */ var laravel_echo__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! laravel-echo */ "./node_modules/laravel-echo/dist/echo.js");
+
 
 
 
@@ -904,12 +1041,13 @@ __webpack_require__(/*! ./bootstrap */ "./resources/js/bootstrap.js");
 
 __webpack_require__(/*! ./buefy */ "./resources/js/buefy.js");
 
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_6__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].component('Index', _components_Index__WEBPACK_IMPORTED_MODULE_0__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].component('Purchaseorder', _components_TablePurchaseOrder__WEBPACK_IMPORTED_MODULE_1__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].component('Reportsgeneratetable', _components_Reportsgeneratetable__WEBPACK_IMPORTED_MODULE_2__["default"]);
-vue__WEBPACK_IMPORTED_MODULE_5__["default"].component('Productexport', _components_ProductExport__WEBPACK_IMPORTED_MODULE_3__["default"]);
-window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_4__["default"]({
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_7__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component('Index', _components_Index__WEBPACK_IMPORTED_MODULE_0__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component('Purchaseorder', _components_TablePurchaseOrder__WEBPACK_IMPORTED_MODULE_1__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component('Reportsgeneratetable', _components_Reportsgeneratetable__WEBPACK_IMPORTED_MODULE_2__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component('Productexport', _components_ProductExport__WEBPACK_IMPORTED_MODULE_3__["default"]);
+vue__WEBPACK_IMPORTED_MODULE_6__["default"].component('Productimport', _components_ProductImport__WEBPACK_IMPORTED_MODULE_4__["default"]);
+window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_5__["default"]({
   broadcaster: 'pusher',
   key: "KEYSHOPAPP9862245da41170ff2",
   wsHost: window.location.hostname,
@@ -917,7 +1055,7 @@ window.Echo = new laravel_echo__WEBPACK_IMPORTED_MODULE_4__["default"]({
   disableStats: true,
   forceTLS: false
 });
-var store = new vuex__WEBPACK_IMPORTED_MODULE_6__["default"].Store({
+var store = new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
   state: {
     cart: [],
     products: [],
@@ -945,7 +1083,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_6__["default"].Store({
         var item = state.cart[duplicatedProductIndex];
         item.qty++; // propiedad reactiva el array no lo era entonces toca ASI XDD lo agrego
 
-        vue__WEBPACK_IMPORTED_MODULE_5__["default"].set(state.cart, duplicatedProductIndex, item);
+        vue__WEBPACK_IMPORTED_MODULE_6__["default"].set(state.cart, duplicatedProductIndex, item);
         return;
       }
 
@@ -988,7 +1126,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_6__["default"].Store({
     }
   }
 });
-var app = new vue__WEBPACK_IMPORTED_MODULE_5__["default"]({
+var app = new vue__WEBPACK_IMPORTED_MODULE_6__["default"]({
   store: store,
   el: '#app'
 });
@@ -1123,6 +1261,45 @@ component.options.__file = "resources/js/components/ProductExport.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/ProductImport.vue":
+/*!***************************************************!*\
+  !*** ./resources/js/components/ProductImport.vue ***!
+  \***************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ProductImport_vue_vue_type_template_id_476abf19___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ProductImport.vue?vue&type=template&id=476abf19& */ "./resources/js/components/ProductImport.vue?vue&type=template&id=476abf19&");
+/* harmony import */ var _ProductImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ProductImport.vue?vue&type=script&lang=js& */ "./resources/js/components/ProductImport.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ProductImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ProductImport_vue_vue_type_template_id_476abf19___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ProductImport_vue_vue_type_template_id_476abf19___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/ProductImport.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Reportsgeneratetable.vue":
 /*!**********************************************************!*\
   !*** ./resources/js/components/Reportsgeneratetable.vue ***!
@@ -1233,6 +1410,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/ProductImport.vue?vue&type=script&lang=js&":
+/*!****************************************************************************!*\
+  !*** ./resources/js/components/ProductImport.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ProductImport.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductImport.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductImport_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Reportsgeneratetable.vue?vue&type=script&lang=js&":
 /*!***********************************************************************************!*\
   !*** ./resources/js/components/Reportsgeneratetable.vue?vue&type=script&lang=js& ***!
@@ -1295,6 +1488,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductExport_vue_vue_type_template_id_559480b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductExport_vue_vue_type_template_id_559480b0_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ProductExport.vue?vue&type=template&id=559480b0&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductExport.vue?vue&type=template&id=559480b0&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/ProductImport.vue?vue&type=template&id=476abf19&":
+/*!**********************************************************************************!*\
+  !*** ./resources/js/components/ProductImport.vue?vue&type=template&id=476abf19& ***!
+  \**********************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductImport_vue_vue_type_template_id_476abf19___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductImport_vue_vue_type_template_id_476abf19___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProductImport_vue_vue_type_template_id_476abf19___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ProductImport.vue?vue&type=template&id=476abf19& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductImport.vue?vue&type=template&id=476abf19&");
 
 
 /***/ }),
@@ -2066,7 +2276,7 @@ var render = function () {
                 _c(
                   "b-button",
                   {
-                    attrs: { type: "is-warning is-success" },
+                    attrs: { type: "is-warning is-light", rounded: "" },
                     on: {
                       click: function ($event) {
                         return _vm.exportCSV()
@@ -2106,7 +2316,31 @@ var render = function () {
           ]),
         ])
       : _vm.exportStatus == "FAILED"
-      ? _c("div", [_vm._m(0)])
+      ? _c("div", [
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column is-4" },
+              [
+                _c(
+                  "b-button",
+                  {
+                    attrs: { type: "is-warning is-light", rounded: "" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.exportCSV()
+                      },
+                    },
+                  },
+                  [_vm._v(" Export product in csv")]
+                ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _vm._m(0),
+          ]),
+        ])
       : _vm.exportStatus == "PROCESSING"
       ? _c("div", [
           _c("div", { staticClass: "columns" }, [
@@ -2131,7 +2365,7 @@ var render = function () {
                 _c(
                   "b-button",
                   {
-                    attrs: { type: "is-warning is-success" },
+                    attrs: { type: "is-warning is-light", rounded: "" },
                     on: {
                       click: function ($event) {
                         return _vm.exportCSV()
@@ -2153,12 +2387,263 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "column is-6" }, [
+      _c("div", { staticClass: "notification is-danger is-light" }, [
+        _c("div", { staticClass: "content" }, [
+          _vm._v(
+            "\n                          An error occurred, Please contact the system administrator\n                      "
+          ),
+        ]),
+      ]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductImport.vue?vue&type=template&id=476abf19&":
+/*!*************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/ProductImport.vue?vue&type=template&id=476abf19& ***!
+  \*************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _vm.importStatus == "FINISH"
+      ? _c("div", [
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column is-4" },
+              [
+                _c(
+                  "b-field",
+                  {
+                    staticClass: "file is-success is-light",
+                    class: { "has-name": !!_vm.file },
+                  },
+                  [
+                    _c(
+                      "b-upload",
+                      {
+                        staticClass: "file-label",
+                        attrs: { size: "is-small", rounded: "" },
+                        model: {
+                          value: _vm.file,
+                          callback: function ($$v) {
+                            _vm.file = $$v
+                          },
+                          expression: "file",
+                        },
+                      },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "file-cta" },
+                          [
+                            _c("b-icon", {
+                              staticClass: "file-icon",
+                              attrs: { icon: "upload" },
+                            }),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "file-label" }, [
+                              _vm._v("Import file csv"),
+                            ]),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _vm.file
+                          ? _c("span", { staticClass: "file-name" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.file.name) +
+                                  "\n                                "
+                              ),
+                            ])
+                          : _vm._e(),
+                      ]
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "column is-2" },
+              [
+                _c(
+                  "b-button",
+                  {
+                    attrs: { type: "is-warning is-light", rounded: "" },
+                    on: {
+                      click: function ($event) {
+                        return _vm.metodoNormal()
+                      },
+                    },
+                  },
+                  [_vm._v("Load file")]
+                ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "column is-6" },
+              [
+                _c(
+                  "b-notification",
+                  {
+                    attrs: {
+                      "auto-close": "",
+                      type: "is-success is-light",
+                      "aria-close-label": "Close notification",
+                    },
+                  },
+                  [
+                    _vm._v(
+                      "\n                        The last import of products was successful\n                    "
+                    ),
+                  ]
+                ),
+              ],
+              1
+            ),
+          ]),
+        ])
+      : _vm.importStatus == "FAILED"
+      ? _c("div", [_vm._m(0)])
+      : _vm.importStatus == "PROCESSING"
+      ? _c("div", [
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column is-6" },
+              [
+                _c("b-progress", { attrs: { type: "is-success" } }),
+                _vm._v(" Processing\n                "),
+              ],
+              1
+            ),
+          ]),
+        ])
+      : _vm.importStatus == "WITHOUT_PROCESSING"
+      ? _c("div", [
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column is-4" },
+              [
+                _c(
+                  "b-field",
+                  {
+                    staticClass: "file is-success is-light",
+                    class: { "has-name": !!_vm.file },
+                  },
+                  [
+                    _c(
+                      "b-upload",
+                      {
+                        staticClass: "file-label",
+                        attrs: { size: "is-small", rounded: "" },
+                        model: {
+                          value: _vm.file,
+                          callback: function ($$v) {
+                            _vm.file = $$v
+                          },
+                          expression: "file",
+                        },
+                      },
+                      [
+                        _c(
+                          "span",
+                          { staticClass: "file-cta" },
+                          [
+                            _c("b-icon", {
+                              staticClass: "file-icon",
+                              attrs: { icon: "upload" },
+                            }),
+                            _vm._v(" "),
+                            _c("span", { staticClass: "file-label" }, [
+                              _vm._v("Import file csv"),
+                            ]),
+                          ],
+                          1
+                        ),
+                        _vm._v(" "),
+                        _vm.file
+                          ? _c("span", { staticClass: "file-name" }, [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(_vm.file.name) +
+                                  "\n                                "
+                              ),
+                            ])
+                          : _vm._e(),
+                      ]
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "column is-8" },
+              [
+                _c(
+                  "b-button",
+                  {
+                    attrs: {
+                      "native-type": "submit",
+                      type: "is-warning is-light",
+                      rounded: "",
+                    },
+                    on: {
+                      click: function ($event) {
+                        return _vm.metodoNormal()
+                      },
+                    },
+                  },
+                  [_vm._v("Load file")]
+                ),
+              ],
+              1
+            ),
+          ]),
+        ])
+      : _vm._e(),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
     return _c("div", { staticClass: "columns" }, [
       _c("div", { staticClass: "column is-6" }, [
         _c("div", { staticClass: "notification is-danger is-light" }, [
           _c("div", { staticClass: "content" }, [
             _vm._v(
-              "\n                          An error occurred, Please contact the system administrator\n                      "
+              "\n                            An error occurred, Please contact the system administrator\n                        "
             ),
           ]),
         ]),

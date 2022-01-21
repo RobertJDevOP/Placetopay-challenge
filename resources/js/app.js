@@ -4,6 +4,7 @@ import Index from './components/Index'
 import Table from './components/TablePurchaseOrder'
 import TableReports from './components/Reportsgeneratetable'
 import ProductExport from './components/ProductExport'
+import ProductImport from './components/ProductImport'
 import Echo from 'laravel-echo'
 
 
@@ -17,6 +18,7 @@ Vue.component('Index', Index)
 Vue.component('Purchaseorder', Table)
 Vue.component('Reportsgeneratetable', TableReports)
 Vue.component('Productexport', ProductExport)
+Vue.component('Productimport', ProductImport)
 
 window.Echo = new Echo({
     broadcaster: 'pusher',

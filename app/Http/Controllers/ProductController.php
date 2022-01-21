@@ -16,7 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
-use function PHPUnit\Framework\isEmpty;
+
 
 class ProductController extends Controller
 {
@@ -112,13 +112,20 @@ class ProductController extends Controller
         $report->generate();
     }
 
-    public function getExportStatus(): JsonResponse
+    public function getExportStatus(string $typeReport): JsonResponse
     {
-        $reportStatus=Reports::select('status','created_at','updated_at','path')->where('name', 'Products report')
+        $reportStatus=Reports::select('status','created_at','updated_at','path')->where('name', $typeReport)
                                                         ->latest('id_report')->first();
 
         $response =(empty($reportStatus))? ['status'=>'WITHOUT_PROCESSING','exportPath'=>''] : ['status'=>$reportStatus->status,'exportPath'=>$reportStatus->path];
 
         return response()->json($response);
+    }
+
+    public function importProducts(Request $request)
+    {
+        $report = app()->make(ReportsContract::class, ['typeReport'=>'importProducts' ,'file' =>  $request->file('file')->store('temp')]);
+
+        $report->generate();
     }
 }
