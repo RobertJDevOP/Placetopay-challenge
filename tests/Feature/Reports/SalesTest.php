@@ -13,6 +13,8 @@ class SalesTest extends TestCase
     use RefreshDatabase;
     use HasAuthenticatedUser;
 
+    public mixed $fileName;
+
     public function setUp(): void
     {
         parent::setUp();
@@ -27,9 +29,6 @@ class SalesTest extends TestCase
         $this->actingAs($this->defaultUser())->post('/generateReport',['typeReport'=> 'salesReport', 'dates'=>['1/19/2022' , '1/19/2022']]);
 
         Excel::assertStored($this->fileName, 'shopreports');
-        Excel::assertStored($this->fileName, 'shopreports', function(ReportSalesExport $export) {
-            return true;
-        });
     }
 
 }

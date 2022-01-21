@@ -3,13 +3,14 @@
 namespace App\Imports;
 
 use App\Models\Product;
+use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Database\Eloquent\Model;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class ProductsImport implements ToModel, WithChunkReading , WithValidation, WithUpserts
+class ProductsImport implements ToModel, WithChunkReading , WithValidation, WithUpserts, ShouldQueue
 {
     public function model(array $row): Model|null
     {

@@ -285,7 +285,7 @@ export default {
         },
         searchData(){
             this.$store.dispatch('getProducts',{page:this.products.current_page,filters : [{
-                'findByCategory' : this.findByCategory,
+                    'findByCategory' : this.findByCategory,
                     'findByPriceRange' : this.findByPriceRange,
                     'findByNameOfProduct' : this.findByNameOfProduct,
                 }]

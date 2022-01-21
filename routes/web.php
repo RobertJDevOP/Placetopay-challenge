@@ -54,7 +54,6 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     Route::get('api/reports/', [ReportController::class,'index']);
     Route::post('api/exportProducts',[ProductController::class,'generateReport']);
     Route::get('api/getReportStatus/{typeReport}', [ProductController::class,'getExportStatus']);
-
     Route::post('api/importProducts',[ProductController::class,'importProducts']);
 });
 

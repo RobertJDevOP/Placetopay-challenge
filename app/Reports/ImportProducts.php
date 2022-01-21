@@ -24,7 +24,7 @@ class ImportProducts implements ReportsContract
     public function generate(): void
     {
         Bus::batch([
-            new ProductsJob($this->file),
+            new ProductsJob($this->file,$this->importId),
         ])->name('importProduct')
           ->then(function (Batch $batch){
 

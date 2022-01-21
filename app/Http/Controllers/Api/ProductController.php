@@ -14,7 +14,10 @@ class ProductController extends Controller
 
     public function index(Request $request): JsonResponse
     {
+
         $products = Product::filter($request->input())->paginate(6);
+
+
 
         return response()->json($products);
     }

@@ -6,7 +6,7 @@ use App\Models\Reports;
 
 class UpdateAction
 {
-    public static function execute(string $batchId,int $reportId,mixed $path,string $status): void
+    public static function execute(string|null $batchId,int $reportId,mixed $path,string $status): void
     {
         Reports::where('id_report', $reportId)->update(['status' => $status,
                                                         'path'=>$path,
