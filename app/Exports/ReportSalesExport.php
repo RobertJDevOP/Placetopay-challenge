@@ -34,7 +34,7 @@ class ReportSalesExport implements  WithCustomCsvSettings, FromQuery, WithMappin
         ];
     }
 
-    public function query()
+    public function query(): \Illuminate\Database\Eloquent\Builder|\Illuminate\Database\Query\Builder
     {
         return SalesReport::filter(['dates'=>$this->dateRange]);
     }

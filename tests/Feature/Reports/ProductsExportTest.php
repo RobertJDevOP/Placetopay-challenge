@@ -26,6 +26,7 @@ class ProductsExportTest extends TestCase
 
         $this->actingAs($this->defaultUser())->post('/api/exportProducts');
 
+
         Excel::assertStored($this->fileName, 'shopreports');
         Excel::assertStored($this->fileName, 'shopreports', function(ReportProducts $export) {
             return true;

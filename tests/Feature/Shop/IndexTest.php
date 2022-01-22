@@ -20,7 +20,7 @@ class IndexTest extends TestCase
      * @param array $productDataCreated
      * @test
      */
-    public function test_it_can_filter_users(): void
+    public function test_it_can_filter_products(): void
     {
         $filters = [
             'product_name' => 'Product filter',

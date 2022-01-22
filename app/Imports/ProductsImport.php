@@ -10,7 +10,7 @@ use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithUpserts;
 use Maatwebsite\Excel\Concerns\WithValidation;
 
-class ProductsImport implements ToModel, WithChunkReading , WithValidation, WithUpserts, ShouldQueue
+class ProductsImport implements ToModel, WithChunkReading , WithValidation, WithUpserts
 {
     public function model(array $row): Model|null
     {
@@ -32,10 +32,10 @@ class ProductsImport implements ToModel, WithChunkReading , WithValidation, With
     public function rules(): array
     {
         return [
-             0 => ['bail','required', 'numeric','exists:products_categories,id'],
-            '1' => ['bail','required', 'string', 'max:255'],
-            '2' => ['bail','required', 'numeric','min:0|max:100000000'],
-            '3' => ['bail','required', 'numeric','min:0|max:100000000'],
+            0 =>  ['required', 'numeric','exists:products_categories,id'],
+            1 => ['required', 'string', 'max:255'],
+            2 => ['required', 'numeric','min:0|max:100000000'],
+            3 => ['required', 'numeric','min:0|max:100000000'],
         ];
     }
 

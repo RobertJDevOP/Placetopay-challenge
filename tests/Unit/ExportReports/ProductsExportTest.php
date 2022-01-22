@@ -30,10 +30,13 @@ class ProductsExportTest extends TestCase
         $product->crated_formatted = '01/01/2022';
 
         $unit = new ReportProducts();
-        $unit->map($product);
-        $arrayProduct = (array) $product;
+        $response =  $unit->map($product);
 
+        dd($response);
 
         $this->assertArrayHasKey('id',$arrayProduct);
     }
+
+
+
 }
