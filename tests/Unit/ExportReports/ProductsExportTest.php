@@ -32,9 +32,7 @@ class ProductsExportTest extends TestCase
         $unit = new ReportProducts();
         $response =  $unit->map($product);
 
-        dd($response);
-
-        $this->assertArrayHasKey('id',$arrayProduct);
+        $this->assertIsArray($response);
     }
 
 

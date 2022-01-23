@@ -9,6 +9,7 @@ use Tests\Concerns\HasAuthenticatedUser;
 use Tests\Concerns\HasValidationProductsImport;
 use Tests\TestCase;
 
+
 class ImportProductsValidateErrorsTest extends TestCase
 {
     use RefreshDatabase;
@@ -18,19 +19,19 @@ class ImportProductsValidateErrorsTest extends TestCase
     public function test_if_import_products_event_is_dispatched_after_errors(): void
     {
         $file = $this->csvWithDataIsInvalid();
-        Event::fake();
 
         $this->actingAs($this->defaultUser())->post('/api/importProducts',['file'=>$file]);
+        Event::fake();
 
-        Event::assertDispatched(ImportProductsValidateErrors::class);
+        Event::assertDispatched(\App\Events\ImportProductsValidateErrors::class);
     }
 
-    public function test_if_event_import_error_not_dispatched_when_file_are_ok(): void
+    public function test_if_event_import_error_is_not_dispatched_when_file_are_ok(): void
     {
         $file = $this->csvWithDataIsValid();
-        Event::fake();
 
         $this->actingAs($this->defaultUser())->post('/api/importProducts',['file'=>$file]);
+        Event::fake();
 
         Event::assertNotDispatched(ImportProductsValidateErrors::class);
     }
