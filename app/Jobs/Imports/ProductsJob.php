@@ -32,7 +32,8 @@ class ProductsJob implements ShouldQueue
     {
         try {
             Excel::import(new ProductsImport(), $this->fileName,null,\Maatwebsite\Excel\Excel::CSV);
-        }catch (\Exception $e){
+        }catch (\Maatwebsite\Excel\Validators\ValidationException $e){
+
             $failures = $e->failures();
             UpdateAction::execute(null,$this->importId,null,'FAILED');
             foreach ($failures as $failure) {

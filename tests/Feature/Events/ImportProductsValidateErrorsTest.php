@@ -18,12 +18,12 @@ class ImportProductsValidateErrorsTest extends TestCase
 
     public function test_if_import_products_event_is_dispatched_after_errors(): void
     {
+        Event::fake();
         $file = $this->csvWithDataIsInvalid();
 
         $this->actingAs($this->defaultUser())->post('/api/importProducts',['file'=>$file]);
-        Event::fake();
 
-        Event::assertDispatched(\App\Events\ImportProductsValidateErrors::class);
+        Event::assertDispatched(ImportProductsValidateErrors::class);
     }
 
     public function test_if_event_import_error_is_not_dispatched_when_file_are_ok(): void
