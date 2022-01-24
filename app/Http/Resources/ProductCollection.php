@@ -8,11 +8,8 @@ class ProductCollection extends ResourceCollection
 {
     /**
      * Transform the resource collection into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
       return [
             'data' => ProductResource::collection($this->collection),

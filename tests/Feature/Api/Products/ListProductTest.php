@@ -3,6 +3,7 @@
 namespace Api\Products;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
@@ -12,11 +13,12 @@ class ListProductTest extends TestCase
 
     public  function test_it_can_fetch_all_products()
     {
-        $product = Product::factory()->count(2)->create();
+        $product = Product::factory()
+            ->has(ProductCategory::factory(),'category')
+            ->count(2)
+            ->create();
 
         $response = $this->getJson(route('api.v1.products.index'));
-
-        dd($response);
 
         $response->assertJson([
             'data' => [
@@ -24,7 +26,12 @@ class ListProductTest extends TestCase
                     'type' => 'products',
                     'id' => (string)$product[0]->getRouteKey(),
                     'attributes' => [
-                        'product_name' => $product[0]->product_name
+                        'product_name' => $product[0]->product_name,
+                        'list_price' => $product[0]->list_price,
+                        'url_product_img' => $product[0]->url_product_img,
+                    ],
+                    'relationships' =>  [
+                        'name_category' => $product[0]->category->name_category,
                     ],
                     'links' => [
                         'self' => route('api.v1.products.index',$product[0])
@@ -34,7 +41,12 @@ class ListProductTest extends TestCase
                     'type' => 'products',
                     'id' => (string)$product[1]->getRouteKey(),
                     'attributes' => [
-                        'product_name' => $product[1]->product_name
+                        'product_name' => $product[1]->product_name,
+                        'list_price' => $product[1]->list_price,
+                        'url_product_img' => $product[1]->url_product_img,
+                    ],
+                    'relationships' => [
+                        'name_category' => $product[1]->category->name_category,
                     ],
                     'links' => [
                         'self' => route('api.v1.products.index',$product[1])

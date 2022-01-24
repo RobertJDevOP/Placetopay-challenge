@@ -8,11 +8,8 @@ class ProductResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return array|\Illuminate\Contracts\Support\Arrayable|\JsonSerializable
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         return [
             'type' => 'products',
@@ -20,7 +17,7 @@ class ProductResource extends JsonResource
             'attributes'=>[
                 'product_name' => $this->product_name,
                 'list_price' => $this->list_price,
-                'url_product_image' => $this->url_product_image,
+                'url_product_img' => $this->url_product_img,
             ],
             'relationships' => New ProductCategoryResource($this->category),
             'links' => [
