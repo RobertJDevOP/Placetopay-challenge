@@ -11,7 +11,7 @@ class ListProductTest extends TestCase
 {
     use RefreshDatabase;
 
-    public  function test_it_can_fetch_all_products()
+    public  function test_it_can_fetch_all_products(): void
     {
         $product = Product::factory()
             ->has(ProductCategory::factory(),'category')
@@ -34,7 +34,7 @@ class ListProductTest extends TestCase
                         'name_category' => $product[0]->category->name_category,
                     ],
                     'links' => [
-                        'self' => route('api.v1.products.index',$product[0])
+                        'self' => route('api.v1.product.show',$product[0])
                     ],
                 ],
                 [
@@ -49,7 +49,7 @@ class ListProductTest extends TestCase
                         'name_category' => $product[1]->category->name_category,
                     ],
                     'links' => [
-                        'self' => route('api.v1.products.index',$product[1])
+                        'self' => route('api.v1.product.show',$product[1])
                     ],
                 ]
             ],
@@ -58,6 +58,33 @@ class ListProductTest extends TestCase
             ],
             'meta' => [
                 'products_count' => 2
+            ]
+        ]);
+    }
+
+    public  function test_it_can_fetch_show_product(): void
+    {
+        $product = Product::factory()
+            ->has(ProductCategory::factory(),'category')
+            ->create();
+
+        $response = $this->getJson(route('api.v1.product.show' ,$product->getRouteKey()));
+
+        $response->assertJson([
+            'data' => [
+                    'type' => 'products',
+                    'id' => (string)$product->getRouteKey(),
+                    'attributes' => [
+                        'product_name' => $product->product_name,
+                        'list_price' => $product->list_price,
+                        'url_product_img' => $product->url_product_img,
+                    ],
+                    'relationships' =>  [
+                        'name_category' => $product->category->name_category,
+                    ],
+                    'links' => [
+                        'self' => route('api.v1.product.show',$product->getRouteKey())
+                    ],
             ]
         ]);
     }

@@ -21,7 +21,7 @@ class ProductResource extends JsonResource
             ],
             'relationships' => New ProductCategoryResource($this->category),
             'links' => [
-                'self' => route('api.v1.products.index' ,$this)
+                'self' => route('api.v1.product.show' ,$this)
             ]
         ];
     }
