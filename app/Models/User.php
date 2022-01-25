@@ -6,39 +6,69 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
-class User extends Authenticatable
+class User extends Authenticatable implements MustVerifyEmail
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasFactory;
+    use Notifiable;
+    use HasRoles;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var string[]
-     */
+    protected  $guard_name = 'web';
+
     protected $fillable = [
         'name',
         'email',
         'password',
+        'surnames',
+        'document_type',
+        'cell_phone',
+        'user_street',
+        'number_document',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array
-     */
+    protected $appends = [
+        'date_formatted',
+        'status',
+    ];
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    protected $dates = [
+        'enabled_at',
+    ];
+
+    public function markAsEnabled(): void
+    {
+        $this->enabled_at = now();
+        $this->save();
+    }
+
+    public function isEnabled(): bool
+    {
+        return null !== $this->enabled_at;
+    }
+
+    public function markAsDisabled(): void
+    {
+        $this->enabled_at = null;
+        $this->save();
+    }
+
+    public function getDateFormattedAttribute(): string
+    {
+        return date('d-m-Y', strtotime($this->attributes['created_at']));
+    }
+
+    public function getStatusAttribute(): string
+    {
+        return (is_null($this->attributes['enabled_at'])) ? 'disabled' : 'enabled';
+    }
 }
