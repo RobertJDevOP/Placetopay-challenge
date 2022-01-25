@@ -2,7 +2,7 @@
 
 namespace App\Helpers\RestApiWallet;
 
-use App\Entities\Status;
+use App\Constants\Status;
 use App\Models\PurchasePaymentStatus;
 use Illuminate\Http\JsonResponse;
 

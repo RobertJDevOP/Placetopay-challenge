@@ -2,7 +2,6 @@
     <div>
 
 
-
         <b-table
             :data="orders"
             ref="table"

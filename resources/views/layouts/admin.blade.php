@@ -17,6 +17,10 @@
                                    <li><a href="{{ route('products.index') }}"><em class="pr-2 mdi mdi-map-legend"></em>Products</a></li>
                             </ul>
 
+                            <ul class="menu-list">
+                                <li><a href="{{ url('/reports') }}"><em class="pr-2 mdi mdi-map-legend"></em>Reports</a></li>
+                            </ul>
+
                             <p class="menu-label">Security</p>
                             <ul class="menu-list">
                                 <li><a href="{{ route('users.index') }}"><em class="pr-2 mdi mdi-account-multiple"></em>Clients</a></li>

@@ -13,9 +13,19 @@
     <h1 class="title">Products</h1><br><br>
 </div>
 
+<div class="columns">
+    <div class="column is-9">
+    </div>
+    <div class="column is-3">
+        <b-button tag="a"  href="product/create"  type="is-warning is-light" rounded> Create a new product</b-button><br>
+    </div>
+</div>
 
-<b-button tag="a"  href="product/create"    type="is-warning is-light"> Create a new product</b-button><br><br>
+    <Productexport></Productexport>
+    <Productimport></Productimport>
 
+
+<br><br>
 <table class="table is-narrow is-hoverable is-fullwidth">
     <thead>
     <tr>

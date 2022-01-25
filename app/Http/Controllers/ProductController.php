@@ -6,13 +6,17 @@ use App\Http\Request\Products\IndexRequest;
 use App\Http\Request\Products\IndexUpdateRequest;
 use App\Models\Product;
 use App\Models\ProductCategory;
+use App\Models\Reports;
+use App\Reports\ReportsContract;
 use App\Repositories\Interfaces\ProductRepositoryInterface;
 use App\ViewModels\Products\IndexViewModel;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Lang;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\View\View;
+
 
 class ProductController extends Controller
 {
@@ -99,5 +103,29 @@ class ProductController extends Controller
         $product->markAsEnabled();
 
         return redirect('/products')->with('success',Lang::get('messages.productSaved'));
+    }
+
+    public function generateReport(): void
+    {
+        $report = app()->make(ReportsContract::class, ['typeReport'=>'productReport']);
+
+        $report->generate();
+    }
+
+    public function getExportStatus(string $typeReport): JsonResponse
+    {
+        $reportStatus=Reports::select('status','created_at','updated_at','path')->where('name', $typeReport)
+                                                        ->latest('id_report')->first();
+
+        $response =(empty($reportStatus))? ['status'=>'WITHOUT_PROCESSING','exportPath'=>''] : ['status'=>$reportStatus->status,'exportPath'=>$reportStatus->path];
+
+        return response()->json($response);
+    }
+
+    public function importProducts(Request $request)
+    {
+        $report = app()->make(ReportsContract::class, ['typeReport'=>'importProducts' ,'file' =>  $request->file('file')->store('temp')]);
+
+        $report->generate();
     }
 }

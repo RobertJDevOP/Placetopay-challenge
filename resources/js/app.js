@@ -1,15 +1,34 @@
 import Vue from 'vue';
 import Vuex from 'vuex';
-import  Index from './components/Index'
-import  Table from './components/TablePurchaseOrder'
+import Index from './components/Index'
+import Table from './components/TablePurchaseOrder'
+import TableReports from './components/Reportsgeneratetable'
+import ProductExport from './components/ProductExport'
+import ProductImport from './components/ProductImport'
+import Echo from 'laravel-echo'
 
+
+window.Pusher = require('pusher-js')
 require('./bootstrap');
 require('./buefy')
 
-Vue.use(Vuex);
 
+Vue.use(Vuex);
 Vue.component('Index', Index)
 Vue.component('Purchaseorder', Table)
+Vue.component('Reportsgeneratetable', TableReports)
+Vue.component('Productexport', ProductExport)
+Vue.component('Productimport', ProductImport)
+
+window.Echo = new Echo({
+    broadcaster: 'pusher',
+    key: process.env.MIX_PUSHER_APP_KEY,
+    wsHost: window.location.hostname,
+    wsPort: 6001,
+    disableStats: true,
+    forceTLS: false,
+})
+
 
 const store = new Vuex.Store({
 

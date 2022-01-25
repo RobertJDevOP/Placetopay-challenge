@@ -35,19 +35,22 @@ abstract class Filter
     public function apply(): Builder
     {
         $this->select()->joins()->where();
-        //print_r($this->query);
+
         return $this->query;
     }
 
     public function conditions(array $conditions = []): self
     {
         $this->conditions = $conditions;
+
         return $this;
     }
 
     protected function where(): self
     {
+
         $applicableConditions = array_intersect_key($this->conditions, $this->applicableConditions);
+
         foreach ($applicableConditions as $condition => $value) {
             $conditionClass = $this->getCondition($condition);
             (is_null($value)) ?: $conditionClass::append($this->query, new Criteria($value));

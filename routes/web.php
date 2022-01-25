@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\ProductController;
 
+use App\Http\Controllers\ReportController;
 use App\Http\Controllers\ShopController;
 use App\Http\Controllers\UserController;
 use App\Providers\RouteServiceProvider;
@@ -45,19 +46,27 @@ Route::group(['middleware' => ['role:admin','auth','verified']], function () {
     Route::name('product.edit')->get('/product/{id}/edit', [ProductController::class, 'edit']);
     Route::name('product.update')->put('/product/{id}/', [ProductController::class, 'update']);
 
-
+    //System report
+    Route::get('/reports', function () {
+        return view('reports.index');
+    });
+    Route::post('/generateReport', [ReportController::class,'store']);
+    Route::get('api/reports/', [ReportController::class,'index']);
+    Route::post('api/exportProducts',[ProductController::class,'generateReport']);
+    Route::get('api/getReportStatus/{typeReport}', [ProductController::class,'getExportStatus']);
+    Route::post('api/importProducts',[ProductController::class,'importProducts']);
 });
 
 
-Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
+
+
+    Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
     Route::get('/shop', function () {
         return view('shop.index');
     });
-
     Route::name('shop.store')->post('/storeShoppingCart', [ShopController::class, 'storeShoppingCart']);
-    Route::name('shop.checkout')->get('/checkout/{purchaseOrder}', [PaymentController::class, 'createRequest']);
+    Route::name('shop.checkout')->get('/checkout/{purchaseOrder}/{wallet}', [PaymentController::class, 'createRequest']);
     Route::name('payment.checkout')->get('/payment/{order}',[PaymentController::class,'getRequestInformation']);
-
     Route::get('/orders', function () {
         return view('orders.index');
     });
@@ -66,6 +75,7 @@ Route::group(['middleware' => ['role:cliente','auth','verified']], function () {
     // refactorizar debe estar en api y usar token de autenticacion
     Route::post('/retryPayment', [PaymentController::class, 'retryPayment']);
     Route::get('api/orders/',[PurchaseOrderController::class,'index']);
+
 });
 
 

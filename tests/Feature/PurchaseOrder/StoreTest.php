@@ -30,11 +30,10 @@ class StoreTest extends TestCase
         $this->purchaseOrderDetail = PurchaseOrderDetail::factory()->create();
     }
 
-
     public function test_it_i_can_make_a_purchase_order():void
     {
         $this->withoutExceptionHandling();
-        $purchaseOrder = $this->orderProvider() ;
+        $purchaseOrder = $this->orderProvider();
 
         $response =  $this->actingAs($this->client)->post('/storeShoppingCart',$purchaseOrder);
         $purchaseOrderA = PurchaseOrder::orderBy('id', 'desc')->first();
@@ -44,9 +43,7 @@ class StoreTest extends TestCase
         $this->assertEquals($purchaseOrder['params']['totalProduct'], $purchaseOrderA->qty);
         $this->assertEquals($purchaseOrder['params']['totalPrice'], $purchaseOrderA->total);
         $this->assertEquals($purchaseOrder['params']['productsPayment'][0]['list_price'], $purchaseOrderDetailA->price);
-        $this->assertEquals(1, $purchaseOrderDetailA->product_id);
     }
-
 
     public function orderProvider(): array
     {
@@ -60,7 +57,8 @@ class StoreTest extends TestCase
                        'qty' => 1,
                        'list_price' =>300000,
                    ],
-                ]
+                ],
+                'wallet'=>'placetopay'
             ]
         ];
     }

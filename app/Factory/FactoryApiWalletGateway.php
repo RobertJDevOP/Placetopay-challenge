@@ -14,28 +14,16 @@ abstract class FactoryApiWalletGateway
     public function apiConnect(): JsonResponse
     {
         $API = $this->createRequestGatewayApiWallet();
+        $request=$API->createRequest();
 
-        try {
-            $request=$API->createRequest();
-            $response=$API->getBodyResponse($request);
-        } catch(ConnectionException $e){
-             $response= response()->json($e,  500);
-        }
-
-        return $response;
+        return $API->getBodyResponse($request);
     }
 
     public function apiRequestStatus(): JsonResponse
     {
         $API = $this->getRequestInformationGatewayApiWallet();
+        $request=$API->getRequestInformation();
 
-        try {
-            $request=$API->getRequestInformation();
-            $response=$API->getBodyResponse($request);
-        } catch(ConnectionException $e){
-            $response= response()->json($e,  500);
-        }
-
-        return $response;
+        return $API->getBodyResponse($request);
     }
 }

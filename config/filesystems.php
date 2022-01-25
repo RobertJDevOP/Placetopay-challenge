@@ -42,6 +42,13 @@ return [
             'visibility' => 'public',
         ],
 
+        'shopreports' => [
+            'driver' => 'local',
+            'root' => storage_path('shopreports'),
+            'url' => env('APP_URL').'/shopreports',
+        ],
+
+
         's3' => [
             'driver' => 's3',
             'key' => env('AWS_ACCESS_KEY_ID'),
@@ -68,6 +75,7 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('shopreports') => storage_path('shopreports'),
     ],
 
 ];
