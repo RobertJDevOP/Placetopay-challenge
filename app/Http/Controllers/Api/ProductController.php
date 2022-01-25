@@ -2,9 +2,13 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Actions\Api\Product\DeleteAction;
+use App\Actions\Api\Product\StoreAction;
+use App\Actions\Api\Product\UpdateAction;
 use App\Http\Controllers\Controller;
-use App\Http\Resources\ProductCollection;
-use App\Http\Resources\ProductResource;
+use App\Http\Resources\Product\ProductDeleteResource;
+use App\Http\Resources\Product\ProductCollection;
+use App\Http\Resources\Product\ProductResource;
 use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
@@ -20,6 +24,13 @@ class ProductController extends Controller
         return response()->json($products);
     }
 
+    public function getCategories(ProductCategory $categories): JsonResponse
+    {
+        $data = $categories->all();
+
+        return response()->json($data);
+    }
+
     public function index(): ProductCollection
     {
         return  ProductCollection::make(Product::with('category')->get());
@@ -30,46 +41,26 @@ class ProductController extends Controller
         return  ProductResource::make($product);
     }
 
-    public function getCategories(ProductCategory $categories): JsonResponse
+    public function store(Request $request,StoreAction $storeAction): ProductResource
     {
-        $data = $categories->all();
+        $product = $storeAction::execute($request);
 
-        return response()->json($data);
+        return new ProductResource($product);
     }
 
-    public function store(Request $request)
+    public function update(Request $request,Product $product,UpdateAction $updateAction): ProductResource
     {
-        $product = new Product();
-        $product->product_name = $request->product_name;
-        $product->category_id = $request->category_id;
-        $product->list_price = $request->list_price;
-        $product->price = $request->price;
-        $product->url_product_img = 'default_product_picture.png';
-        if($product->save()){
-            return new ProductResource($product);
-        }
+        $product = $updateAction::execute($product,$request);
+
+        return new ProductResource($product);
     }
 
-    public function update(Request $request, $id)
+    public function destroy(Product $product,DeleteAction $deleteAction): ProductDeleteResource
     {
-        $product = Product::findOrFail($id);
-        $product->product_name = $request->product_name;
-        $product->category_id = $request->category_id;
-        $product->list_price = $request->list_price;
-        $product->price = $request->price;
-        $product->url_product_img = 'default_product_picture.png';
-        if($product->save()){
-            return new ProductResource($product);
-        }
-    }
+        $product = $deleteAction::execute($product);
 
-    public function destroy($id)
-    {
-        $product = Product::findOrFail($id);
-        if($product->delete())
-        {
-            return new ProductResource($product);
-        }
+        return new ProductDeleteResource($product);
+
     }
 
 }
