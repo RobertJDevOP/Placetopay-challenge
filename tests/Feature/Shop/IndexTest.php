@@ -37,17 +37,13 @@ class IndexTest extends TestCase
             'created_at' => '12-11-2021',
             'url_product_img' => 'default_picture.png',
         ];
-
         Product::factory()->create($product);
 
         $response = $this->actingAs($this->defaultUser())
-            ->get('/api/products?' . http_build_query($filters));
-
+            ->get('/api/productsWithFilters?' . http_build_query($filters));
         $reponseData=json_decode($response->getContent(),true);
 
         $this->assertCount(13, $reponseData);
-       // $this->assertEquals($product['product_name'], $reponseData['data'][0]['product_name']);
-       // $this->assertEquals($productData['email'], $users->first()->email);
     }
 
 
