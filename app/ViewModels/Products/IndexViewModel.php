@@ -23,7 +23,7 @@ class IndexViewModel extends ViewModel
     protected function data(): array
     {
         return [
-            'products' => $this->collection,
+            'products' =>$this->collection,
         ];
     }
 }

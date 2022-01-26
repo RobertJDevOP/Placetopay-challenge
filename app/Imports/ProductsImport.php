@@ -3,7 +3,9 @@
 namespace App\Imports;
 
 use App\Models\Product;
+use App\Models\ProductCategory;
 use Illuminate\Database\Eloquent\Model;
+use Maatwebsite\Excel\Concerns\Importable;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
 use Maatwebsite\Excel\Concerns\WithUpserts;
@@ -11,15 +13,18 @@ use Maatwebsite\Excel\Concerns\WithValidation;
 
 class ProductsImport implements ToModel, WithChunkReading , WithValidation, WithUpserts
 {
+    use importable;
+
     public function model(array $row): Model|null
     {
         return new Product([
-            'category_id'   => $row[0],
-            'product_name'  => $row[1],
+            'code'          => $row[0],
+            'category_id'   => ProductCategory::where('name_category', $row[1])->firstOrFail()->id,
+            'product_name'  => $row[2],
             'enabled_at'    => null,
-            'list_price'    => $row[2],
-            'price'         => $row[3],
-            'url_product_img'  => 'default_picture.jpg',
+            'list_price'    => $row[3],
+            'price'         => $row[4],
+            'url_product_img'  => 'productDefault.png',
         ]);
     }
 
@@ -31,22 +36,16 @@ class ProductsImport implements ToModel, WithChunkReading , WithValidation, With
     public function rules(): array
     {
         return [
-            0 =>  ['required', 'numeric','exists:products_categories,id'],
-            1 => ['required', 'string', 'max:255'],
-            2 => ['required', 'numeric','min:0|max:100000000'],
+            0 => ['required', 'string','min:4','max:10'],
+            1 => ['required', 'string','exists:products_categories,name_category'],
+            2 => ['required', 'string', 'max:255'],
             3 => ['required', 'numeric','min:0|max:100000000'],
-        ];
-    }
-
-    public function customValidationMessages(): array
-    {
-        return [
-            0 => 'Custom message for :attribute???.',
+            4 => ['required', 'numeric','min:0|max:100000000'],
         ];
     }
 
     public function uniqueBy()
     {
-        return 'reference';
+        return 'code';
     }
 }

@@ -19,7 +19,13 @@
                 @csrf
 
                 <div class="columns">
-                    <div class="column is-8">
+                    <div class="column is-4">
+                        <b-field label='Reference' type="{{ $errors->has('code') ? 'is-danger' : null }}" message="{{ $errors->first('code') }}">
+                            <b-input type="text"  name="code"  maxlength="10" ></b-input>
+                        </b-field>
+
+                    </div>
+                    <div class="column is-4">
                         <b-field label='Product name' type="{{ $errors->has('product_name') ? 'is-danger' : null }}" message="{{ $errors->first('product_name') }}">
                             <b-input type="text"  name="product_name"  maxlength="255" ></b-input>
                         </b-field>

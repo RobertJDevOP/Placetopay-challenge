@@ -88,7 +88,7 @@ const store = new Vuex.Store({
                  pageAux = this.currentPage;
             }
 
-            axios.get('/api/products?page='+pageAux, {
+            axios.get('/api/productsWithFilters?page='+pageAux, {
                 params  :params
             }).then((response) => {
                     this.state.pages=response.data.last_page

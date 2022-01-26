@@ -20,6 +20,7 @@ class ProductFactory extends Factory
             'enabled_at' => now(),
             'created_at' =>  $this->faker->dateTimeBetween('-2 months', 'now'),
             'url_product_img' =>  $this->faker->imageUrl(600, 338),
+            'code' => $this->faker->text(10),
         ];
     }
 
