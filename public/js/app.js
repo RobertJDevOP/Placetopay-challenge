@@ -628,9 +628,7 @@ __webpack_require__.r(__webpack_exports__);
 
     this.getStatusImport();
     window.Echo.channel('importsProduct').listen('NotifyImportProductFinish', function (e) {
-      if (e.message == "FINISH") {
-        _this3.getStatusImport();
-      }
+      location.reload();
     });
     window.Echo.channel('importProductValidator').listen('ImportProductsValidateErrors', function (e) {
       _this3.$buefy.dialog.alert({
@@ -760,8 +758,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     return {
       dates: [],
       options: {
-        'salesReport': 'Sales report',
-        'productsReport': 'Products report'
+        'salesReport': 'Sales report'
       },
       reports: [],
       reportType: null
@@ -1143,7 +1140,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
         pageAux = this.currentPage;
       }
 
-      axios.get('/api/products?page=' + pageAux, {
+      axios.get('/api/productsWithFilters?page=' + pageAux, {
         params: params
       }).then(function (response) {
         _this.state.pages = response.data.last_page;
@@ -1693,9 +1690,9 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "\n                            " +
+                                  "\r\n                            " +
                                     _vm._s(indice.name_category) +
-                                    "\n                        "
+                                    "\r\n                        "
                                 ),
                               ]
                             )
@@ -1851,9 +1848,9 @@ var render = function () {
                   _vm._v(" "),
                   _c("div", { staticClass: "content" }, [
                     _vm._v(
-                      "\n                        $ " +
+                      "\r\n                        $ " +
                         _vm._s(product.list_price) +
-                        "\n                    "
+                        "\r\n                    "
                     ),
                   ]),
                 ]),
@@ -1977,15 +1974,15 @@ var render = function () {
                             ]),
                           ]),
                           _vm._v(
-                            "\n\n                            " +
+                            "\r\n\r\n                            " +
                               _vm._s(product.product_name) +
-                              "\n                            Precio : " +
+                              "\r\n                            Precio : " +
                               _vm._s(product.list_price) +
-                              "\n                            Cantidad  : " +
+                              "\r\n                            Cantidad  : " +
                               _vm._s(product.qty) +
-                              "\n                            Total :" +
+                              "\r\n                            Total :" +
                               _vm._s(product.list_price * product.qty) +
-                              "\n                            "
+                              "\r\n                            "
                           ),
                           _c(
                             "a",
@@ -2009,7 +2006,7 @@ var render = function () {
                     )
                   }),
                   _vm._v(
-                    "\n\n                    Informations  Total price\n                    "
+                    "\r\n\r\n                    Informations  Total price\r\n                    "
                   ),
                   _c("span", [_vm._v(_vm._s(_vm.totalPrice) + " $")]),
                   _vm._v(" "),

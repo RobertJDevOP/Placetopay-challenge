@@ -14,7 +14,7 @@ class Product extends Model
     use HasFilters;
 
     protected $fillable = [
-        'product_name', 'list_price', 'price', 'category_id', 'url_product_img'
+        'product_name', 'list_price', 'price', 'category_id', 'url_product_img','code'
     ];
 
     protected $hidden = [

@@ -31,6 +31,7 @@
     <tr>
         <th scope="col" class="has-text-centered">Name</th>
         <th scope="col" class="has-text-centered">Picture</th>
+        <th scope="col" class="has-text-centered">Code</th>
         <th scope="col" class="has-text-centered">Price</th>
         <th scope="col" class="has-text-centered">Price list</th>
         <th scope="col" class="has-text-centered">Category</th>
@@ -48,6 +49,7 @@
         <td>
             <b-image src="{{ $product->image }}" ratio="16by9"></b-image>
         </td>
+        <td>{{ $product->code }}</td>
         <td>{{ $product->price }}</td>
         <td>{{ $product->list_price }}</td>
         <td>{{ $product->category->name_category }}</td>

@@ -19,11 +19,11 @@ class ReportProducts implements  WithCustomCsvSettings, FromQuery, WithMapping
     public function map($product): array
     {
         return [
-            $product->id,
+            $product->code,
+            $product->category->name_category,
             $product->product_name,
             $product->list_price,
             $product->price,
-            $product->category->name_category,
             $product->crated_formatted
         ];
     }

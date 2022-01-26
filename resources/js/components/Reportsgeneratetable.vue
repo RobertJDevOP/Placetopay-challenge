@@ -93,7 +93,6 @@ export default {
             dates : [],
             options:{
                 'salesReport' :'Sales report',
-                'productsReport':'Products report',
             },
             reports : [],
             reportType: null,

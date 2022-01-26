@@ -23,7 +23,7 @@ class ProductController extends Controller
 
     public function index(IndexViewModel $viewModel): View
     {
-        $products=Product::select('id','product_name','url_product_img','price','category_id','created_at',
+        $products=Product::select('code','id','product_name','url_product_img','price','category_id','created_at',
             'updated_at','enabled_at','list_price')->with('category')
             ->paginate(5);
         $viewModel->collection($products);
@@ -31,7 +31,6 @@ class ProductController extends Controller
         return view('products.index', $viewModel->toArray());
     }
 
-    //create
     public function categories(ProductCategory $categories)
     {
         $data = $categories->all();
@@ -50,6 +49,7 @@ class ProductController extends Controller
 
         return redirect('/products')->with('success',Lang::get('messages.productStatus'));
     }
+
     public function edit(string $id): View
     {
         $product = Product::where('id', '=', $id)->with('category')->firstOrFail();
@@ -62,12 +62,10 @@ class ProductController extends Controller
     {
         $product = Product::where('id', '=', $id)->firstOrFail();
 
-
         $product->product_name = $request->get('product_name');
         $product->category_id = $request->get('category_id');
         $product->list_price = $request->get('list_price');
         $product->price = $request->get('price');
-
 
         if ($request->file('url_product_img')) {
 
@@ -79,7 +77,6 @@ class ProductController extends Controller
             $image->storeAs('public/images',$fileName);
             $product->url_product_img = $fileName;
         }
-
         $product->save();
 
          return redirect('/products')->with('success',Lang::get('messages.userUpdate'));
@@ -93,6 +90,7 @@ class ProductController extends Controller
         $image->storeAs('public/images',$fileName);
 
         $product = Product::create([
+            'code' => $request->input('code'),
             'product_name' => $request->input('product_name'),
             'category_id' =>$request->input('category_id'),
             'list_price' => $request->input('list_price'),
