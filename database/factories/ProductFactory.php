@@ -19,8 +19,8 @@ class ProductFactory extends Factory
             'category_id' => ProductCategory::Factory()->create(),
             'enabled_at' => now(),
             'created_at' =>  $this->faker->dateTimeBetween('-2 months', 'now'),
-            'url_product_img' =>  $this->faker->imageUrl(600, 338),
-            'code' => $this->faker->text(10),
+            'url_product_img' =>  'productDefault.png',
+            'code' => $this->faker->unique()->text(10),
         ];
     }
 

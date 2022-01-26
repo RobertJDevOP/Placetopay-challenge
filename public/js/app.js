@@ -627,7 +627,8 @@ __webpack_require__.r(__webpack_exports__);
     var _this3 = this;
 
     this.getStatusImport();
-    window.Echo.channel('importsProduct').listen('NotifyImportProductFinish', function (e) {//location.reload();
+    window.Echo.channel('importsProduct').listen('NotifyImportProductFinish', function (e) {
+      location.reload();
     });
     window.Echo.channel('importProductValidator').listen('ImportProductsValidateErrors', function (e) {
       _this3.$buefy.dialog.alert({

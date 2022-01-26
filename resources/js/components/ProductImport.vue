@@ -119,7 +119,7 @@ export default {
     beforeMount() {
         this.getStatusImport();
         window.Echo.channel('importsProduct').listen('NotifyImportProductFinish', (e) => {
-           //location.reload();
+           location.reload();
         })
         window.Echo.channel('importProductValidator').listen('ImportProductsValidateErrors', (e) => {
             this.$buefy.dialog.alert({
