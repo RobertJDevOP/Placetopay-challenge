@@ -60,7 +60,6 @@ class ProductController extends Controller
         $product = $deleteAction::execute($product);
 
         return new ProductDeleteResource($product);
-
     }
 
 }
