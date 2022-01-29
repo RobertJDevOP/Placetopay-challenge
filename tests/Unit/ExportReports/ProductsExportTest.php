@@ -21,7 +21,7 @@ class ProductsExportTest extends TestCase
     public function test_it_map_return_array(): void
     {
         $product = new stdClass();
-        $product->id = 1;
+        $product->code= 'ABCD001';
         $product->product_name = 'Gorra Cool';
         $product->list_price = 123456;
         $product->price= 150000;

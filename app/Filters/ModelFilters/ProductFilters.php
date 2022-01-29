@@ -20,6 +20,7 @@ class ProductFilters extends Filter
     protected function select(): Filter
     {
         $this->query->select(['product_name','products.updated_at','products.created_at','products.enabled_at','url_product_img','list_price','products.id','products_categories.name_category','products.category_id'])->whereNotNull('enabled_at');
+
         return $this;
     }
 
