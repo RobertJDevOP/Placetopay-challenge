@@ -88,11 +88,4 @@ class ListProductTest extends TestCase
             ]
         ]);
     }
-
-    public function test_it_can_store_product(): void
-    {
-
-
-    }
-
 }

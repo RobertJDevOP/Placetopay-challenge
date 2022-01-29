@@ -36,9 +36,10 @@ class ProductsJob implements ShouldQueue
 
             $failures = $e->failures();
             UpdateAction::execute(null,$this->importId,null,'FAILED');
+
+            event(new ImportProductsValidateErrors($failures));
             foreach ($failures as $failure) {
                  Log::error($failure->errors());
-                 event(new ImportProductsValidateErrors($failure->errors()));
             }
         }
     }

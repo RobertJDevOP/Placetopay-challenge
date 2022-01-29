@@ -1133,9 +1133,20 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
 
       if (typeof page !== 'undefined') {
         pageAux = page.page;
-        params.append('product_name', page.filters[0].findByNameOfProduct);
-        params.append('category', page.filters[0].findByCategory);
-        params.append('range_price', page.filters[0].findByPriceRange);
+
+        if (page.filters[0].findByNameOfProduct === '') {} else {
+          params.append('product_name', page.filters[0].findByNameOfProduct);
+        }
+
+        if (page.filters[0].findByPriceRange[0] === 1 && page.filters[0].findByPriceRange[1] === 1) {
+          console.log(page.filters[0].findByPriceRange);
+        } else {
+          params.append('range_price', page.filters[0].findByPriceRange);
+        }
+
+        if (page.filters[0].findByCategory === null) {} else {
+          params.append('category', page.filters[0].findByCategory);
+        }
       } else {
         pageAux = this.currentPage;
       }
@@ -1146,6 +1157,7 @@ var store = new vuex__WEBPACK_IMPORTED_MODULE_7__["default"].Store({
         _this.state.pages = response.data.last_page;
         commit('setCurrentPage', response.data.current_page);
         commit('setProducts', response.data);
+        console.log(response.data);
       })["catch"](function (error) {
         return console.error(error);
       });
