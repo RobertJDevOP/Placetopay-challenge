@@ -81,9 +81,22 @@ const store = new Vuex.Store({
 
             if (typeof page !== 'undefined'){
                 pageAux =  page.page
-                params.append('product_name',  page.filters[0].findByNameOfProduct);
-                params.append('category',page.filters[0].findByCategory);
-                params.append('range_price',page.filters[0].findByPriceRange);
+
+                    if(page.filters[0].findByNameOfProduct===''){
+                    }else{
+                        params.append('product_name',  page.filters[0].findByNameOfProduct);
+                    }
+
+                    if(page.filters[0].findByPriceRange[0]===1 && page.filters[0].findByPriceRange[1]===1){
+                        console.log(page.filters[0].findByPriceRange)
+                    }else{
+                        params.append('range_price',  page.filters[0].findByPriceRange);
+                    }
+
+                    if(page.filters[0].findByCategory===null){
+                    }else{
+                        params.append('category',  page.filters[0].findByCategory);
+                    }
             }else{
                  pageAux = this.currentPage;
             }
@@ -94,6 +107,7 @@ const store = new Vuex.Store({
                     this.state.pages=response.data.last_page
                     commit('setCurrentPage',response.data.current_page)
                     commit('setProducts', response.data)
+                    console.log(response.data);
                 })
                 .catch((error) => console.error(error))
         },

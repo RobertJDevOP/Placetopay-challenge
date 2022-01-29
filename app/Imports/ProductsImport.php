@@ -18,10 +18,11 @@ class ProductsImport implements ToModel, WithChunkReading , WithValidation, With
 
     public function model(array $row): Model|null
     {
-        //Cache::forget('categoryIds');
+        //Cache::forget('categoryIds'); bug---
         $categoryId=Cache::remember('categoryIds',60*60*24,function () use ($row){
             return ProductCategory::where('name_category', $row[1])->firstOrFail()->id;
         });
+
 
         return new Product([
             'code'          => $row[0],
@@ -50,7 +51,7 @@ class ProductsImport implements ToModel, WithChunkReading , WithValidation, With
         ];
     }
 
-    public function uniqueBy()
+    public function uniqueBy(): string
     {
         return 'code';
     }

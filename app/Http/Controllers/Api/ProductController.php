@@ -13,7 +13,6 @@ use App\Models\Product;
 use App\Models\ProductCategory;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Cache;
 
 class ProductController extends Controller
 {
@@ -61,7 +60,6 @@ class ProductController extends Controller
         $product = $deleteAction::execute($product);
 
         return new ProductDeleteResource($product);
-
     }
 
 }
